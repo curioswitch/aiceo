@@ -4,15 +4,15 @@ on:
     branches:
       - main
     paths:
-      - frontend/client/**
-      - frontend/api/typescript/**
+      - client/**
+      - api/typescript/**
       - .github/workflows/ci-frontend-client.yaml
       - .github/workflows/_check-node.yaml
       - pnpm-lock.yaml
   pull_request:
     paths:
-      - frontend/client/**
-      - frontend/api/typescript/**
+      - client/**
+      - api/typescript/**
       - .github/workflows/ci-frontend-client.yaml
       - .github/workflows/_check-node.yaml
       - pnpm-lock.yaml

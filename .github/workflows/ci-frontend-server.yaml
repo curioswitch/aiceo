@@ -4,16 +4,16 @@ on:
     branches:
       - main
     paths:
-      - frontend/server/**
-      - frontend/api/go/**
+      - server/**
+      - api/go/**
       - common/go/**
       - .github/workflows/ci-frontend-server.yaml
       - .github/workflows/_check-go.yaml
       - .github/workflows/_docker-go.yaml
   pull_request:
     paths:
-      - frontend/server/**
-      - frontend/api/go/**
+      - server/**
+      - api/go/**
       - common/go/**
       - .github/workflows/ci-frontend-server.yaml
       - .github/workflows/_check-go.yaml
