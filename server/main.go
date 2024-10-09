@@ -50,7 +50,7 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 	}
 	defer genai.Close()
 
-	model := llm.NewModel(ctx, genai)
+	model := llm.NewModel(genai)
 
 	server.Mux(s).Use(middleware.Maybe(firebaseauth.NewMiddleware(fbAuth), func(r *http.Request) bool {
 		return strings.HasPrefix(r.URL.Path, "/"+frontendapiconnect.FrontendServiceName+"/")

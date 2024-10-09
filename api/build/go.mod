@@ -3,8 +3,8 @@ module github.com/curioswitch/aiceo/api/build
 go 1.23.2
 
 require (
-	github.com/curioswitch/go-build v0.0.0-20240612031439-642962f6d0f9
-	github.com/curioswitch/go-curiostack v0.0.0-20240620062549-2c3f0ba16eaf
+	github.com/curioswitch/go-build v0.0.0-20241009085207-064352ad0098
+	github.com/curioswitch/go-curiostack v0.0.0-20241009050856-80d6428176bc
 	github.com/goyek/x v0.2.0
 )
 
@@ -24,7 +24,7 @@ require (
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/sys v0.24.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

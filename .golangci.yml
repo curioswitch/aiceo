@@ -19,6 +19,8 @@ linters:
     - unconvert
     - usestdlibvars
     - wastedassign
+  disable:
+    - gosmopolitan
   presets:
     - bugs
     - performance

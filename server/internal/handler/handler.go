@@ -7,6 +7,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"cloud.google.com/go/vertexai/genai"
+
 	frontendapi "github.com/curioswitch/aiceo/api/go"
 	"github.com/curioswitch/aiceo/server/internal/db"
 	"github.com/curioswitch/aiceo/server/internal/llm"
@@ -37,7 +38,7 @@ func (h *Handler) StartChat(ctx context.Context, _ *frontendapi.StartChatRequest
 		return nil, fmt.Errorf("handler: querying llm: %w", err)
 	}
 
-	if err := h.store.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+	if err := h.store.RunTransaction(ctx, func(_ context.Context, tx *firestore.Transaction) error {
 		if err := tx.Create(chatDoc, &db.Chat{}); err != nil {
 			return fmt.Errorf("handler: saving chat: %w", err)
 		}
@@ -69,7 +70,7 @@ func (h *Handler) StartChat(ctx context.Context, _ *frontendapi.StartChatRequest
 func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageRequest) (*frontendapi.SendMessageResponse, error) {
 	reqStart := time.Now()
 
-	chatDoc := h.store.Collection("chats").Doc(req.ChatId)
+	chatDoc := h.store.Collection("chats").Doc(req.GetChatId())
 
 	messagesCol := chatDoc.Collection("messages")
 	messageDocs, err := messagesCol.OrderBy("createdAt", firestore.Asc).Documents(ctx).GetAll()
@@ -77,26 +78,26 @@ func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageR
 		return nil, fmt.Errorf("handler: getting messages: %w", err)
 	}
 
-	var history []db.ChatMessage
-	for _, doc := range messageDocs {
+	history := make([]db.ChatMessage, len(messageDocs))
+	for i, doc := range messageDocs {
 		var msg db.ChatMessage
 		if err := doc.DataTo(&msg); err != nil {
 			return nil, fmt.Errorf("handler: decoding message: %w", err)
 		}
-		history = append(history, msg)
+		history[i] = msg
 	}
 
 	resMsgDoc := messagesCol.NewDoc()
 
-	msg, err := llm.Query(ctx, h.model, req.Message, history)
+	msg, err := llm.Query(ctx, h.model, req.GetMessage(), history)
 	if err != nil {
 		return nil, fmt.Errorf("sendmessage: querying llm: %w", err)
 	}
 
-	if err := h.store.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
+	if err := h.store.RunTransaction(ctx, func(_ context.Context, tx *firestore.Transaction) error {
 		reqMsgDoc := messagesCol.NewDoc()
 		if err := tx.Create(reqMsgDoc, &db.ChatMessage{
-			Message:   req.Message,
+			Message:   req.GetMessage(),
 			Role:      db.ChatRoleUser,
 			CreatedAt: reqStart,
 		}); err != nil {

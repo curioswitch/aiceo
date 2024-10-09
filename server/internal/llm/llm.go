@@ -6,11 +6,19 @@ import (
 	"strings"
 
 	"cloud.google.com/go/vertexai/genai"
+	"github.com/pkg/errors"
+
 	"github.com/curioswitch/aiceo/server/internal/db"
 )
 
+var (
+	errNoCandidates     = errors.New("llm: no candidates returned")
+	errNoParts          = errors.New("llm: no parts returned")
+	errFirstPartNotText = errors.New("llm: first part is not text")
+)
+
 // NewModel returns a genai model configured for the project.
-func NewModel(ctx context.Context, client *genai.Client) *genai.GenerativeModel {
+func NewModel(client *genai.Client) *genai.GenerativeModel {
 	model := client.GenerativeModel("gemini-1.5-flash-002")
 	model.SetTopK(1)
 	model.SetTopP(0.95)
@@ -40,12 +48,12 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 		return nil, fmt.Errorf("llm: sending message: %w", err)
 	}
 	if len(res.Candidates) == 0 {
-		return nil, fmt.Errorf("llm: no candidates returned")
+		return nil, errNoCandidates
 	}
 
 	content := res.Candidates[0].Content
 	if len(content.Parts) == 0 {
-		return nil, fmt.Errorf("llm: no parts returned")
+		return nil, errNoParts
 	}
 
 	if text, ok := content.Parts[0].(genai.Text); ok {
@@ -54,7 +62,6 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 			Message: message,
 			Role:    db.ChatRoleModel,
 		}, nil
-	} else {
-		return nil, fmt.Errorf("llm: first part is not text")
 	}
+	return nil, errFirstPartNotText
 }
