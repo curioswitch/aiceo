@@ -1,0 +1,11 @@
+node_modules
+
+.envrc
+.idea
+
+out
+dist
+go.work.sum
+__debug_bin*
+
+.firebase/

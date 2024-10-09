@@ -1,0 +1,78 @@
+name: Frontend Client CI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/client/**
+      - frontend/api/typescript/**
+      - .github/workflows/ci-frontend-client.yaml
+      - .github/workflows/_check-node.yaml
+      - pnpm-lock.yaml
+  pull_request:
+    paths:
+      - frontend/client/**
+      - frontend/api/typescript/**
+      - .github/workflows/ci-frontend-client.yaml
+      - .github/workflows/_check-node.yaml
+      - pnpm-lock.yaml
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+env:
+  GCP_PROJECT_ID: ${{ startsWith(github.ref_name, 'release/') && 'aiceo-prod' || 'aiceo-dev'}}
+  GCP_PROJECT_NUMBER: ${{ startsWith(github.ref_name, 'release/') && '1004160178879' || '285404307541'}}
+
+jobs:
+  check:
+    uses: ./.github/workflows/_check-node.yaml
+    with:
+      project_dir: client
+    secrets: inherit
+
+  deploy:
+    needs: check
+    runs-on: ubuntu-22.04
+
+    environment: ${{ github.event_name != 'pull_request' && (startsWith(github.ref_name, 'release/') && 'prod' || 'dev') || null }}
+
+    env:
+      DOCKER_PUSH: ${{ github.event_name != 'pull_request' && 'yes' || 'no' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: install dependencies
+        run: pnpm install
+        working-directory: client
+
+      - name: build app
+        run: pnpm run build
+        working-directory: client
+        env:
+          PUBLIC_ENV__FIREBASE_APP: ${{ env.GCP_PROJECT_ID }}
+
+      - if: ${{ env.DOCKER_PUSH == 'yes' }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github/providers/github
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          service_account: firebase-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: deploy app
+        if: ${{ env.DOCKER_PUSH == 'yes' }}
+        run: pnpm firebase --project=${{ env.GCP_PROJECT_ID }} deploy
+        working-directory: client

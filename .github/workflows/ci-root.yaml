@@ -1,0 +1,30 @@
+name: Repository Root CI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/**
+      - "*"
+  pull_request:
+    paths:
+      - .github/**
+      - "*"
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.work
+          cache-dependency-path: build/go.sum
+      - run: go run ./build lint

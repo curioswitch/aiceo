@@ -1,0 +1,80 @@
+name: Build Go Docker Image
+
+on:
+  workflow_call:
+    inputs:
+      project_dir:
+        description: Directory of the project to build
+        required: true
+        type: string
+      service:
+        description: Service to build
+        required: true
+        type: string
+
+env:
+  GCP_PROJECT_ID: ${{ startsWith(github.ref_name, 'release/') && 'aiceo-prod' || 'aiceo-dev'}}
+  GCP_PROJECT_NUMBER: ${{ startsWith(github.ref_name, 'release/') && '1004160178879' || '285404307541'}}
+
+jobs:
+  docker:
+    # TODO: We cannot use the normal `go run ./build docker` to verify docker builds work outside of
+    # linux because GitHub runners only enable Docker on ubuntu runners. See if we can output to
+    # tarball instead as a workaround.
+    runs-on: ubuntu-22.04
+
+    environment: ${{ github.event_name != 'pull_request' && (startsWith(github.ref_name, 'release/') && 'prod' || 'dev') || null }}
+
+    env:
+      DOCKER_PUSH: ${{ github.event_name != 'pull_request' && 'yes' || 'no' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.work
+          # We have different go run commands between _check-go and _docker-go, but execute different
+          # commands with go run (ko in this file). If we use the same cache-dependency-path for both,
+          # this job will never have additional commands cached. Some setup actions have a string cache
+          # key prefix option, but setup-go doesn't, so we workaround by adding go.mod. We know it is
+          # basically a 1:1 mapping with go.sum, while also being able to change the hash to allow
+          # the two jobs to have different cache keys.
+          cache-dependency-path: |
+            ${{ inputs.project_dir }}/**/go.sum
+            ${{ inputs.project_dir }}/go.mod
+
+      - id: google-auth
+        if: ${{ env.DOCKER_PUSH == 'yes' }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github/providers/github
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+        if: ${{ env.DOCKER_PUSH == 'yes' }}
+
+      - name: Configure Docker
+        if: ${{ env.DOCKER_PUSH == 'yes' }}
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - id: docker-meta
+        uses: docker/metadata-action@v5
+        with:
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha,format=long
+          sep-tags: ","
+          sep-labels: ","
+
+      - name: Build and push image
+        working-directory: ${{ inputs.project_dir }}
+        run: go run ./build -v --docker-tags ${{ steps.docker-meta.outputs.tags }} --docker-labels '${{ steps.docker-meta.outputs.labels }}' ${{ env.DOCKER_PUSH == 'yes' && 'push' || 'docker' }}
+        env:
+          GOOGLE_PROJECT: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Deploy service
+        if: ${{ env.DOCKER_PUSH == 'yes' }}
+        run: gcloud run deploy ${{ inputs.service }} --region us-central1 --image us-central1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/docker/${{ inputs.service }}:sha-${{ github.sha }}

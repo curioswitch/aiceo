@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package frontendapi;
+
+option go_package = "github.com/curioswitch/aiceo/api/go;frontendapi";
+
+// Details about a message within a chat.
+message ChatMessage {
+  // The ID of the message.
+  string id = 1;
+
+  // The text content of the message.
+  string message = 2;
+
+  // Choices for the user to select from for the message.
+  repeated string choices = 3;
+}
+
+// A request to begin a chat session.
+message StartChatRequest {}
+
+// A response to a request to begin a chat session.
+message StartChatResponse {
+  // The ID of the new chat.
+  string chat_id = 1;
+
+  // The initial message of the chat.
+  ChatMessage message = 2;
+}
+
+// A request to send a message in a chat.
+message SendMessageRequest {
+  // The ID of the chat to send the message in.
+  string chat_id = 1;
+
+  // The message to send.
+  string message = 2;
+}
+
+// A response to a request to send a message in a chat.
+message SendMessageResponse {
+  // The response message.
+  ChatMessage message = 1;
+}
+
+// The service for the frontend.
+service FrontendService {
+  // Starts a chat session.
+  rpc StartChat(StartChatRequest) returns (StartChatResponse);
+
+  // Sends a message in a chat.
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+}

@@ -1,0 +1,42 @@
+name: Frontend Server CI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/server/**
+      - frontend/api/go/**
+      - common/go/**
+      - .github/workflows/ci-frontend-server.yaml
+      - .github/workflows/_check-go.yaml
+      - .github/workflows/_docker-go.yaml
+  pull_request:
+    paths:
+      - frontend/server/**
+      - frontend/api/go/**
+      - common/go/**
+      - .github/workflows/ci-frontend-server.yaml
+      - .github/workflows/_check-go.yaml
+      - .github/workflows/_docker-go.yaml
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+jobs:
+  check:
+    uses: ./.github/workflows/_check-go.yaml
+    with:
+      project_dir: server
+    secrets: inherit
+
+  docker:
+    needs: check
+    uses: ./.github/workflows/_docker-go.yaml
+    with:
+      project_dir: server
+      service: frontend-server
+    secrets: inherit

@@ -1,0 +1,24 @@
+name: Release Build
+
+on:
+  push:
+    branches:
+      - release/**
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+jobs:
+  frontend-client:
+    uses: ./.github/workflows/ci-frontend-client.yaml
+    secrets: inherit
+
+  frontend-server:
+    uses: ./.github/workflows/ci-frontend-server.yaml
+    secrets: inherit
+
+  webhook-server:
+    uses: ./.github/workflows/ci-webhook-server.yaml
+    secrets: inherit
