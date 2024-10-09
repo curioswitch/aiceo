@@ -8,33 +8,33 @@ const app = initializeApp(getFirebaseConfig());
 const auth = getAuth(app);
 
 interface FirebaseState {
-	user?: User;
-	userResolved?: boolean;
+  user?: User;
+  userResolved?: boolean;
 }
 
 const FirebaseContext = createContext<FirebaseState | undefined>(undefined);
 
 export function useFirebase(): FirebaseState | undefined {
-	return useContext(FirebaseContext);
+  return useContext(FirebaseContext);
 }
 
 export function useFirebaseUser(): User | undefined {
-	return useContext(FirebaseContext)?.user;
+  return useContext(FirebaseContext)?.user;
 }
 
 export function FirebaseProvider({ children }: { children: React.ReactNode }) {
-	const [state, setState] = useState<FirebaseState | undefined>(undefined);
+  const [state, setState] = useState<FirebaseState | undefined>(undefined);
 
-	useEffect(() => {
-		return onAuthStateChanged(auth, (u) => {
-			const user = u ?? undefined;
-			setState({ user, userResolved: true });
-		});
-	}, []);
+  useEffect(() => {
+    return onAuthStateChanged(auth, (u) => {
+      const user = u ?? undefined;
+      setState({ user, userResolved: true });
+    });
+  }, []);
 
-	return (
-		<FirebaseContext.Provider value={state}>
-			{children}
-		</FirebaseContext.Provider>
-	);
+  return (
+    <FirebaseContext.Provider value={state}>
+      {children}
+    </FirebaseContext.Provider>
+  );
 }

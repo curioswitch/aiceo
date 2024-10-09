@@ -5,4 +5,5 @@ use (
 	./api
 	./api/build
 	./server
+	./server/build
 )
