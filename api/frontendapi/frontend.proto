@@ -54,8 +54,8 @@ message SendMessageRequest {
 
 // A response to a request to send a message in a chat.
 message SendMessageResponse {
-  // The response message.
-  ChatMessage message = 1;
+  // New messages in the chat. This will include the request message as well.
+  repeated ChatMessage messages = 1;
 }
 
 // The service for the frontend.

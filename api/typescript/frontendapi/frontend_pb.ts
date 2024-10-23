@@ -291,11 +291,11 @@ export class SendMessageRequest extends Message<SendMessageRequest> {
  */
 export class SendMessageResponse extends Message<SendMessageResponse> {
   /**
-   * The response message.
+   * New messages in the chat. This will include the request message as well.
    *
-   * @generated from field: frontendapi.ChatMessage message = 1;
+   * @generated from field: repeated frontendapi.ChatMessage messages = 1;
    */
-  message?: ChatMessage;
+  messages: ChatMessage[] = [];
 
   constructor(data?: PartialMessage<SendMessageResponse>) {
     super();
@@ -305,7 +305,7 @@ export class SendMessageResponse extends Message<SendMessageResponse> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "frontendapi.SendMessageResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "message", kind: "message", T: ChatMessage },
+    { no: 1, name: "messages", kind: "message", T: ChatMessage, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SendMessageResponse {

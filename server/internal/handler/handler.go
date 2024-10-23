@@ -108,25 +108,27 @@ func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageR
 		history[i] = msg
 	}
 
+	reqMsgDoc := messagesCol.NewDoc()
 	resMsgDoc := messagesCol.NewDoc()
 
-	msg, err := llm.Query(ctx, h.model, req.GetMessage(), history)
+	respmsg, err := llm.Query(ctx, h.model, req.GetMessage(), history)
 	if err != nil {
 		return nil, fmt.Errorf("sendmessage: querying llm: %w", err)
 	}
 
+	reqMsg := &db.ChatMessage{
+		Message:   req.GetMessage(),
+		Role:      db.ChatRoleUser,
+		CreatedAt: reqStart,
+	}
+
 	if err := h.store.RunTransaction(ctx, func(_ context.Context, tx *firestore.Transaction) error {
-		reqMsgDoc := messagesCol.NewDoc()
-		if err := tx.Create(reqMsgDoc, &db.ChatMessage{
-			Message:   req.GetMessage(),
-			Role:      db.ChatRoleUser,
-			CreatedAt: reqStart,
-		}); err != nil {
+		if err := tx.Create(reqMsgDoc, reqMsg); err != nil {
 			return fmt.Errorf("handler: saving request message: %w", err)
 		}
 
-		msg.CreatedAt = time.Now()
-		if err := tx.Create(resMsgDoc, msg); err != nil {
+		respmsg.CreatedAt = time.Now()
+		if err := tx.Create(resMsgDoc, respmsg); err != nil {
 			return fmt.Errorf("sendmessage: saving response message: %w", err)
 		}
 
@@ -135,6 +137,9 @@ func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageR
 		return nil, err
 	}
 	return &frontendapi.SendMessageResponse{
-		Message: msg.ToProto(resMsgDoc.ID),
+		Messages: []*frontendapi.ChatMessage{
+			reqMsg.ToProto(reqMsgDoc.ID),
+			respmsg.ToProto(resMsgDoc.ID),
+		},
 	}, nil
 }
