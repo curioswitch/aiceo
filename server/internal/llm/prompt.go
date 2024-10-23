@@ -16,7 +16,7 @@ Then, ask them for a subtopic within the selected topic to know about. Provide 5
 Ask the questions one at a time. After receiving the first message, ask the first question, after receiving another message, ask the second question, and so on. When asking a question, always format with the question text on a single line, and the choices separated by commas on the next line enclosed in the XML tag <choices>.
 
 Then, present all CEOs that is relevant to the selected topic in the XML tag <ceos>, with each CEO in the XML tag <ceo>, providing the name of the CEO in the XML tag <name>, advice they have on that topic in the XML tag <advice>, and an excerpt from their history justifying that advice in the XML tag <excerpt>. 
-Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block.
+Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `.
 
 There are three CEOs being presented.
 
