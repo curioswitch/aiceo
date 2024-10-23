@@ -26,6 +26,33 @@ type Handler struct {
 	store *firestore.Client
 }
 
+func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) (*frontendapi.GetChatsResponse, error) {
+	chatDocs, err := h.store.Collection("chats").Documents(ctx).GetAll()
+	if err != nil {
+		return nil, fmt.Errorf("handler: getting chats: %w", err)
+	}
+
+	chats := make([]*frontendapi.Chat, 0, len(chatDocs))
+	for _, doc := range chatDocs {
+		// TODO: Save this when sending messages.
+		msgs, err := doc.Ref.Collection("messages").OrderBy("createdAt", firestore.Asc).Limit(9).Documents(ctx).GetAll()
+		if err != nil {
+			return nil, fmt.Errorf("handler: getting start messages: %w", err)
+		}
+		if len(msgs) < 9 {
+			continue
+		}
+		chats = append(chats, &frontendapi.Chat{
+			Id:          doc.Ref.ID,
+			Description: fmt.Sprintf("%s %s %s %s", msgs[2].Data()["message"], msgs[4].Data()["message"], msgs[6].Data()["message"], msgs[8].Data()["message"]),
+		})
+	}
+
+	return &frontendapi.GetChatsResponse{
+		Chats: chats,
+	}, nil
+}
+
 func (h *Handler) StartChat(ctx context.Context, _ *frontendapi.StartChatRequest) (*frontendapi.StartChatResponse, error) {
 	reqStart := time.Now()
 

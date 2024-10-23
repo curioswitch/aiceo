@@ -4,6 +4,24 @@ package frontendapi;
 
 option go_package = "github.com/curioswitch/aiceo/api/go;frontendapi";
 
+// Details about a single chat.
+message Chat {
+  // The ID of the chat.
+  string id = 1;
+
+  // The description of the chat.
+  string description = 2;
+}
+
+// A request to get all chats.
+message GetChatsRequest {}
+
+// A response to a request to get all chats.
+message GetChatsResponse {
+  // The fetched chats.
+  repeated Chat chats = 1;
+}
+
 // Details about a message within a chat.
 message ChatMessage {
   // The ID of the message.
@@ -60,6 +78,9 @@ message SendMessageResponse {
 
 // The service for the frontend.
 service FrontendService {
+  // Gets all chats.
+  rpc GetChats(GetChatsRequest) returns (GetChatsResponse);
+
   // Starts a chat session.
   rpc StartChat(StartChatRequest) returns (StartChatResponse);
 

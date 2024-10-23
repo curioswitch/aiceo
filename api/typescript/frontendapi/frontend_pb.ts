@@ -7,6 +7,129 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
+ * Details about a single chat.
+ *
+ * @generated from message frontendapi.Chat
+ */
+export class Chat extends Message<Chat> {
+  /**
+   * The ID of the chat.
+   *
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * The description of the chat.
+   *
+   * @generated from field: string description = 2;
+   */
+  description = "";
+
+  constructor(data?: PartialMessage<Chat>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "frontendapi.Chat";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Chat {
+    return new Chat().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Chat {
+    return new Chat().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Chat {
+    return new Chat().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Chat | PlainMessage<Chat> | undefined, b: Chat | PlainMessage<Chat> | undefined): boolean {
+    return proto3.util.equals(Chat, a, b);
+  }
+}
+
+/**
+ * A request to get all chats.
+ *
+ * @generated from message frontendapi.GetChatsRequest
+ */
+export class GetChatsRequest extends Message<GetChatsRequest> {
+  constructor(data?: PartialMessage<GetChatsRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "frontendapi.GetChatsRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetChatsRequest {
+    return new GetChatsRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetChatsRequest {
+    return new GetChatsRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetChatsRequest {
+    return new GetChatsRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetChatsRequest | PlainMessage<GetChatsRequest> | undefined, b: GetChatsRequest | PlainMessage<GetChatsRequest> | undefined): boolean {
+    return proto3.util.equals(GetChatsRequest, a, b);
+  }
+}
+
+/**
+ * A response to a request to get all chats.
+ *
+ * @generated from message frontendapi.GetChatsResponse
+ */
+export class GetChatsResponse extends Message<GetChatsResponse> {
+  /**
+   * The fetched chats.
+   *
+   * @generated from field: repeated frontendapi.Chat chats = 1;
+   */
+  chats: Chat[] = [];
+
+  constructor(data?: PartialMessage<GetChatsResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "frontendapi.GetChatsResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "chats", kind: "message", T: Chat, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetChatsResponse {
+    return new GetChatsResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetChatsResponse {
+    return new GetChatsResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetChatsResponse {
+    return new GetChatsResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetChatsResponse | PlainMessage<GetChatsResponse> | undefined, b: GetChatsResponse | PlainMessage<GetChatsResponse> | undefined): boolean {
+    return proto3.util.equals(GetChatsResponse, a, b);
+  }
+}
+
+/**
  * Details about a message within a chat.
  *
  * @generated from message frontendapi.ChatMessage

@@ -59,6 +59,14 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 	h := handler.New(firestore, model)
 
 	server.HandleConnectUnary(s,
+		frontendapiconnect.FrontendServiceGetChatsProcedure,
+		h.GetChats,
+		[]*frontendapi.GetChatsRequest{
+			{},
+		},
+	)
+
+	server.HandleConnectUnary(s,
 		frontendapiconnect.FrontendServiceStartChatProcedure,
 		h.StartChat,
 		[]*frontendapi.StartChatRequest{

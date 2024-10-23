@@ -33,6 +33,9 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// FrontendServiceGetChatsProcedure is the fully-qualified name of the FrontendService's GetChats
+	// RPC.
+	FrontendServiceGetChatsProcedure = "/frontendapi.FrontendService/GetChats"
 	// FrontendServiceStartChatProcedure is the fully-qualified name of the FrontendService's StartChat
 	// RPC.
 	FrontendServiceStartChatProcedure = "/frontendapi.FrontendService/StartChat"
@@ -47,6 +50,7 @@ const (
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	frontendServiceServiceDescriptor               = _go.File_frontendapi_frontend_proto.Services().ByName("FrontendService")
+	frontendServiceGetChatsMethodDescriptor        = frontendServiceServiceDescriptor.Methods().ByName("GetChats")
 	frontendServiceStartChatMethodDescriptor       = frontendServiceServiceDescriptor.Methods().ByName("StartChat")
 	frontendServiceGetChatMessagesMethodDescriptor = frontendServiceServiceDescriptor.Methods().ByName("GetChatMessages")
 	frontendServiceSendMessageMethodDescriptor     = frontendServiceServiceDescriptor.Methods().ByName("SendMessage")
@@ -54,6 +58,8 @@ var (
 
 // FrontendServiceClient is a client for the frontendapi.FrontendService service.
 type FrontendServiceClient interface {
+	// Gets all chats.
+	GetChats(context.Context, *connect.Request[_go.GetChatsRequest]) (*connect.Response[_go.GetChatsResponse], error)
 	// Starts a chat session.
 	StartChat(context.Context, *connect.Request[_go.StartChatRequest]) (*connect.Response[_go.StartChatResponse], error)
 	// Gets messages in a chat.
@@ -72,6 +78,12 @@ type FrontendServiceClient interface {
 func NewFrontendServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) FrontendServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &frontendServiceClient{
+		getChats: connect.NewClient[_go.GetChatsRequest, _go.GetChatsResponse](
+			httpClient,
+			baseURL+FrontendServiceGetChatsProcedure,
+			connect.WithSchema(frontendServiceGetChatsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 		startChat: connect.NewClient[_go.StartChatRequest, _go.StartChatResponse](
 			httpClient,
 			baseURL+FrontendServiceStartChatProcedure,
@@ -95,9 +107,15 @@ func NewFrontendServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 
 // frontendServiceClient implements FrontendServiceClient.
 type frontendServiceClient struct {
+	getChats        *connect.Client[_go.GetChatsRequest, _go.GetChatsResponse]
 	startChat       *connect.Client[_go.StartChatRequest, _go.StartChatResponse]
 	getChatMessages *connect.Client[_go.GetChatMessagesRequest, _go.GetChatMessagesResponse]
 	sendMessage     *connect.Client[_go.SendMessageRequest, _go.SendMessageResponse]
+}
+
+// GetChats calls frontendapi.FrontendService.GetChats.
+func (c *frontendServiceClient) GetChats(ctx context.Context, req *connect.Request[_go.GetChatsRequest]) (*connect.Response[_go.GetChatsResponse], error) {
+	return c.getChats.CallUnary(ctx, req)
 }
 
 // StartChat calls frontendapi.FrontendService.StartChat.
@@ -117,6 +135,8 @@ func (c *frontendServiceClient) SendMessage(ctx context.Context, req *connect.Re
 
 // FrontendServiceHandler is an implementation of the frontendapi.FrontendService service.
 type FrontendServiceHandler interface {
+	// Gets all chats.
+	GetChats(context.Context, *connect.Request[_go.GetChatsRequest]) (*connect.Response[_go.GetChatsResponse], error)
 	// Starts a chat session.
 	StartChat(context.Context, *connect.Request[_go.StartChatRequest]) (*connect.Response[_go.StartChatResponse], error)
 	// Gets messages in a chat.
@@ -131,6 +151,12 @@ type FrontendServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewFrontendServiceHandler(svc FrontendServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	frontendServiceGetChatsHandler := connect.NewUnaryHandler(
+		FrontendServiceGetChatsProcedure,
+		svc.GetChats,
+		connect.WithSchema(frontendServiceGetChatsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	frontendServiceStartChatHandler := connect.NewUnaryHandler(
 		FrontendServiceStartChatProcedure,
 		svc.StartChat,
@@ -151,6 +177,8 @@ func NewFrontendServiceHandler(svc FrontendServiceHandler, opts ...connect.Handl
 	)
 	return "/frontendapi.FrontendService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case FrontendServiceGetChatsProcedure:
+			frontendServiceGetChatsHandler.ServeHTTP(w, r)
 		case FrontendServiceStartChatProcedure:
 			frontendServiceStartChatHandler.ServeHTTP(w, r)
 		case FrontendServiceGetChatMessagesProcedure:
@@ -165,6 +193,10 @@ func NewFrontendServiceHandler(svc FrontendServiceHandler, opts ...connect.Handl
 
 // UnimplementedFrontendServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedFrontendServiceHandler struct{}
+
+func (UnimplementedFrontendServiceHandler) GetChats(context.Context, *connect.Request[_go.GetChatsRequest]) (*connect.Response[_go.GetChatsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("frontendapi.FrontendService.GetChats is not implemented"))
+}
 
 func (UnimplementedFrontendServiceHandler) StartChat(context.Context, *connect.Request[_go.StartChatRequest]) (*connect.Response[_go.StartChatResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("frontendapi.FrontendService.StartChat is not implemented"))
