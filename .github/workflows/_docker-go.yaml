@@ -56,7 +56,7 @@ jobs:
 
       - name: Configure Docker
         if: ${{ env.DOCKER_PUSH == 'yes' }}
-        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
       - id: docker-meta
         uses: docker/metadata-action@v5
@@ -77,4 +77,4 @@ jobs:
 
       - name: Deploy service
         if: ${{ env.DOCKER_PUSH == 'yes' }}
-        run: gcloud run deploy ${{ inputs.service }} --region us-central1 --image us-central1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/docker/${{ inputs.service }}:sha-${{ github.sha }}
+        run: gcloud run deploy ${{ inputs.service }} --region asia-northeast1 --image asia-northeast1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/docker/${{ inputs.service }}:sha-${{ github.sha }}

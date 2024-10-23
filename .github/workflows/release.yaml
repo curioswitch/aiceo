@@ -11,14 +11,10 @@ permissions:
   id-token: write
 
 jobs:
-  frontend-client:
-    uses: ./.github/workflows/ci-frontend-client.yaml
+  client:
+    uses: ./.github/workflows/ci-client.yaml
     secrets: inherit
 
-  frontend-server:
-    uses: ./.github/workflows/ci-frontend-server.yaml
-    secrets: inherit
-
-  webhook-server:
-    uses: ./.github/workflows/ci-webhook-server.yaml
+  server:
+    uses: ./.github/workflows/ci-server.yaml
     secrets: inherit
