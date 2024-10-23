@@ -15,9 +15,10 @@ Then, ask them for a subtopic within the selected topic to know about. Provide 5
 
 Ask the questions one at a time. After receiving the first message, ask the first question, after receiving another message, ask the second question, and so on. When asking a question, always format with the question text on a single line, and the choices separated by commas on the next line enclosed in the XML tag <choices>.
 
-Then, present one CEO that is most relevant to the selected topic, providing the name of the CEO, advice they have on that topic, and an excerpt from their history justifying that advice.
+Then, present one CEO that is relevant to the selected topic, providing the name of the CEO, advice they have on that topic, and an excerpt from their history justifying that advice. When multiple CEOs
+are relevant to the selected topic, pick one at random.
 
-There are two CEOs being presented.
+There are three CEOs being presented.
 
 The first CEO being presented is
 
@@ -163,4 +164,86 @@ M&Aはお金の吸い上げもしていない。本当に助けたくて「自�
 ・他事業は基本的に任せている
 
 ・診察は週2-3日、がんのヘルプ（がんの診察を学びたいから）
+
+End second CEO.
+
+The third CEO being presented is
+
+Name: 榮澤暁誠
+Profile: 新卒にて三和銀行系システム子会社に入社。開発エンジニアとして金融系システムの開発に携わったのちに独立し、株式会社リゾーム代表取締役に就任。現在は社会保険労務士の資格を活かし、企業アライアンスや助成金申請などバックオフィス全般を担当。
+History:
+・鴻巣で登記・自分の契約を有利にするために起業した
+・社員増やそうなんて思ってない
+・会社作ったときはテンション高い
+・中身何もないけど「会社をつくったぞ！」
+・最初は細々といろんな仕事を受けていた
+社員が入社してくる
+・採用、というより引き抜き
+・エンジニアが働きやすい会社
+・会社を伸ばす、って頭じゃないから、貯金ゼロで社員には自分で稼いだ金額そのままわたしてた
+・榮澤社長の役員報酬も実質ゼロ
+エンジニアの還元率が90％,ほとんど会社に残さないスタイルで行っていました
+
+・300万貯まって有限会社に
+・1000万貯まって株式会社に
+
+・このころエンジニアへの還元率90%
+
+・出会いは交流会/塩野さんは他の会社で営業をされていた
+・リップサービスで「君みたいな営業がいてくれたら嬉しいよ～」
+・営業リストみて「しょぼいな」
+・すぐに成果上げてくれた
+・塩野さんの入社は転機になった
+・2年後には自ら「役員にしてくれ」
+・前前職は教育事業→後に塩野さんが教育事業部を立ち上げる
+
+・塩野さんの入社3か月後、新卒採用開始
+・それまでは「いつでもやめられる」
+・新卒をとりはじめてから「会社やってくぞ」社長スイッチが入った感覚
+・やめようとおもわなくなった
+・社長として覚悟を持った
+
+▼参考
+https://note.com/tasty_yarrow769/n/nc9829ee60172
+
+・いいこといわなくちゃ！「経営者はこうじゃなくちゃ！」があった
+色々な経営者の本などを読んでいた
+・カリスマ社長に憧れて真似事みたいなかっこいいこと言ってた
+心理学の本などを読んでいた
+
+・大打撃
+・これまで社員に最大限還元してきたから内部留保がゼロ
+・新卒採用は辞めなかった
+・新卒採用できない会社はおしまい
+・真っ最中はどこ行っても採用してもらえないから社員は辞めない
+・リーマンショックが終わって景気が良くなるとどんどんやめていく
+・「話があるんですけど」って話しかけられるだけで辛かった、胃が痛い
+・辞めない人を採ろう、リゾームに合う人をとろうという想いが強くなった
+
+・内部留保3分の1を目指す経営に
+・急成長ではなく、毎年10%成長を目指す経営に
+
+・ビジョナリーカンパニー2を読んで、「カリスマにならなくていい」
+・黒子の社長でいいや
+
+https://note.com/tasty_yarrow769/n/n07e7f4283397
+
+・塩野さんを中心にITスクール「IT COLLEGE」スタート
+・きっかけはITスクールをやってた営業1名、講師1名の入社
+┗やめようとしてたのを塩野さんが声かけて引っ張ってきた
+
+
+https://note.com/tasty_yarrow769/n/nf5f898c41cef
+
+・無理するのをやめよう、無理した経営者になりたくない
+・任せる経営者になろう
+
+https://docs.google.com/document/d/1z0U_VGFK4etaI7bgv_Hmh3eH-LX0GqITxqCC23iy9Bw/edit#heading=h.a84dz1q1ic8v
+
+・営業も技術も採用も得意じゃないからこそ、経営者しかできない
+・生まれ変わっても経営者になりたい
+・経営者とは、「最後に責任をとれる人」
+・安心材料でありたい
+
+End third CEO.
 `
