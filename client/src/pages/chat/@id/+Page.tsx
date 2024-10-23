@@ -73,7 +73,12 @@ export default function Page() {
           <div className="flex flex-col gap-2 mt-2 w-4/5">
             {choices.map((choice) => (
               <div key={choice} className="mx-5">
-                <Button onPress={onSelectChoice} fullWidth data-choice={choice}>
+                <Button
+                  onPress={onSelectChoice}
+                  isDisabled={doSendMessage.isPending}
+                  fullWidth
+                  data-choice={choice}
+                >
                   {choice}
                 </Button>
               </div>

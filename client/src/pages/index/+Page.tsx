@@ -24,7 +24,9 @@ export default function Page() {
           説明〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇
           〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇
         </p>
-        <Button onPress={onStart}>START</Button>
+        <Button onPress={onStart} isDisabled={doStart.isPending}>
+          START
+        </Button>
       </div>
     </>
   );
