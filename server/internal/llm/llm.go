@@ -3,6 +3,7 @@ package llm
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"strings"
 
 	"cloud.google.com/go/vertexai/genai"
@@ -58,10 +59,86 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 
 	if text, ok := content.Parts[0].(genai.Text); ok {
 		message := strings.TrimSpace(string(text))
+		if strings.Contains(message, "<ceos>") {
+			message = extractCEO(message)
+		}
 		return &db.ChatMessage{
 			Message: message,
 			Role:    db.ChatRoleModel,
 		}, nil
 	}
 	return nil, errFirstPartNotText
+}
+
+type ceo struct {
+	name    string
+	advice  string
+	excerpt string
+}
+
+func extractCEO(message string) string {
+	_, content, ok := strings.Cut(message, "```xml")
+	if !ok {
+		return message
+	}
+	content, _, ok = strings.Cut(content, "```")
+	if !ok {
+		return message
+	}
+	rest, _, ok := extractTag(content, "ceos")
+	if !ok {
+		return message
+	}
+
+	var ceos []ceo
+
+	for len(rest) > 0 {
+		var c string
+		var ok bool
+		var name string
+		var advice string
+		var excerpt string
+
+		c, rest, ok = extractTag(rest, "ceo")
+		if !ok {
+			return message
+		}
+
+		name, c, ok = extractTag(c, "name")
+		if !ok {
+			return message
+		}
+		advice, c, ok = extractTag(c, "advice")
+		if !ok {
+			return message
+		}
+		excerpt, _, ok = extractTag(c, "excerpt")
+		if !ok {
+			return message
+		}
+
+		ceos = append(ceos, ceo{
+			name:    name,
+			advice:  advice,
+			excerpt: excerpt,
+		})
+	}
+
+	res := ceos[rand.Intn(len(ceos))] //nolint:gosec
+	return fmt.Sprintf("%s\n\n%s\n\n%s", res.name, res.advice, res.excerpt)
+}
+
+func extractTag(s string, tag string) (string, string, bool) {
+	var rest string
+	_, res, ok := strings.Cut(s, "<"+tag+">")
+	if !ok {
+		return "", "", false
+	}
+	res, rest, ok = strings.Cut(res, "</"+tag+">")
+	if !ok {
+		return "", "", false
+	}
+	res = strings.TrimSpace(res)
+	rest = strings.TrimSpace(rest)
+	return res, rest, true
 }
