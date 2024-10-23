@@ -38,5 +38,5 @@ jobs:
     uses: ./.github/workflows/_docker-go.yaml
     with:
       project_dir: server
-      service: frontend-server
+      service: aiceo-server
     secrets: inherit
