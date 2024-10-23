@@ -28,6 +28,18 @@ message StartChatResponse {
   ChatMessage message = 2;
 }
 
+// A request to get messages in a chat.
+message GetChatMessagesRequest {
+  // The ID of the chat to get messages for.
+  string chat_id = 1;
+}
+
+// A response to a request to get messages in a chat.
+message GetChatMessagesResponse {
+  // The messages in the chat.
+  repeated ChatMessage messages = 1;
+}
+
 // A request to send a message in a chat.
 message SendMessageRequest {
   // The ID of the chat to send the message in.
@@ -47,6 +59,9 @@ message SendMessageResponse {
 service FrontendService {
   // Starts a chat session.
   rpc StartChat(StartChatRequest) returns (StartChatResponse);
+
+  // Gets messages in a chat.
+  rpc GetChatMessages(GetChatMessagesRequest) returns (GetChatMessagesResponse);
 
   // Sends a message in a chat.
   rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);

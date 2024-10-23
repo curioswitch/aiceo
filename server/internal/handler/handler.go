@@ -67,6 +67,27 @@ func (h *Handler) StartChat(ctx context.Context, _ *frontendapi.StartChatRequest
 	}, nil
 }
 
+func (h *Handler) GetChatMessages(ctx context.Context, req *frontendapi.GetChatMessagesRequest) (*frontendapi.GetChatMessagesResponse, error) {
+	messagesCol := h.store.Collection("chats").Doc(req.GetChatId()).Collection("messages")
+	messageDocs, err := messagesCol.OrderBy("createdAt", firestore.Asc).Documents(ctx).GetAll()
+	if err != nil {
+		return nil, fmt.Errorf("handler: getting messages: %w", err)
+	}
+
+	messages := make([]*frontendapi.ChatMessage, len(messageDocs))
+	for i, doc := range messageDocs {
+		var msg db.ChatMessage
+		if err := doc.DataTo(&msg); err != nil {
+			return nil, fmt.Errorf("handler: decoding message: %w", err)
+		}
+		messages[i] = msg.ToProto(doc.Ref.ID)
+	}
+
+	return &frontendapi.GetChatMessagesResponse{
+		Messages: messages,
+	}, nil
+}
+
 func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageRequest) (*frontendapi.SendMessageResponse, error) {
 	reqStart := time.Now()
 

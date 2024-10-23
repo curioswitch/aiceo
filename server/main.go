@@ -67,6 +67,16 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 	)
 
 	server.HandleConnectUnary(s,
+		frontendapiconnect.FrontendServiceGetChatMessagesProcedure,
+		h.GetChatMessages,
+		[]*frontendapi.GetChatMessagesRequest{
+			{
+				ChatId: "3zSzhjIv6AQ2tOS9a94z",
+			},
+		},
+	)
+
+	server.HandleConnectUnary(s,
 		frontendapiconnect.FrontendServiceSendMessageProcedure,
 		h.SendMessage,
 		[]*frontendapi.SendMessageRequest{

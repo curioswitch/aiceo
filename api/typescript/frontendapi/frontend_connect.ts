@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { SendMessageRequest, SendMessageResponse, StartChatRequest, StartChatResponse } from "./frontend_pb.js";
+import { GetChatMessagesRequest, GetChatMessagesResponse, SendMessageRequest, SendMessageResponse, StartChatRequest, StartChatResponse } from "./frontend_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -23,6 +23,17 @@ export const FrontendService = {
       name: "StartChat",
       I: StartChatRequest,
       O: StartChatResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * Gets messages in a chat.
+     *
+     * @generated from rpc frontendapi.FrontendService.GetChatMessages
+     */
+    getChatMessages: {
+      name: "GetChatMessages",
+      I: GetChatMessagesRequest,
+      O: GetChatMessagesResponse,
       kind: MethodKind.Unary,
     },
     /**

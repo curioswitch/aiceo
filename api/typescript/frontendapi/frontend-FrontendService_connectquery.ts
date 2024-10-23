@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { MethodKind } from "@bufbuild/protobuf";
-import { SendMessageRequest, SendMessageResponse, StartChatRequest, StartChatResponse } from "./frontend_pb.js";
+import { GetChatMessagesRequest, GetChatMessagesResponse, SendMessageRequest, SendMessageResponse, StartChatRequest, StartChatResponse } from "./frontend_pb.js";
 
 /**
  * Starts a chat session.
@@ -17,6 +17,22 @@ export const startChat = {
   kind: MethodKind.Unary,
   I: StartChatRequest,
   O: StartChatResponse,
+  service: {
+    typeName: "frontendapi.FrontendService"
+  }
+} as const;
+
+/**
+ * Gets messages in a chat.
+ *
+ * @generated from rpc frontendapi.FrontendService.GetChatMessages
+ */
+export const getChatMessages = {
+  localName: "getChatMessages",
+  name: "GetChatMessages",
+  kind: MethodKind.Unary,
+  I: GetChatMessagesRequest,
+  O: GetChatMessagesResponse,
   service: {
     typeName: "frontendapi.FrontendService"
   }
