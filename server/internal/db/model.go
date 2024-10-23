@@ -58,5 +58,6 @@ func (m *ChatMessage) ToProto(id string) *frontendapi.ChatMessage {
 		Id:      id,
 		Message: strings.TrimSpace(message),
 		Choices: choices,
+		IsUser:  m.Role == ChatRoleUser,
 	}
 }

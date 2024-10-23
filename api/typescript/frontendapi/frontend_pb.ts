@@ -33,6 +33,13 @@ export class ChatMessage extends Message<ChatMessage> {
    */
   choices: string[] = [];
 
+  /**
+   * Whether the message is from the user. Otherwise, it is from the assistant.
+   *
+   * @generated from field: bool is_user = 4;
+   */
+  isUser = false;
+
   constructor(data?: PartialMessage<ChatMessage>) {
     super();
     proto3.util.initPartial(data, this);
@@ -44,6 +51,7 @@ export class ChatMessage extends Message<ChatMessage> {
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "message", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "choices", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 4, name: "is_user", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatMessage {
