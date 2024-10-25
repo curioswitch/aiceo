@@ -1,43 +1,61 @@
-import { getChatMessages, sendMessage } from "@aiceo/frontendapi";
 import {
-  createConnectQueryKey,
-  createProtobufSafeUpdater,
+  GetChatMessagesResponse,
+  getChatMessages,
+  sendMessage,
+} from "@aiceo/frontendapi";
+import {
+  type MethodUnaryDescriptor,
+  createQueryOptions,
+  type disableQuery,
   useMutation,
   useQuery,
+  useTransport,
 } from "@connectrpc/connect-query";
 import { usePageContext } from "vike-react/usePageContext";
 
 import { ChatMessage } from "@/components/ChatMessage";
+import type { Message, PartialMessage } from "@bufbuild/protobuf";
 import { Button } from "@nextui-org/button";
-import { useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 type PressEvent = Parameters<
   NonNullable<React.ComponentProps<typeof Button>["onPress"]>
 >[0];
 
+// https://github.com/connectrpc/connect-query-es/issues/467
+function useQueryWithKey<Req extends Message<Req>, Resp extends Message<Resp>>(
+  svc: MethodUnaryDescriptor<Req, Resp>,
+  req: typeof disableQuery | PartialMessage<Req> | undefined,
+) {
+  const transport = useTransport();
+  const opts = queryOptions(createQueryOptions(svc, req, { transport }));
+  return {
+    ...useQuery(svc, req),
+    queryKey: opts.queryKey,
+  };
+}
+
 export default function Page() {
   const pageContext = usePageContext();
   const chatId = pageContext.routeParams.id;
 
-  const queryKey = createConnectQueryKey(getChatMessages, { chatId });
-  const { data: messagesRes, isPending } = useQuery(getChatMessages, {
+  const {
+    data: messagesRes,
+    isPending,
+    queryKey,
+  } = useQueryWithKey(getChatMessages, {
     chatId,
   });
 
   const queryClient = useQueryClient();
   const doSendMessage = useMutation(sendMessage, {
     onSuccess: (resp) => {
-      queryClient.setQueryData(
-        queryKey,
-        createProtobufSafeUpdater(getChatMessages, (prev) => {
-          const messages = [...(prev?.messages ?? []), ...resp.messages];
-          return {
-            ...prev,
-            messages,
-          };
-        }),
-      );
+      queryClient.setQueryData(queryKey, (prev) => {
+        const obj = prev ?? new GetChatMessagesResponse();
+        obj.messages = [...obj.messages, ...resp.messages];
+        return obj;
+      });
     },
   });
 

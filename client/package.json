@@ -57,5 +57,8 @@
     "vike": "^0.4.197",
     "vike-react": "^0.5.7",
     "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "@bufbuild/protobuf": "1.x"
   }
 }
