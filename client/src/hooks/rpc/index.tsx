@@ -1,11 +1,30 @@
-import { Code, ConnectError, type Interceptor } from "@connectrpc/connect";
-import { TransportProvider, useQuery } from "@connectrpc/connect-query";
+import {
+  Code,
+  ConnectError,
+  type Interceptor,
+  type Transport,
+} from "@connectrpc/connect";
+import {
+  TransportProvider,
+  createQueryOptions,
+  useTransport,
+} from "@connectrpc/connect-query";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  queryOptions,
+} from "@tanstack/react-query";
 import type { User as FirebaseUser } from "firebase/auth";
 import { useMemo } from "react";
 
 import { useFirebase } from "@/hooks/firebase";
+import {
+  type GetChatMessagesRequest,
+  getChatMessages,
+  getChats,
+} from "@aiceo/frontendapi";
+import type { PlainMessage } from "@bufbuild/protobuf";
 
 const MAX_RETRIES = 3;
 
@@ -29,6 +48,27 @@ function canRetry(error: Error): boolean {
     default:
       return true;
   }
+}
+
+class FrontendQueries {
+  constructor(readonly transport: Transport) {}
+
+  getChats() {
+    return queryOptions(
+      createQueryOptions(getChats, {}, { transport: this.transport }),
+    );
+  }
+
+  getChatMessages(req: PlainMessage<GetChatMessagesRequest>) {
+    return queryOptions(
+      createQueryOptions(getChatMessages, req, { transport: this.transport }),
+    );
+  }
+}
+
+export function useFrontendQueries(): FrontendQueries {
+  const transport = useTransport();
+  return useMemo(() => new FrontendQueries(transport), [transport]);
 }
 
 export function FrontendServiceProvider({
