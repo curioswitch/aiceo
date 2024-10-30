@@ -6,14 +6,15 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react({}), vike({ prerender: true })],
   server: {
-    port: 8080,
+    port: process.env.PORT ? Number.parseInt(process.env.PORT) : 8080,
     proxy: {
       "/__/firebase": {
         target: "https://alpha.aiceo.curioswitch.org",
         changeOrigin: true,
       },
       "/frontendapi.FrontendService": {
-        target: "https://alpha.aiceo.curioswitch.org",
+        target:
+          process.env.SERVICE_FRONTEND ?? "https://alpha.aiceo.curioswitch.org",
         changeOrigin: true,
       },
     },

@@ -22,6 +22,18 @@ message GetChatsResponse {
   repeated Chat chats = 1;
 }
 
+// Details of a CEO.
+message CEODetails {
+  // The key for the CEO for programmatic usage.
+  string key = 1;
+
+  // The advice from the CEO.
+  string advice = 2;
+
+  // The excerpt summary for the advice.
+  string summary = 3;
+}
+
 // Details about a message within a chat.
 message ChatMessage {
   // The ID of the message.
@@ -30,11 +42,14 @@ message ChatMessage {
   // The text content of the message.
   string message = 2;
 
-  // Choices for the user to select from for the message.
-  repeated string choices = 3;
-
   // Whether the message is from the user. Otherwise, it is from the assistant.
-  bool is_user = 4;
+  bool is_user = 3;
+
+  // Choices for the user to select from for the message.
+  repeated string choices = 4;
+
+  // Details of CEOs to present to the user.
+  repeated CEODetails ceo_details = 5;
 }
 
 // A request to begin a chat session.

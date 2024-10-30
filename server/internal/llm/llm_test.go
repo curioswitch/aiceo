@@ -101,7 +101,7 @@ func TestExtractCEO(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			m := extractCEO(tc.message)
+			m := extractCEOs(tc.message)
 			require.NotEqual(t, tc.message, m)
 		})
 	}

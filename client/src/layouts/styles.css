@@ -3,5 +3,19 @@
 @tailwind utilities;
 
 html {
-  scrollbar-gutter: stable;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  background-color: #ecc6cf;
+  min-height: 100%;
+}
+
+#root {
+  min-height: 100%;
+}
+
+:has(> div.container) {
+  min-height: 100%;
 }

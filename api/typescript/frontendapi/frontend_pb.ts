@@ -130,6 +130,63 @@ export class GetChatsResponse extends Message<GetChatsResponse> {
 }
 
 /**
+ * Details of a CEO.
+ *
+ * @generated from message frontendapi.CEODetails
+ */
+export class CEODetails extends Message<CEODetails> {
+  /**
+   * The key for the CEO for programmatic usage.
+   *
+   * @generated from field: string key = 1;
+   */
+  key = "";
+
+  /**
+   * The advice from the CEO.
+   *
+   * @generated from field: string advice = 2;
+   */
+  advice = "";
+
+  /**
+   * The excerpt summary for the advice.
+   *
+   * @generated from field: string summary = 3;
+   */
+  summary = "";
+
+  constructor(data?: PartialMessage<CEODetails>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "frontendapi.CEODetails";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "advice", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "summary", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CEODetails {
+    return new CEODetails().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CEODetails {
+    return new CEODetails().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CEODetails {
+    return new CEODetails().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: CEODetails | PlainMessage<CEODetails> | undefined, b: CEODetails | PlainMessage<CEODetails> | undefined): boolean {
+    return proto3.util.equals(CEODetails, a, b);
+  }
+}
+
+/**
  * Details about a message within a chat.
  *
  * @generated from message frontendapi.ChatMessage
@@ -150,18 +207,25 @@ export class ChatMessage extends Message<ChatMessage> {
   message = "";
 
   /**
+   * Whether the message is from the user. Otherwise, it is from the assistant.
+   *
+   * @generated from field: bool is_user = 3;
+   */
+  isUser = false;
+
+  /**
    * Choices for the user to select from for the message.
    *
-   * @generated from field: repeated string choices = 3;
+   * @generated from field: repeated string choices = 4;
    */
   choices: string[] = [];
 
   /**
-   * Whether the message is from the user. Otherwise, it is from the assistant.
+   * Details of CEOs to present to the user.
    *
-   * @generated from field: bool is_user = 4;
+   * @generated from field: repeated frontendapi.CEODetails ceo_details = 5;
    */
-  isUser = false;
+  ceoDetails: CEODetails[] = [];
 
   constructor(data?: PartialMessage<ChatMessage>) {
     super();
@@ -173,8 +237,9 @@ export class ChatMessage extends Message<ChatMessage> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "message", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "choices", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 4, name: "is_user", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "is_user", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "choices", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "ceo_details", kind: "message", T: CEODetails, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ChatMessage {

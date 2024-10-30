@@ -7,7 +7,29 @@
       "request": "launch",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["run", "dev"],
-      "outputCapture": "std"
+      "outputCapture": "std",
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(.+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "Frontend Client (local)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "dev"],
+      "outputCapture": "std",
+      "env": {
+        "PORT": "3000",
+        "SERVICE_FRONTEND": "http://localhost:8080"
+      },
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(.+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
     }
   ]
 }

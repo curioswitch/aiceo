@@ -11,8 +11,18 @@
     {
       "name": "server",
       "path": "./server"
-    },
+    }
   ],
+  "launch": {
+    "version": "0.2.0",
+    "compounds": [
+      {
+        "name": "Frontend Client + Server",
+        "configurations": ["Frontend Client (local)", "Frontend Server"],
+        "stopAll": true
+      }
+    ]
+  },
   "extensions": {
     "recommendations": [
       "biomejs.biome",

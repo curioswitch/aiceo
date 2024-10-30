@@ -6,7 +6,7 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { useFrontendQueries } from "@/hooks/rpc";
 import { Button } from "@nextui-org/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type PressEvent = Parameters<
   NonNullable<React.ComponentProps<typeof Button>["onPress"]>
@@ -40,6 +40,11 @@ export default function Page() {
     [chatId, doSendMessage],
   );
 
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView();
+  });
+
   if (isPending) {
     // TODO: Better loading screen.
     return <div>Loading...</div>;
@@ -56,27 +61,36 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12">
-      {messagesRes.messages.map((msg) => (
-        <ChatMessage key={msg.id} message={msg} />
-      ))}
-      {choices.length > 0 && (
-        <div className="flex justify-center">
-          <div className="flex flex-col gap-2 mt-2 w-4/5">
-            {choices.map((choice) => (
-              <div key={choice} className="mx-5">
-                <Button
-                  onPress={onSelectChoice}
-                  isDisabled={doSendMessage.isPending}
-                  fullWidth
-                  data-choice={choice}
-                >
-                  {choice}
-                </Button>
-              </div>
-            ))}
+      <div className="pt-10 mx-10 bg-gray-200 min-h-screen">
+        {messagesRes.messages.map((msg, i) => (
+          <ChatMessage
+            key={msg.id}
+            message={msg}
+            ref={
+              i === messagesRes.messages.length - 1 ? lastMessageRef : undefined
+            }
+          />
+        ))}
+        {choices.length > 0 && (
+          <div className="flex justify-center">
+            <div className="flex flex-col gap-2 mt-2 w-4/5 bg-white rounded-xl p-5">
+              {choices.map((choice) => (
+                <div key={choice} className="mx-5">
+                  <Button
+                    onPress={onSelectChoice}
+                    color="primary"
+                    isDisabled={doSendMessage.isPending}
+                    fullWidth
+                    data-choice={choice}
+                  >
+                    {choice}
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

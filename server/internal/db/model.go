@@ -27,6 +27,18 @@ const (
 	ChatRoleModel ChatRole = "model"
 )
 
+// CEODetails is the details of a CEO.
+type CEODetails struct {
+	// Key is the key of the CEO for programattic use.
+	Key string `json:"key"`
+
+	// Advice is the advice from the CEO.
+	Advice string `json:"advice"`
+
+	// Summary is the excerpt summary for the advice.
+	Summary string `json:"summary"`
+}
+
 // ChatMessage is a single message in a chat.
 type ChatMessage struct {
 	// Message is the text of the message. For a model message,
@@ -39,6 +51,9 @@ type ChatMessage struct {
 	// FormattedMessage is the message formatted for the user,
 	// for example when selecting an item from a raw LLM response.
 	FormattedMessage string `firestore:"formatted_message"`
+
+	// CEOs is the CEOs presented in the message if any.
+	CEOs []CEODetails `firestore:"ceos"`
 
 	// CreatedAt is the time the message was created.
 	CreatedAt time.Time `firestore:"createdAt"`
@@ -64,10 +79,20 @@ func (m *ChatMessage) ToProto(id string) *frontendapi.ChatMessage {
 		}
 	}
 
+	ceos := make([]*frontendapi.CEODetails, len(m.CEOs))
+	for i, c := range m.CEOs {
+		ceos[i] = &frontendapi.CEODetails{
+			Key:     c.Key,
+			Advice:  c.Advice,
+			Summary: c.Summary,
+		}
+	}
+
 	return &frontendapi.ChatMessage{
-		Id:      id,
-		Message: strings.TrimSpace(message),
-		Choices: choices,
-		IsUser:  m.Role == ChatRoleUser,
+		Id:         id,
+		Message:    strings.TrimSpace(message),
+		Choices:    choices,
+		CeoDetails: ceos,
+		IsUser:     m.Role == ChatRoleUser,
 	}
 }

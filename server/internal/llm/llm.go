@@ -3,7 +3,6 @@ package llm
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"strings"
 
 	"cloud.google.com/go/vertexai/genai"
@@ -59,38 +58,37 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 
 	if text, ok := content.Parts[0].(genai.Text); ok {
 		message := strings.TrimSpace(string(text))
+		var formatted string
+		var ceos []db.CEODetails
 		if strings.Contains(message, "<ceos>") {
-			message = extractCEO(message)
+			ceos = extractCEOs(message)
+			formatted = "社長からアドバイスをいただきました。"
 		}
 		return &db.ChatMessage{
-			Message: message,
-			Role:    db.ChatRoleModel,
+			Message:          message,
+			FormattedMessage: formatted,
+			Role:             db.ChatRoleModel,
+			CEOs:             ceos,
 		}, nil
 	}
 	return nil, errFirstPartNotText
 }
 
-type ceo struct {
-	name    string
-	advice  string
-	excerpt string
-}
-
-func extractCEO(message string) string {
+func extractCEOs(message string) []db.CEODetails {
 	_, content, ok := strings.Cut(message, "```xml")
 	if !ok {
-		return message
+		return nil
 	}
 	content, _, ok = strings.Cut(content, "```")
 	if !ok {
-		return message
+		return nil
 	}
 	rest, _, ok := extractTag(content, "ceos")
 	if !ok {
-		return message
+		return nil
 	}
 
-	var ceos []ceo
+	var ceos []db.CEODetails
 
 	for len(rest) > 0 {
 		var c string
@@ -101,31 +99,29 @@ func extractCEO(message string) string {
 
 		c, rest, ok = extractTag(rest, "ceo")
 		if !ok {
-			return message
+			return nil
 		}
 
 		name, c, ok = extractTag(c, "name")
 		if !ok {
-			return message
+			return nil
 		}
 		advice, c, ok = extractTag(c, "advice")
 		if !ok {
-			return message
+			return nil
 		}
 		excerpt, _, ok = extractTag(c, "excerpt")
 		if !ok {
-			return message
+			return nil
 		}
 
-		ceos = append(ceos, ceo{
-			name:    name,
-			advice:  advice,
-			excerpt: excerpt,
+		ceos = append(ceos, db.CEODetails{
+			Key:     nameToKey(name),
+			Advice:  advice,
+			Summary: excerpt,
 		})
 	}
-
-	res := ceos[rand.Intn(len(ceos))] //nolint:gosec
-	return fmt.Sprintf("%s\n\n%s\n\n%s", res.name, res.advice, res.excerpt)
+	return ceos
 }
 
 func extractTag(s string, tag string) (string, string, bool) {
@@ -141,4 +137,16 @@ func extractTag(s string, tag string) (string, string, bool) {
 	res = strings.TrimSpace(res)
 	rest = strings.TrimSpace(rest)
 	return res, rest, true
+}
+
+func nameToKey(name string) string {
+	switch name {
+	case "榮澤暁誠":
+		return "eizawa-akimasa"
+	case "室田茂樹":
+		return "murota-shigeki"
+	case "田本直弘":
+		return "tamoto-naohiro"
+	}
+	return ""
 }

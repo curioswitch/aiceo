@@ -15,7 +15,10 @@ const config = {
       themes: {
         light: {
           colors: {
-            primary: colors.orange,
+            primary: {
+              ...colors.green,
+              DEFAULT: colors.green[700],
+            },
           },
         },
       },
