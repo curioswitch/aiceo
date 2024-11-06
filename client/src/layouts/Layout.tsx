@@ -34,7 +34,7 @@ export default function Layout({
             みんなのAI社長
           </NavbarBrand>
           <NavbarContent justify="end">
-            <Button color="default" onPress={onReturnClick}>
+            <Button className="bg-white text-green-700" onPress={onReturnClick}>
               最初に戻る
             </Button>
           </NavbarContent>
