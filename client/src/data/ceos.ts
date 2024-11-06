@@ -9,6 +9,7 @@ export interface CEODetails {
   name: string;
   thumbnail: string;
   floormap: string;
+  position: { top: string; left: string };
 }
 
 export const CEOS: Record<string, CEODetails> = {
@@ -16,15 +17,27 @@ export const CEOS: Record<string, CEODetails> = {
     name: "榮澤暁誠",
     thumbnail: thumbEizawaAkimasa,
     floormap: floormapEizawaAkimasa,
+    position: {
+      top: "25%",
+      left: "45%",
+    },
   },
   "murota-shigeki": {
     name: "室田茂樹",
     thumbnail: thumbMoritaShigeki,
     floormap: floormapMoritaShigeki,
+    position: {
+      top: "36%",
+      left: "26%",
+    },
   },
   "tamoto-naohiro": {
     name: "田本直弘",
     thumbnail: thumbTamotoNaohiro,
     floormap: floormapTamotoNaohiro,
+    position: {
+      top: "50%",
+      left: "70%",
+    },
   },
 };

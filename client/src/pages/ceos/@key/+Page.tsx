@@ -16,13 +16,13 @@ export default function Page() {
 
   const onBackClick = useCallback(() => {
     window.history.back();
-  });
+  }, []);
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12 p-5">
       <div className="px-20 flex flex-col items-center gap-5">
         <div className="flex gap-5">
-          <CEOAvatar ceoKey={ceoKey} />
+          <CEOAvatar ceoKey={ceoKey} size="lg" />
           <div>
             <div className="bg-green-700 text-white p-1 w-max">アドバイス</div>
             <div className="bg-white p-4 mt-2 text-lg font-bold rounded-2xl">

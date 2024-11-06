@@ -9,8 +9,11 @@ import { forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { navigate } from "vike/client/router";
 
+import floormap from "@/assets/floormap.svg";
 import thumbAICEO from "@/assets/thumb-aiceo.svg";
 import { CEOS } from "@/data";
+
+import { CEOAvatar } from "./CEOAvatar";
 
 export interface ChatMessageProps {
   message: APIChatMessage;
@@ -23,17 +26,20 @@ function CEOSnippet({
   const onDetailsClick = useCallback(() => {
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
-  const ceoInfo = CEOS[ceo.key];
   return (
-    <div className="border-1">
-      <div>
-        <Avatar src={ceoInfo.thumbnail} />
-        {ceoInfo.name}
+    <div className="border-2 border-green-700 rounded-lg p-10">
+      <div className="flex gap-10">
+        <CEOAvatar ceoKey={ceo.key} size="sm" />
+        <div className="font-bold">{ceo.advice}</div>
       </div>
-      <div>{ceo.advice}</div>
-      <div>
-        <Button onPress={onDetailsClick}>詳細ページへ</Button>
-      </div>
+      <Button
+        className="mt-5"
+        fullWidth
+        color="primary"
+        onPress={onDetailsClick}
+      >
+        詳細ページへ
+      </Button>
     </div>
   );
 }
@@ -68,9 +74,35 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
           )}
         >
           {message.message}
-          {message.ceoDetails.map((ceo) => (
-            <CEOSnippet key={ceo.key} ceo={ceo} onCeoClick={onCeoClick} />
-          ))}
+          {message.ceoDetails.length > 0 && (
+            <div className="flex flex-col gap-5">
+              {message.ceoDetails.map((ceo) => (
+                <CEOSnippet key={ceo.key} ceo={ceo} onCeoClick={onCeoClick} />
+              ))}
+              <div>
+                <div className="font-bold">展示場所はこちら</div>
+                <div className="relative">
+                  <img
+                    className="border-2 rounded-xl border-green-700 w-full"
+                    src={floormap}
+                    alt="Floor Map"
+                  />
+                  {message.ceoDetails.map((ceo) => (
+                    <img
+                      className="w-16 h-16 absolute"
+                      key={ceo.key}
+                      src={CEOS[ceo.key].thumbnail}
+                      alt={CEOS[ceo.key].name}
+                      style={{
+                        top: CEOS[ceo.key].position.top,
+                        left: CEOS[ceo.key].position.left,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
