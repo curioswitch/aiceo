@@ -26,6 +26,13 @@ export class Chat extends Message<Chat> {
    */
   description = "";
 
+  /**
+   * Details of CEOs to presented to the user in this chat.
+   *
+   * @generated from field: repeated frontendapi.CEODetails ceo_details = 3;
+   */
+  ceoDetails: CEODetails[] = [];
+
   constructor(data?: PartialMessage<Chat>) {
     super();
     proto3.util.initPartial(data, this);
@@ -36,6 +43,7 @@ export class Chat extends Message<Chat> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "ceo_details", kind: "message", T: CEODetails, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Chat {

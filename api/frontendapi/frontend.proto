@@ -11,6 +11,9 @@ message Chat {
 
   // The description of the chat.
   string description = 2;
+
+  // Details of CEOs to presented to the user in this chat.
+  repeated CEODetails ceo_details = 3;
 }
 
 // A request to get all chats.

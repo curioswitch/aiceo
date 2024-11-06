@@ -35,16 +35,26 @@ func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) 
 	chats := make([]*frontendapi.Chat, 0, len(chatDocs))
 	for _, doc := range chatDocs {
 		// TODO: Save this when sending messages.
-		msgs, err := doc.Ref.Collection("messages").OrderBy("createdAt", firestore.Asc).Limit(9).Documents(ctx).GetAll()
+		msgs, err := doc.Ref.Collection("messages").OrderBy("createdAt", firestore.Asc).Documents(ctx).GetAll()
 		if err != nil {
 			return nil, fmt.Errorf("handler: getting start messages: %w", err)
 		}
 		if len(msgs) < 9 {
 			continue
 		}
+		last := msgs[len(msgs)-1]
+		var lastMsg db.ChatMessage
+		if err := last.DataTo(&lastMsg); err != nil {
+			return nil, fmt.Errorf("handler: decoding last message: %w", err)
+		}
+		if len(lastMsg.CEOs) == 0 {
+			continue
+		}
+		desc := fmt.Sprintf("%s %s %s %s", msgs[2].Data()["message"], msgs[4].Data()["message"], msgs[6].Data()["message"], msgs[8].Data()["message"])
 		chats = append(chats, &frontendapi.Chat{
 			Id:          doc.Ref.ID,
-			Description: fmt.Sprintf("%s %s %s %s", msgs[2].Data()["message"], msgs[4].Data()["message"], msgs[6].Data()["message"], msgs[8].Data()["message"]),
+			Description: desc,
+			CeoDetails:  lastMsg.ToProto("").GetCeoDetails(),
 		})
 	}
 
