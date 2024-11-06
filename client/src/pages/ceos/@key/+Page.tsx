@@ -4,7 +4,8 @@ import { usePageContext } from "vike-react/usePageContext";
 
 import { CEOAvatar } from "@/components/CEOAvatar";
 import { CEOS } from "@/data";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { navigate } from "vike/client/router";
 
 export default function Page() {
   const pageContext = usePageContext();
@@ -18,8 +19,34 @@ export default function Page() {
     window.history.back();
   }, []);
 
+  const [remaining, setRemaining] = useState(30);
+
+  const endTime = useRef<number | null>(null);
+  if (endTime.current === null) {
+    endTime.current = performance.now() + 30_000;
+  }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!endTime.current) {
+        return;
+      }
+      const remaining = endTime.current - performance.now();
+      setRemaining(Math.max(0, Math.round(remaining / 1000)));
+      if (remaining < 0 && process.env.NODE_ENV !== "development") {
+        navigate("/");
+      }
+    }, 500);
+    return () => clearInterval(timer);
+  });
+
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12 p-5">
+      <div className="-mt-5 mb-5 px-3 ml-auto mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white">
+        <span className="text-xs">あと</span>
+        <br />
+        <span className="font-mono">{remaining}秒</span>
+      </div>
       <div className="px-20 flex flex-col items-center gap-5">
         <div className="flex gap-5">
           <CEOAvatar ceoKey={ceoKey} size="lg" />
