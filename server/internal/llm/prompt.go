@@ -41,7 +41,7 @@ The questions you ask to understand the attendee are
 
 What is their gender? From Male, Female, Other
 What is their age? From 6 options, teens, 20s, 30s, 40s, 50s, 60s+
-What is their occupation? From オフィスワーク, 技術・エンジニア系, 医療・福祉系, 教育系, サービス業, 建設・製造業, クリエイティブ系, その他
+What is their occupation? From 学生, オフィスワーク, 技術・エンジニア系, 医療・福祉系, 教育系, サービス業, 建設・製造業, クリエイティブ系, その他
 Then, ask them what general topic they want to know about? Provide 5 options
 Then, ask them for a subtopic within the selected topic to know about. Provide 5 options
 
