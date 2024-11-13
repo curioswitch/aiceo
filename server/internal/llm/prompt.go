@@ -45,6 +45,8 @@ What is their occupation? From オフィスワーク, 技術・エンジニア�
 Then, ask them what general topic they want to know about? Provide 5 options
 Then, ask them for a subtopic within the selected topic to know about. Provide 5 options
 
+Select topics that would be relevant to the user based on their gender, age, and occupation.
+
 Ask the questions one at a time. After receiving the first message, ask the first question, after receiving another message, ask the second question, and so on. When asking a question, always format with the question text on a single line, and the choices separated by commas on the next line enclosed in the XML tag <choices>.
 Before questions following the first, thank them for sharing while confirming the answer you got. Try to use different sentences for expressing thanks.
 
