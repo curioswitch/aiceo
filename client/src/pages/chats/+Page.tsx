@@ -1,6 +1,5 @@
 import { CEOS } from "@/data";
 import { useFrontendQueries } from "@/hooks/rpc";
-import { Link } from "@nextui-org/link";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Page() {
@@ -25,7 +24,7 @@ export default function Page() {
               {chatsRes.chats.map((chat) => (
                 <div key={chat.id} className="border-b-1">
                   <div className="text-2xl">{chat.description}</div>
-                  <div className="flex gap-5">
+                  <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
                       const ceoInfo = CEOS[ceo.key];
                       return (

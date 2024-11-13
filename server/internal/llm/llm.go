@@ -93,7 +93,7 @@ func extractCEOs(message string) []db.CEODetails {
 	for len(rest) > 0 {
 		var c string
 		var ok bool
-		var name string
+		var key string
 		var advice string
 		var excerpt string
 
@@ -102,7 +102,7 @@ func extractCEOs(message string) []db.CEODetails {
 			return nil
 		}
 
-		name, c, ok = extractTag(c, "name")
+		key, c, ok = extractTag(c, "key")
 		if !ok {
 			return nil
 		}
@@ -116,7 +116,7 @@ func extractCEOs(message string) []db.CEODetails {
 		}
 
 		ceos = append(ceos, db.CEODetails{
-			Key:     nameToKey(name),
+			Key:     key,
 			Advice:  advice,
 			Summary: excerpt,
 		})
@@ -137,16 +137,4 @@ func extractTag(s string, tag string) (string, string, bool) {
 	res = strings.TrimSpace(res)
 	rest = strings.TrimSpace(rest)
 	return res, rest, true
-}
-
-func nameToKey(name string) string {
-	switch name {
-	case "榮澤暁誠":
-		return "eizawa-akimasa"
-	case "室田茂樹":
-		return "murota-shigeki"
-	case "田本直弘":
-		return "tamoto-naohiro"
-	}
-	return ""
 }

@@ -17,6 +17,7 @@ import { CEOAvatar } from "./CEOAvatar";
 
 export interface ChatMessageProps {
   message: APIChatMessage;
+  typeout?: boolean;
 }
 
 function CEOSnippet({
