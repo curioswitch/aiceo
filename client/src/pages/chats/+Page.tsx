@@ -26,6 +26,7 @@ export default function Page() {
                   <div className="text-2xl">{chat.description}</div>
                   <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
+                      console.log(ceo.key);
                       const ceoInfo = CEOS[ceo.key];
                       return (
                         <a

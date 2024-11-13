@@ -4,6 +4,8 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"path/filepath"
+	"strings"
 )
 
 //go:embed profiles
@@ -14,8 +16,10 @@ var prompt string
 func init() {
 	var profilesStr string
 	numProfiles := 0
+	var keys []string
 	_ = fs.WalkDir(profiles, ".", func(path string, _ fs.DirEntry, _ error) error {
 		content, _ := fs.ReadFile(profiles, path)
+		keys = append(keys, strings.TrimSuffix(filepath.Base(path), ".md"))
 		profilesStr += string(content)
 		numProfiles++
 		return nil
@@ -28,6 +32,7 @@ func init() {
 	prompt = fmt.Sprintf(
 		promptTemplate,
 		numProfiles,
+		strings.Join(keys, ","),
 		profilesStr,
 	)
 }
@@ -56,7 +61,9 @@ Then, present all CEOs that are relevant to the selected topic in the XML tag <c
 Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `. The advice
 should be in very casual form. The excerpt must be in polite form.
 
-There are %d CEOs being presented. The following markdown pages contain the profiles of the CEOs. The title is the key of the CEO.
+There are %d CEOs being presented. The following markdown pages contain the profiles of the CEOs. The title is the key of the CEO. The keys are as follows: %s
+
+The profiles are as follows:
 
 %s
 
