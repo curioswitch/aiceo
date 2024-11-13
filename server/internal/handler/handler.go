@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"fmt"
+	"slices"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -31,6 +32,9 @@ func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) 
 	if err != nil {
 		return nil, fmt.Errorf("handler: getting chats: %w", err)
 	}
+	slices.SortFunc(chatDocs, func(a, b *firestore.DocumentSnapshot) int {
+		return -a.CreateTime.Compare(b.CreateTime)
+	})
 
 	chats := make([]*frontendapi.Chat, 0, len(chatDocs))
 	for _, doc := range chatDocs {
@@ -50,10 +54,20 @@ func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) 
 		if len(lastMsg.CEOs) == 0 {
 			continue
 		}
+		gender := frontendapi.Gender_GENDER_UNSPECIFIED
+		switch msgs[2].Data()["message"].(string) {
+		case "男性":
+			gender = frontendapi.Gender_GENDER_MALE
+		case "女性":
+			gender = frontendapi.Gender_GENDER_FEMALE
+		case "その他":
+			gender = frontendapi.Gender_GENDER_OTHER
+		}
 		desc := fmt.Sprintf("%s %s %s %s", msgs[2].Data()["message"], msgs[4].Data()["message"], msgs[6].Data()["message"], msgs[8].Data()["message"])
 		chats = append(chats, &frontendapi.Chat{
 			Id:          doc.Ref.ID,
 			Description: desc,
+			Gender:      gender,
 			CeoDetails:  lastMsg.ToProto("").GetCeoDetails(),
 		})
 	}

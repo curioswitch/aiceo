@@ -4,6 +4,21 @@ package frontendapi;
 
 option go_package = "github.com/curioswitch/aiceo/api/go;frontendapi";
 
+// A user gender.
+enum Gender {
+  // Gender has not been set.
+  GENDER_UNSPECIFIED = 0;
+
+  // Male.
+  GENDER_MALE = 1;
+
+  // Female.
+  GENDER_FEMALE = 2;
+
+  // Other.
+  GENDER_OTHER = 3;
+}
+
 // Details about a single chat.
 message Chat {
   // The ID of the chat.
@@ -12,8 +27,11 @@ message Chat {
   // The description of the chat.
   string description = 2;
 
+  // The gender of the user initiaiting the chat.
+  Gender gender = 3;
+
   // Details of CEOs to presented to the user in this chat.
-  repeated CEODetails ceo_details = 3;
+  repeated CEODetails ceo_details = 4;
 }
 
 // A request to get all chats.

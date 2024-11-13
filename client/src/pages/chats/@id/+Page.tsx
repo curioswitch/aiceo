@@ -1,4 +1,8 @@
-import { GetChatMessagesResponse, sendMessage } from "@aiceo/frontendapi";
+import {
+  Gender,
+  GetChatMessagesResponse,
+  sendMessage,
+} from "@aiceo/frontendapi";
 import { useMutation } from "@connectrpc/connect-query";
 import { usePageContext } from "vike-react/usePageContext";
 
@@ -6,7 +10,7 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { useFrontendQueries } from "@/hooks/rpc";
 import { Button } from "@nextui-org/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type PressEvent = Parameters<
   NonNullable<React.ComponentProps<typeof Button>["onPress"]>
@@ -45,6 +49,8 @@ export default function Page() {
     lastMessageRef.current?.scrollIntoView();
   });
 
+  const [gender, setGender] = useState(Gender.UNSPECIFIED);
+
   if (isPending) {
     // TODO: Better loading screen.
     return <div>Loading...</div>;
@@ -52,6 +58,20 @@ export default function Page() {
 
   if (!messagesRes) {
     throw new Error("Failed to load messages.");
+  }
+
+  if (gender === Gender.UNSPECIFIED && messagesRes.messages.length >= 3) {
+    switch (messagesRes.messages[2].message) {
+      case "男性":
+        setGender(Gender.MALE);
+        break;
+      case "女性":
+        setGender(Gender.FEMALE);
+        break;
+      case "その他":
+        setGender(Gender.OTHER);
+        break;
+    }
   }
 
   // We always start a chat with a message so there is no case where there are
@@ -65,6 +85,7 @@ export default function Page() {
         {messagesRes.messages.map((msg, i) => (
           <ChatMessage
             key={msg.id}
+            userGender={gender}
             message={msg}
             ref={
               i === messagesRes.messages.length - 1 ? lastMessageRef : undefined

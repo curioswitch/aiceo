@@ -1,5 +1,7 @@
 import { CEOS } from "@/data";
+import { userThumbnail } from "@/data/user";
 import { useFrontendQueries } from "@/hooks/rpc";
+import { Avatar } from "@nextui-org/avatar";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Page() {
@@ -22,11 +24,13 @@ export default function Page() {
           <div className="flex justify-center">
             <div className="flex flex-col gap-5">
               {chatsRes.chats.map((chat) => (
-                <div key={chat.id} className="border-b-1">
-                  <div className="text-2xl">{chat.description}</div>
+                <div key={chat.id}>
+                  <div className="flex gap-3 items-center text-2xl mb-2">
+                    <Avatar src={userThumbnail(chat.gender)} />
+                    {chat.description}
+                  </div>
                   <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
-                      console.log(ceo.key);
                       const ceoInfo = CEOS[ceo.key];
                       return (
                         <a

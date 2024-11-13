@@ -7,6 +7,48 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
+ * A user gender.
+ *
+ * @generated from enum frontendapi.Gender
+ */
+export enum Gender {
+  /**
+   * Gender has not been set.
+   *
+   * @generated from enum value: GENDER_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Male.
+   *
+   * @generated from enum value: GENDER_MALE = 1;
+   */
+  MALE = 1,
+
+  /**
+   * Female.
+   *
+   * @generated from enum value: GENDER_FEMALE = 2;
+   */
+  FEMALE = 2,
+
+  /**
+   * Other.
+   *
+   * @generated from enum value: GENDER_OTHER = 3;
+   */
+  OTHER = 3,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Gender)
+proto3.util.setEnumType(Gender, "frontendapi.Gender", [
+  { no: 0, name: "GENDER_UNSPECIFIED" },
+  { no: 1, name: "GENDER_MALE" },
+  { no: 2, name: "GENDER_FEMALE" },
+  { no: 3, name: "GENDER_OTHER" },
+]);
+
+/**
  * Details about a single chat.
  *
  * @generated from message frontendapi.Chat
@@ -27,9 +69,16 @@ export class Chat extends Message<Chat> {
   description = "";
 
   /**
+   * The gender of the user initiaiting the chat.
+   *
+   * @generated from field: frontendapi.Gender gender = 3;
+   */
+  gender = Gender.UNSPECIFIED;
+
+  /**
    * Details of CEOs to presented to the user in this chat.
    *
-   * @generated from field: repeated frontendapi.CEODetails ceo_details = 3;
+   * @generated from field: repeated frontendapi.CEODetails ceo_details = 4;
    */
   ceoDetails: CEODetails[] = [];
 
@@ -43,7 +92,8 @@ export class Chat extends Message<Chat> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "ceo_details", kind: "message", T: CEODetails, repeated: true },
+    { no: 3, name: "gender", kind: "enum", T: proto3.getEnumType(Gender) },
+    { no: 4, name: "ceo_details", kind: "message", T: CEODetails, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Chat {

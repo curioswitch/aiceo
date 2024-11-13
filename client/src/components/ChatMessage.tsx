@@ -1,6 +1,7 @@
 import type {
   ChatMessage as APIChatMessage,
   CEODetails,
+  Gender,
 } from "@aiceo/frontendapi";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
@@ -9,16 +10,16 @@ import { forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { navigate } from "vike/client/router";
 
-import floormap from "@/assets/floormap.svg";
 import thumbAICEO from "@/assets/thumb-aiceo.svg";
-import { CEOS } from "@/data";
 
+import { userThumbnail } from "@/data/user";
 import { CEOAvatar } from "./CEOAvatar";
 import { FloorMap } from "./FloorMap";
 
 export interface ChatMessageProps {
   message: APIChatMessage;
   typeout?: boolean;
+  userGender?: Gender;
 }
 
 function CEOSnippet({
@@ -47,7 +48,7 @@ function CEOSnippet({
 }
 
 export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
-  function ChatMessage({ message }, ref) {
+  function ChatMessage({ userGender: gender, message }, ref) {
     const onCeoClick = useCallback((ceo: CEODetails) => {
       navigate(`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`);
     }, []);
@@ -63,7 +64,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
       >
         <Avatar
           className="flex-none"
-          src={!message.isUser ? thumbAICEO : undefined}
+          src={!message.isUser ? thumbAICEO : userThumbnail(gender)}
         />
         <div
           className={twMerge(
