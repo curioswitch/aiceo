@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .pin {
+    width: 100%;
+    height: 100%;
+    margin-left: 0.05rem;
+    border-radius: 50% 50% 50% 0;
+    background: #89849b;
+    transform: rotate(-45deg);
+  }
+
+  .pin.eizawa-akimasa {
+    background: #D46982;
+  }
+
+  .pin.furui-atsushi {
+    background: #00A2B1;
+  }
+
+  .pin.matsuya-mitsuru {
+    background: #F091A7;
+  }
+
+  .pin.murota-shigeki {
+    background: #F6AC19;
+  }
+
+  .pin.nomura-figeo {
+    background: #008643;
+  }
+
+  .pin.oida-shuji {
+    background: #87C142;
+  }
+
+  .pin.tamoto-naohiro {
+    background: #008CC2;
+  }
+
+  .pin.tanikawa-toshiko {
+    background: #ED6D1F;
+  }
+}
+
 html {
   overflow-x: hidden;
   height: 100%;

@@ -14,6 +14,7 @@ import thumbAICEO from "@/assets/thumb-aiceo.svg";
 import { CEOS } from "@/data";
 
 import { CEOAvatar } from "./CEOAvatar";
+import { FloorMap } from "./FloorMap";
 
 export interface ChatMessageProps {
   message: APIChatMessage;
@@ -82,25 +83,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
               ))}
               <div>
                 <div className="font-bold">展示場所はこちら</div>
-                <div className="relative">
-                  <img
-                    className="border-2 rounded-xl border-green-700 w-full"
-                    src={floormap}
-                    alt="Floor Map"
-                  />
-                  {message.ceoDetails.map((ceo) => (
-                    <img
-                      className="w-16 h-16 absolute"
-                      key={ceo.key}
-                      src={CEOS[ceo.key].thumbnail}
-                      alt={CEOS[ceo.key].name}
-                      style={{
-                        top: CEOS[ceo.key].position.top,
-                        left: CEOS[ceo.key].position.left,
-                      }}
-                    />
-                  ))}
-                </div>
+                <FloorMap ceoKeys={message.ceoDetails.map((ceo) => ceo.key)} />
               </div>
             </div>
           )}

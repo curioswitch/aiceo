@@ -3,6 +3,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { usePageContext } from "vike-react/usePageContext";
 
 import { CEOAvatar } from "@/components/CEOAvatar";
+import { FloorMap } from "@/components/FloorMap";
 import { CEOS } from "@/data";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { navigate } from "vike/client/router";
@@ -65,11 +66,7 @@ export default function Page() {
         </div>
         <div className="w-full">
           <div className="mb-2 text-black">展示場所</div>
-          <img
-            className="border-2 rounded-xl border-green-700 w-full"
-            src={ceo.floormap}
-            alt={ceo.name}
-          />
+          <FloorMap ceoKeys={[ceoKey]} />
         </div>
         <div className="flex justify-center items-center gap-5">
           <div>
