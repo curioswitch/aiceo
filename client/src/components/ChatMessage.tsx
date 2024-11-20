@@ -59,10 +59,6 @@ function Loading() {
 
 export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
   function ChatMessage({ userGender: gender, message }, ref) {
-    const onCeoClick = useCallback((ceo: CEODetails) => {
-      navigate(`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`);
-    }, []);
-
     return (
       <div
         className={twMerge(
@@ -87,17 +83,6 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
           )}
         >
           {message.message || <Loading />}
-          {message.ceoDetails.length > 0 && (
-            <div className="flex flex-col gap-5">
-              {message.ceoDetails.map((ceo) => (
-                <CEOSnippet key={ceo.key} ceo={ceo} onCeoClick={onCeoClick} />
-              ))}
-              <div>
-                <div className="font-bold">展示場所はこちら</div>
-                <FloorMap ceoKeys={message.ceoDetails.map((ceo) => ceo.key)} />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );

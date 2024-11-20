@@ -36,17 +36,19 @@ export default function Page() {
                         <a
                           key={ceo.key}
                           href={`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`}
-                          className="border-2 border-primary rounded-lg bg-white no-underline basis-1/3 p-4"
+                          className="flex flex-row md:flex-col gap-2 border-2 border-primary rounded-lg bg-white no-underline basis-1/3 p-4"
                         >
-                          <div className="flex items-center">
+                          <div className="basis-1/4 flex flex-col md:flex-row gap-2 items-center">
                             <img
                               className="w-20 h-20"
                               src={ceoInfo.thumbnail}
                               alt={ceoInfo.name}
                             />
-                            <div className="ml-4 text-2xl">{ceoInfo.name}</div>
+                            <div className="text-tiny md:text-lg">
+                              {ceoInfo.name}
+                            </div>
                           </div>
-                          <div className="mt-4">{ceo.advice}</div>
+                          <div className="basis-3/4">{ceo.advice}</div>
                         </a>
                       );
                     })}
