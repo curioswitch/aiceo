@@ -31,7 +31,7 @@ function CEOSnippet({
   }, [ceo, onCeoClick]);
   return (
     <div className="border-2 border-green-700 rounded-lg p-10">
-      <div className="flex gap-10">
+      <div className="flex flex-col md:flex-row sm:gap-4 md:gap-10">
         <CEOAvatar ceoKey={ceo.key} size="sm" />
         <div className="font-bold">{ceo.advice}</div>
       </div>

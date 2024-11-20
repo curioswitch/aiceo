@@ -20,7 +20,7 @@ export default function Page() {
     window.history.back();
   }, []);
 
-  const [remaining, setRemaining] = useState(30);
+  const [remaining, setRemaining] = useState(60);
 
   const endTime = useRef<number | null>(null);
   if (endTime.current === null) {
@@ -48,11 +48,13 @@ export default function Page() {
         <br />
         <span className="font-mono">{remaining}秒</span>
       </div>
-      <div className="px-20 flex flex-col items-center gap-5">
-        <div className="flex gap-5">
+      <div className="px-5 md:px-20 flex flex-col items-center gap-5">
+        <div className="flex flex-col md:flex-row gap-5">
           <CEOAvatar ceoKey={ceoKey} size="lg" />
           <div>
-            <div className="bg-green-700 text-white p-1 w-max">アドバイス</div>
+            <div className="bg-green-700 text-white text-center p-1 w-full md:w-max">
+              アドバイス
+            </div>
             <div className="bg-white p-4 mt-2 text-lg font-bold rounded-2xl">
               {advice}
             </div>
@@ -60,7 +62,7 @@ export default function Page() {
         </div>
         <div>
           <div className="mb-2 text-green-700">ストーリー引用部分</div>
-          <div className="bg-white rounded-xl p-10 bg-opacity-15 text-black">
+          <div className="bg-white rounded-xl p-5 md:p-10 bg-opacity-15 text-black">
             {summary}
           </div>
         </div>
