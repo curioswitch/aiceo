@@ -47,6 +47,16 @@ function CEOSnippet({
   );
 }
 
+function Loading() {
+  return (
+    <div className="flex space-x-1 items-center">
+      <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]" />
+      <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]" />
+      <div className="h-2 w-2 bg-black rounded-full animate-bounce" />
+    </div>
+  );
+}
+
 export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
   function ChatMessage({ userGender: gender, message }, ref) {
     const onCeoClick = useCallback((ceo: CEODetails) => {
@@ -76,7 +86,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
             }),
           )}
         >
-          {message.message}
+          {message.message || <Loading />}
           {message.ceoDetails.length > 0 && (
             <div className="flex flex-col gap-5">
               {message.ceoDetails.map((ceo) => (

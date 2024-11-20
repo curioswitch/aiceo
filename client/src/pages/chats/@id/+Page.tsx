@@ -1,4 +1,5 @@
 import {
+  ChatMessage as APIChatMessage,
   Gender,
   GetChatMessagesResponse,
   sendMessage,
@@ -30,7 +31,11 @@ export default function Page() {
     onSuccess: (resp) => {
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
         const obj = prev ?? new GetChatMessagesResponse();
-        obj.messages = [...obj.messages, ...resp.messages];
+        // Remove placeholder messages before processing response.
+        console.log(obj.messages);
+        const messages = obj.messages.slice(0, -2);
+        console.log(messages);
+        obj.messages = [...messages, ...resp.messages];
         return obj;
       });
     },
@@ -39,9 +44,26 @@ export default function Page() {
   const onSelectChoice = useCallback(
     (e: PressEvent) => {
       const choice = (e.target as HTMLElement).dataset.choice;
+      queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
+        const obj = prev ?? new GetChatMessagesResponse();
+        obj.messages = [
+          ...obj.messages,
+          new APIChatMessage({
+            id: "temp1",
+            message: choice,
+            isUser: true,
+          }),
+          new APIChatMessage({
+            id: "temp2",
+            message: "",
+            isUser: false,
+          }),
+        ];
+        return obj;
+      });
       doSendMessage.mutate({ chatId, message: choice });
     },
-    [chatId, doSendMessage],
+    [chatId, doSendMessage, queryClient, getMessagesQuery.queryKey],
   );
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -60,8 +82,8 @@ export default function Page() {
     throw new Error("Failed to load messages.");
   }
 
-  if (gender === Gender.UNSPECIFIED && messagesRes.messages.length >= 3) {
-    switch (messagesRes.messages[2].message) {
+  if (gender === Gender.UNSPECIFIED && messagesRes.messages.length >= 2) {
+    switch (messagesRes.messages[1].message) {
       case "男性":
         setGender(Gender.MALE);
         break;
@@ -81,7 +103,7 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12">
-      <div className="pt-10 md:mx-10 bg-gray-200 min-h-screen">
+      <div className="pt-20 pb-2 md:mx-10 bg-gray-200 min-h-screen">
         {messagesRes.messages.map((msg, i) => (
           <ChatMessage
             key={msg.id}

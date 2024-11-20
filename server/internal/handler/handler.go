@@ -125,8 +125,8 @@ func (h *Handler) GetChatMessages(ctx context.Context, req *frontendapi.GetChatM
 		return nil, fmt.Errorf("handler: getting messages: %w", err)
 	}
 
-	messages := make([]*frontendapi.ChatMessage, len(messageDocs))
-	for i, doc := range messageDocs {
+	messages := make([]*frontendapi.ChatMessage, len(messageDocs)-1)
+	for i, doc := range messageDocs[1:] {
 		var msg db.ChatMessage
 		if err := doc.DataTo(&msg); err != nil {
 			return nil, fmt.Errorf("handler: decoding message: %w", err)
