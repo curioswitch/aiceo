@@ -27,12 +27,14 @@ export default function Page() {
     <>
       <div className="col-span-4 md:col-span-8 lg:col-span-12 py-5 px-20 flex flex-col gap-5 items-center justify-center">
         <Avatar className="w-32 h-32" src={thumbAiCEO} />
-        <div className="text-6xl text-secondary">みんなのAI社長</div>
+        <div className="text-4xl md:text-6xl text-secondary">
+          みんなのAI社長
+        </div>
         <div className="text-lg rounded-full py-1 px-3 bg-secondary text-primary">
           あなたの悩みをAIが解決
         </div>
         <Button
-          className="bg-white mt-32 text-lg w-3/4 h-14"
+          className="bg-white mt-32 text-lg w-full md:w-3/4 h-14"
           radius="sm"
           onPress={onStart}
           isDisabled={doStart.isPending}
@@ -40,7 +42,7 @@ export default function Page() {
           スタート！
         </Button>
         <Button
-          className="bg-white text-lg w-3/4 h-14 text-primary opacity-50"
+          className="bg-white text-lg w-full md:w-3/4 h-14 text-primary opacity-50"
           radius="sm"
           fullWidth
           onPress={onPast}
