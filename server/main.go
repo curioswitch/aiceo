@@ -4,15 +4,11 @@ import (
 	"context"
 	"embed"
 	"fmt"
-	"net/http"
 	"os"
-	"strings"
 
 	"cloud.google.com/go/vertexai/genai"
 	firebase "firebase.google.com/go/v4"
 	"github.com/curioswitch/go-curiostack/server"
-	"github.com/curioswitch/go-usegcp/middleware/firebaseauth"
-	"github.com/go-chi/chi/v5/middleware"
 
 	frontendapi "github.com/curioswitch/aiceo/api/go"
 	"github.com/curioswitch/aiceo/api/go/frontendapiconnect"
@@ -33,11 +29,6 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 		return fmt.Errorf("main: create firebase app: %w", err)
 	}
 
-	fbAuth, err := fbApp.Auth(ctx)
-	if err != nil {
-		return fmt.Errorf("main: create firebase auth client: %w", err)
-	}
-
 	firestore, err := fbApp.Firestore(ctx)
 	if err != nil {
 		return fmt.Errorf("main: create firestore client: %w", err)
@@ -51,10 +42,6 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 	defer genai.Close()
 
 	model := llm.NewModel(genai)
-
-	server.Mux(s).Use(middleware.Maybe(firebaseauth.NewMiddleware(fbAuth), func(r *http.Request) bool {
-		return strings.HasPrefix(r.URL.Path, "/"+frontendapiconnect.FrontendServiceName+"/")
-	}))
 
 	h := handler.New(firestore, model)
 
