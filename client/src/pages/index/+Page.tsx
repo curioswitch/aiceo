@@ -49,7 +49,7 @@ export default function Page() {
         >
           過去の相談
         </Button>
-        <div className="text-white text-tiny m-10">
+        <div className="text-white text-tiny md:m-10">
           Copyright ©MINNA NO SHACHO TEN
         </div>
       </div>
