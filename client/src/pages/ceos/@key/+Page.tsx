@@ -46,7 +46,7 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12 p-5">
-      <div className="-mt-5 mb-5 px-3 ml-auto mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white">
+      <div className="-mt-5 mb-5 px-3 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white">
         <span className="text-xs">あと</span>
         <br />
         <span className="font-mono">{remaining}秒</span>
