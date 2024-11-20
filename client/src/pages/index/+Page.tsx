@@ -27,8 +27,8 @@ export default function Page() {
     <>
       <div className="col-span-4 md:col-span-8 lg:col-span-12 py-5 px-20 flex flex-col gap-5 items-center justify-center">
         <Avatar className="w-32 h-32" src={thumbAiCEO} />
-        <div className="text-4xl text-pink-200">みんなのAI社長</div>
-        <div className="text-lg rounded-full py-1 px-3 bg-pink-200 text-green-800">
+        <div className="text-4xl text-secondary">みんなのAI社長</div>
+        <div className="text-lg rounded-full py-1 px-3 bg-secondary text-primary">
           あなたの悩みをAIが解決
         </div>
         <Button

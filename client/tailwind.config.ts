@@ -17,7 +17,11 @@ const config = {
           colors: {
             primary: {
               ...colors.green,
-              DEFAULT: colors.green[700],
+              DEFAULT: "#008774",
+            },
+            secondary: {
+              ...colors.pink,
+              DEFAULT: "#F3B2C1",
             },
           },
         },

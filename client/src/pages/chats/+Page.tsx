@@ -36,7 +36,7 @@ export default function Page() {
                         <a
                           key={ceo.key}
                           href={`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`}
-                          className="border-2 border-green-700 rounded-lg bg-white no-underline basis-1/3 p-4"
+                          className="border-2 border-primary rounded-lg bg-white no-underline basis-1/3 p-4"
                         >
                           <div className="flex items-center">
                             <img

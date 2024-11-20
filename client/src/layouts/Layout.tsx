@@ -7,6 +7,8 @@ import { twMerge } from "tailwind-merge";
 import { usePageContext } from "vike-react/usePageContext";
 import { navigate } from "vike/client/router";
 
+import iconBack from "@/assets/icon-back.svg";
+
 export default function Layout({
   children,
 }: {
@@ -23,19 +25,23 @@ export default function Layout({
     <div
       className={twMerge(
         clsx("container mx-auto prose max-w-7xl prose-img:m-0 h-full", {
-          "bg-green-700": isHome,
+          "bg-primary": isHome,
           "h-screen": isHome,
         }),
       )}
     >
       {!isHome && (
-        <Navbar className="bg-green-700">
-          <NavbarBrand className="text-pink-200 text-2xl">
+        <Navbar className="bg-primary">
+          <NavbarBrand className="text-secondary text-2xl">
             みんなのAI社長
           </NavbarBrand>
           <NavbarContent justify="end">
-            <Button className="bg-white text-green-700" onPress={onReturnClick}>
+            <Button
+              className="bg-white text-primary font-bold h-6"
+              onPress={onReturnClick}
+            >
               最初に戻る
+              <img src={iconBack} alt="Back" />
             </Button>
           </NavbarContent>
         </Navbar>

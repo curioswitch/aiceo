@@ -30,7 +30,7 @@ function CEOSnippet({
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
   return (
-    <div className="border-2 border-green-700 rounded-lg p-10">
+    <div className="border-2 border-primary rounded-lg p-10">
       <div className="flex flex-col md:flex-row sm:gap-4 md:gap-10">
         <CEOAvatar ceoKey={ceo.key} size="sm" />
         <div className="font-bold">{ceo.advice}</div>
@@ -81,7 +81,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
             clsx("max-w-2xl border-2 rounded-xl p-3 whitespace-pre-line", {
               "text-right": message.isUser,
               "bg-white": !message.isUser,
-              "bg-green-700": message.isUser,
+              "bg-primary": message.isUser,
               "text-white": message.isUser,
             }),
           )}

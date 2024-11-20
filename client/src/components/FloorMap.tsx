@@ -11,7 +11,7 @@ export function FloorMap({ ceoKeys }: FloorMapProps) {
   return (
     <div className="relative">
       <img
-        className="border-2 rounded-xl border-green-700 w-full"
+        className="border-2 rounded-xl border-primary w-full"
         src={floormap}
         alt="Floor Map"
       />

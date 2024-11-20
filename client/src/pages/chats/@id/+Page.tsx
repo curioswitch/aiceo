@@ -32,9 +32,7 @@ export default function Page() {
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
         const obj = prev ?? new GetChatMessagesResponse();
         // Remove placeholder messages before processing response.
-        console.log(obj.messages);
         const messages = obj.messages.slice(0, -2);
-        console.log(messages);
         obj.messages = [...messages, ...resp.messages];
         return obj;
       });
