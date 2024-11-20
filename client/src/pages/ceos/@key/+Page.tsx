@@ -1,12 +1,15 @@
 import { Button } from "@nextui-org/button";
 import { QRCodeSVG } from "qrcode.react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePageContext } from "vike-react/usePageContext";
+import { navigate } from "vike/client/router";
 
+import iconFacebook from "@/assets/icon-facebook.svg";
+import iconPC from "@/assets/icon-pc.svg";
+import iconTwitter from "@/assets/icon-twitter.svg";
 import { CEOAvatar } from "@/components/CEOAvatar";
 import { FloorMap } from "@/components/FloorMap";
 import { CEOS } from "@/data";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { navigate } from "vike/client/router";
 
 export default function Page() {
   const pageContext = usePageContext();
@@ -70,13 +73,27 @@ export default function Page() {
           <div className="mb-2 text-black">展示場所</div>
           <FloorMap ceoKeys={[ceoKey]} />
         </div>
-        <div className="flex justify-center items-center gap-5">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-5">
           <div>
             社長のことをもっと
-            <br />
+            <br className="hidden md:inline" />
             知りたい人はこちら
           </div>
-          <QRCodeSVG value={`https://google.co.jp?q=${ceo.name}`} />
+          <QRCodeSVG
+            className="hidden md:block"
+            value={`https://google.co.jp?q=${ceo.name}`}
+          />
+          <div className="md:hidden flex justify-center items-center gap-5">
+            <a href={`https://facebook.com/${ceo.name}`}>
+              <img src={iconFacebook} alt="Facebook" />
+            </a>
+            <a href={`https://twitter.com/${ceo.name}`}>
+              <img src={iconTwitter} alt="Twitter" />
+            </a>
+            <a href={`https://yahoo.com/${ceo.name}`}>
+              <img src={iconPC} alt="Home Page" />
+            </a>
+          </div>
         </div>
         <Button className="w-2/3" color="primary" onPress={onBackClick}>
           前のページに戻る
