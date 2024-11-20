@@ -37,10 +37,10 @@ export default function Layout({
           </NavbarBrand>
           <NavbarContent justify="end">
             <Button
-              className="bg-white text-primary font-bold h-6"
+              className="bg-white text-primary font-bold h-6 min-w-0"
               onPress={onReturnClick}
             >
-              最初に戻る
+              <span className="hidden md:inline">最初に戻る</span>
               <img src={iconBack} alt="Back" />
             </Button>
           </NavbarContent>
