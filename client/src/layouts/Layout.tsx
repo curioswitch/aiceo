@@ -24,9 +24,9 @@ export default function Layout({
   return (
     <div
       className={twMerge(
-        clsx("container mx-auto prose max-w-7xl prose-img:m-0 h-full", {
+        clsx("container mx-auto prose max-w-7xl prose-img:m-0", {
           "bg-primary": isHome,
-          "h-screen": isHome,
+          "min-h-screen": isHome,
         }),
       )}
     >
@@ -48,7 +48,13 @@ export default function Layout({
           </NavbarContent>
         </Navbar>
       )}
-      <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12 h-full">
+      <div
+        className={twMerge(
+          clsx("grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12 h-full", {
+            "h-screen": isHome,
+          }),
+        )}
+      >
         {children}
       </div>
     </div>
