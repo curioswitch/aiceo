@@ -24,3 +24,100 @@ body {
 :has(> div.container) {
   min-height: 100%;
 }
+
+.speech-bubble {
+  /* tail dimension */
+  --b: 3em; /* base */
+  --h: 1.2em; /* height */
+  --t: 0.6; /* thickness (from 0 to 1) */
+
+  --p: 50%; /* main position (0%:top 100%:bottom) */
+  --r: 1.2em; /* the radius */
+
+  padding: 1em;
+  border-radius: var(--r) / var(--r)
+    min(var(--r), var(--p) - (1 - var(--t)) * var(--b) / 2)
+    min(var(--r), 100% - var(--p) - (1 - var(--t)) * var(--b) / 2) var(--r);
+  position: relative;
+}
+
+.speech-bubble.home {
+  padding: 0.6em;
+}
+
+.speech-bubble.home.right:before {
+  --p: 50%;
+}
+
+.speech-bubble:before {
+  content: "";
+  position: absolute;
+  top: clamp(
+    -1 *
+    var(--t) *
+    var(--b),
+    var(--p) -
+    (var(--t) + 1) *
+    var(--b) /
+    2,
+    100% -
+    var(--b)
+  );
+  width: var(--h);
+  height: var(--b);
+}
+
+.speech-bubble.right:before {
+  --p: 60%; /* main position (0%:top 100%:bottom) */
+  left: 100%;
+  background: inherit;
+  border-bottom-right-radius: 100%;
+  mask: radial-gradient(105% calc(var(--t) * 100%) at 0 0, #0000 99%, #000 101%);
+  -webkit-mask: radial-gradient(
+    105% calc(var(--t) * 100%) at 0 0,
+    #0000 99%,
+    #000 101%
+  );
+}
+
+.speech-bubble.left:before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  background: inherit;
+  border-bottom-left-radius: 100%;
+  mask: radial-gradient(
+    105% calc(var(--t) * 100%) at 100% 0,
+    #0000 99%,
+    #000 101%
+  );
+  -webkit-mask: radial-gradient(
+    105% calc(var(--t) * 100%) at 100% 0,
+    #0000 99%,
+    #000 101%
+  );
+}
+
+/* HTML: <div class="tooltip">This is the same as #7 but with another shape for the tail </div> */
+.tooltip {
+  color: #fff;
+  font-size: 18px;
+  max-width: 28ch;
+  text-align: center;
+}
+.tooltip {
+  /* tail dimension */
+  --b: 3em; /* base */
+  --h: 1.8em; /* height */
+  --t: 0.6; /* thickness (from 0 to 1) */
+
+  --p: 50%; /* main position (0%:top 100%:bottom) */
+  --r: 1.2em; /* the radius */
+
+  padding: 1em;
+  border-radius: var(--r) /
+    min(var(--r), var(--p) - (1 - var(--t)) * var(--b) / 2) var(--r) var(--r)
+    min(var(--r), 100% - var(--p) - (1 - var(--t)) * var(--b) / 2);
+  background: #eb6841; /* the main color */
+  position: relative;
+}

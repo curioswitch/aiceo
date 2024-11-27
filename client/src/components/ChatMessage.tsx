@@ -74,12 +74,17 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
         />
         <div
           className={twMerge(
-            clsx("max-w-2xl border-2 rounded-xl p-3 whitespace-pre-line", {
-              "text-right": message.isUser,
-              "bg-white": !message.isUser,
-              "bg-primary": message.isUser,
-              "text-white": message.isUser,
-            }),
+            clsx(
+              "max-w-2xl border-2 rounded-xl p-3 whitespace-pre-line speech-bubble",
+              {
+                left: !message.isUser,
+                right: message.isUser,
+                "text-right": message.isUser,
+                "bg-white": !message.isUser,
+                "bg-primary": message.isUser,
+                "text-white": message.isUser,
+              },
+            ),
           )}
         >
           {message.message || <Loading />}

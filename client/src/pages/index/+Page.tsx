@@ -30,7 +30,7 @@ export default function Page() {
         <div className="text-4xl md:text-6xl text-secondary">
           みんなのAI社長
         </div>
-        <div className="text-lg rounded-full py-1 px-3 bg-secondary text-primary">
+        <div className="text-lg rounded-full py-1 px-3 bg-secondary text-primary speech-bubble right home">
           あなたの悩みをAIが解決
         </div>
         <Button
