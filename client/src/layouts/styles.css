@@ -27,26 +27,15 @@ body {
 
 .speech-bubble {
   /* tail dimension */
-  --b: 3em; /* base */
-  --h: 1.2em; /* height */
+  --b: 1.5em; /* base */
+  --h: 0.8em; /* height */
   --t: 0.6; /* thickness (from 0 to 1) */
 
-  --p: 50%; /* main position (0%:top 100%:bottom) */
-  --r: 1.2em; /* the radius */
+  --p: 30%; /* main position (0%:top 100%:bottom) */
+  --r: 2.75em; /* the radius */
 
-  padding: 1em;
-  border-radius: var(--r) / var(--r)
-    min(var(--r), var(--p) - (1 - var(--t)) * var(--b) / 2)
-    min(var(--r), 100% - var(--p) - (1 - var(--t)) * var(--b) / 2) var(--r);
+  border-radius: 2.75rem;
   position: relative;
-}
-
-.speech-bubble.home {
-  padding: 0.6em;
-}
-
-.speech-bubble.home.right:before {
-  --p: 50%;
 }
 
 .speech-bubble:before {
@@ -68,8 +57,8 @@ body {
 }
 
 .speech-bubble.right:before {
-  --p: 60%; /* main position (0%:top 100%:bottom) */
-  left: 100%;
+  --p: 40%; /* main position (0%:top 100%:bottom) */
+  left: 97%;
   background: inherit;
   border-bottom-right-radius: 100%;
   mask: radial-gradient(105% calc(var(--t) * 100%) at 0 0, #0000 99%, #000 101%);
@@ -83,7 +72,7 @@ body {
 .speech-bubble.left:before {
   content: "";
   position: absolute;
-  right: 100%;
+  right: 99.3%;
   background: inherit;
   border-bottom-left-radius: 100%;
   mask: radial-gradient(

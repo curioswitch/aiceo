@@ -22,12 +22,15 @@ export default function Page() {
         <div className="pt-10 md:mx-10 px-10 bg-gray-200 min-h-screen">
           <h1 className="text-center">過去の相談</h1>
           <div className="flex justify-center">
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-10">
               {chatsRes.chats.map((chat) => (
-                <div key={chat.id}>
+                <div key={chat.id} className="flex flex-col gap-3">
                   <div className="flex gap-3 items-center text-2xl mb-2">
-                    <Avatar src={userThumbnail(chat.gender)} />
-                    {chat.description}
+                    <Avatar
+                      className="h-12 w-12"
+                      src={userThumbnail(chat.gender)}
+                    />
+                    <div className="text-xl">{chat.description}</div>
                   </div>
                   <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
@@ -36,7 +39,7 @@ export default function Page() {
                         <a
                           key={ceo.key}
                           href={`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`}
-                          className="flex flex-row md:flex-col gap-2 border-2 border-primary rounded-lg bg-white no-underline basis-1/3 p-4"
+                          className="flex flex-row md:flex-col gap-3 border-3 border-primary rounded-xl bg-white no-underline basis-1/3 p-4"
                         >
                           <div className="basis-1/4 flex flex-col md:flex-row gap-2 items-center">
                             <img

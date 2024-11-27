@@ -32,7 +32,7 @@ export default function Layout({
     >
       {!isHome && (
         <Navbar className="bg-primary">
-          <NavbarBrand className="text-secondary text-2xl">
+          <NavbarBrand className="text-secondary text-2xl tracking-[0.3em]">
             みんなのAI社長
           </NavbarBrand>
           <NavbarContent justify="end">
@@ -40,8 +40,10 @@ export default function Layout({
               className="bg-white text-primary font-bold h-6 min-w-0"
               onPress={onReturnClick}
             >
-              <span className="hidden md:inline">最初に戻る</span>
-              <img src={iconBack} alt="Back" />
+              <div className="hidden md:block text-tiny h-4">最初に戻る</div>
+              <div className="h-4">
+                <img src={iconBack} alt="Back" />
+              </div>
             </Button>
           </NavbarContent>
         </Navbar>

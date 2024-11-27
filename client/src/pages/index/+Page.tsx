@@ -1,6 +1,7 @@
 import { StartChatRequest, startChat } from "@aiceo/frontendapi";
 import { useMutation } from "@connectrpc/connect-query";
 import { Button } from "@nextui-org/button";
+import { Spacer } from "@nextui-org/spacer";
 import { useCallback } from "react";
 import { navigate } from "vike/client/router";
 
@@ -25,16 +26,16 @@ export default function Page() {
 
   return (
     <>
-      <div className="col-span-4 md:col-span-8 lg:col-span-12 py-5 px-20 flex flex-col gap-5 items-center justify-center">
-        <Avatar className="w-32 h-32" src={thumbAiCEO} />
-        <div className="text-4xl md:text-6xl text-secondary">
+      <div className="col-span-4 md:col-span-8 lg:col-span-12 py-5 px-10 md:px-20 flex flex-col gap-5 items-center justify-center">
+        <Avatar className="w-48 h-48 md:w-64 md:h-64" src={thumbAiCEO} />
+        <div className="text-4xl md:text-6xl text-secondary tracking-widest">
           みんなのAI社長
         </div>
-        <div className="text-lg rounded-full py-1 px-3 bg-secondary text-primary speech-bubble right home">
+        <div className="text-md md:text-lg rounded-full py-2 px-7 md:mt-1 md:mb-20 bg-secondary text-primary speech-bubble right home">
           あなたの悩みをAIが解決
         </div>
         <Button
-          className="bg-white mt-32 text-lg w-full md:w-3/4 h-14"
+          className="bg-white mt-32 text-lg w-full md:w-2/3 h-12 md:h-20 md:mb-3"
           radius="sm"
           onPress={onStart}
           isDisabled={doStart.isPending}
@@ -42,7 +43,7 @@ export default function Page() {
           スタート！
         </Button>
         <Button
-          className="bg-white text-lg w-full md:w-3/4 h-14 text-primary opacity-50"
+          className="bg-white text-lg w-full md:w-2/3 h-12 md:h-20 text-primary opacity-50"
           radius="sm"
           fullWidth
           onPress={onPast}

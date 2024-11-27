@@ -8,13 +8,11 @@ import { Button } from "@nextui-org/button";
 import clsx from "clsx";
 import { forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
-import { navigate } from "vike/client/router";
 
 import thumbAICEO from "@/assets/thumb-aiceo.svg";
 
 import { userThumbnail } from "@/data/user";
 import { CEOAvatar } from "./CEOAvatar";
-import { FloorMap } from "./FloorMap";
 
 export interface ChatMessageProps {
   message: APIChatMessage;
@@ -75,7 +73,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
         <div
           className={twMerge(
             clsx(
-              "max-w-2xl border-2 rounded-xl p-3 whitespace-pre-line speech-bubble",
+              "max-w-2xl border-2 rounded-xl py-3 px-7 whitespace-pre-line speech-bubble leading-5 text-sm",
               {
                 left: !message.isUser,
                 right: message.isUser,
