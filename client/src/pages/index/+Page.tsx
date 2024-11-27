@@ -26,8 +26,11 @@ export default function Page() {
 
   return (
     <>
-      <div className="col-span-4 md:col-span-8 lg:col-span-12 py-5 px-10 md:px-20 flex flex-col gap-5 items-center justify-center">
-        <Avatar className="w-48 h-48 md:w-64 md:h-64" src={thumbAiCEO} />
+      <div className="col-span-4 md:col-span-8 lg:col-span-12 md:pt-10 px-10 md:px-20 flex flex-col gap-5 items-center justify-center overflow-hidden">
+        <Avatar
+          className="w-48 h-48 md:min-w-64 md:min-h-64"
+          src={thumbAiCEO}
+        />
         <div className="text-4xl md:text-6xl text-secondary tracking-widest">
           みんなのAI社長
         </div>
