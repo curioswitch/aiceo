@@ -73,7 +73,7 @@ export const CEOS: Record<string, CEODetails> = {
     },
   },
   "nomura-figeo": {
-    name: "室田茂樹",
+    name: "野村玄吾",
     thumbnail: thumbNomuraFigeo,
     pin: pinNomuraFigeo,
     position: {
