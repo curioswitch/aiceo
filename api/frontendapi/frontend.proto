@@ -24,8 +24,8 @@ message Chat {
   // The ID of the chat.
   string id = 1;
 
-  // The description of the chat.
-  string description = 2;
+  // The description of the chat as a set of parts.
+  repeated string description = 2;
 
   // The gender of the user initiaiting the chat.
   Gender gender = 3;

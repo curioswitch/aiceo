@@ -63,12 +63,16 @@ func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) 
 		case "その他":
 			gender = frontendapi.Gender_GENDER_OTHER
 		}
-		desc := fmt.Sprintf("%s %s %s %s", msgs[2].Data()["message"], msgs[4].Data()["message"], msgs[6].Data()["message"], msgs[8].Data()["message"])
 		chats = append(chats, &frontendapi.Chat{
-			Id:          doc.Ref.ID,
-			Description: desc,
-			Gender:      gender,
-			CeoDetails:  lastMsg.ToProto("").GetCeoDetails(),
+			Id: doc.Ref.ID,
+			Description: []string{
+				msgs[2].Data()["message"].(string),
+				msgs[4].Data()["message"].(string),
+				msgs[6].Data()["message"].(string),
+				msgs[8].Data()["message"].(string),
+			},
+			Gender:     gender,
+			CeoDetails: lastMsg.ToProto("").GetCeoDetails(),
 		})
 	}
 

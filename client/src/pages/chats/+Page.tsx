@@ -30,7 +30,12 @@ export default function Page() {
                       className="h-12 w-12"
                       src={userThumbnail(chat.gender)}
                     />
-                    <div className="text-xl">{chat.description}</div>
+                    <div className="text-xl flex flex-col md:flex-row gap-2">
+                      <div>{chat.description.slice(0, -1).join(" ")}</div>
+                      <div className="text-primary">
+                        「{chat.description.slice(-1)}」
+                      </div>
+                    </div>
                   </div>
                   <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
@@ -43,7 +48,7 @@ export default function Page() {
                         >
                           <div className="basis-1/4 flex flex-col md:flex-row gap-2 items-center">
                             <img
-                              className="w-20 h-20"
+                              className="max-w-20 max-h-20"
                               src={ceoInfo.thumbnail}
                               alt={ceoInfo.name}
                             />

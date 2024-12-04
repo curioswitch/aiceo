@@ -62,11 +62,11 @@ export class Chat extends Message<Chat> {
   id = "";
 
   /**
-   * The description of the chat.
+   * The description of the chat as a set of parts.
    *
-   * @generated from field: string description = 2;
+   * @generated from field: repeated string description = 2;
    */
-  description = "";
+  description: string[] = [];
 
   /**
    * The gender of the user initiaiting the chat.
@@ -91,7 +91,7 @@ export class Chat extends Message<Chat> {
   static readonly typeName = "frontendapi.Chat";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 3, name: "gender", kind: "enum", T: proto3.getEnumType(Gender) },
     { no: 4, name: "ceo_details", kind: "message", T: CEODetails, repeated: true },
   ]);
