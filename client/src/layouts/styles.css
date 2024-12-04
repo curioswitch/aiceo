@@ -27,7 +27,7 @@ body {
 	width: 0;
 	height: 0;
 	border: 5px solid transparent;
-	border-top-color: hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-bg-opacity)));
+	border-top-color: #008774;
 	border-bottom: 0;
 	margin-left: -5px;
 	margin-bottom: -5px;
