@@ -30,7 +30,18 @@ export default function Page() {
     endTime.current = performance.now() + 30_000;
   }
 
+  const timerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    if (!timerRef.current) {
+      return;
+    }
+    if (
+      (timerRef.current.computedStyleMap().get("display") as CSSKeywordValue)
+        .value === "none"
+    ) {
+      return;
+    }
     const timer = setInterval(() => {
       if (!endTime.current) {
         return;
@@ -42,11 +53,14 @@ export default function Page() {
       }
     }, 500);
     return () => clearInterval(timer);
-  });
+  }, []);
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20">
-      <div className="-mt-5 mb-5 pb-1 px-6 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white">
+      <div
+        ref={timerRef}
+        className="hidden md:block -mt-5 mb-5 pb-1 px-6 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white"
+      >
         <span className="text-sm md:text-xl">あと</span>
         <br />
         <span className="font-mono text-xl md:text-3xl">{remaining}秒</span>
