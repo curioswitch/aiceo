@@ -13,8 +13,8 @@ const sizes = {
     text: "text-xs md:text-md",
   },
   lg: {
-    avatar: "w-48 h-48",
-    text: "text-lg",
+    avatar: "w-24 h-24 md:w-48 md:h-48",
+    text: "text-md md:text-lg",
   },
 };
 

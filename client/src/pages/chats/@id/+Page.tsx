@@ -137,7 +137,7 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12">
-      <div className="pt-40 pb-2 md:mx-10 bg-gray-200 min-h-screen">
+      <div className="pt-24 pb-2 md:mx-10 bg-gray-200 min-h-screen">
         {messagesRes.messages.map((msg, i) => (
           <ChatMessage
             key={msg.id}
@@ -155,7 +155,7 @@ export default function Page() {
                 <div key={choice} className="mx-5">
                   <Button
                     onPress={onSelectChoice}
-                    className="rounded-2xl"
+                    className="rounded-2xl text-lg"
                     color="primary"
                     isDisabled={doSendMessage.isPending}
                     fullWidth

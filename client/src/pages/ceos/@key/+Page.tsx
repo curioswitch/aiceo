@@ -45,17 +45,17 @@ export default function Page() {
   });
 
   return (
-    <div className="col-span-4 md:col-span-8 lg:col-span-12 p-5 pb-20">
+    <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20">
       <div className="-mt-5 mb-5 pb-1 px-6 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white">
         <span className="text-sm">あと</span>
         <br />
         <span className="font-mono text-xl">{remaining}秒</span>
       </div>
       <div className="px-5 md:px-20 flex flex-col items-center gap-5">
-        <div className="flex flex-col md:flex-row gap-5">
+        <div className="flex gap-5">
           <CEOAvatar ceoKey={ceoKey} size="lg" />
           <div>
-            <div className="bg-primary text-white text-center p-1 w-full md:w-max">
+            <div className="bg-primary text-white text-center p-1 w-max">
               アドバイス
             </div>
             <div className="bg-white p-4 mt-2 text-lg font-bold rounded-2xl speech-bubble left">

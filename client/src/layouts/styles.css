@@ -24,7 +24,6 @@ body {
   --p: 30%; /* main position (0%:top 100%:bottom) */
   --r: 2.75em; /* the radius */
 
-  border-radius: 2.75rem;
   position: relative;
 }
 
