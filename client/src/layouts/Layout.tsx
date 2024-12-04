@@ -31,16 +31,21 @@ export default function Layout({
       )}
     >
       {!isHome && (
-        <Navbar className="bg-primary">
+        <Navbar
+          className="bg-primary"
+          classNames={{
+            base: "md:h-24",
+          }}
+        >
           <NavbarBrand className="text-secondary text-2xl tracking-[0.3em]">
             みんなのAI社長
           </NavbarBrand>
           <NavbarContent justify="end">
             <Button
-              className="bg-white text-primary font-bold h-6 min-w-0"
+              className="bg-white text-primary font-bold h-6 md:py-6 min-w-0"
               onPress={onReturnClick}
             >
-              <div className="hidden md:block text-tiny h-4">最初に戻る</div>
+              <div className="hidden md:block text-medium h-6">最初に戻る</div>
               <div className="h-4">
                 <img src={iconBack} alt="Back" />
               </div>

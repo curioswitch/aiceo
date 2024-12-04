@@ -1,9 +1,4 @@
-import type {
-  ChatMessage as APIChatMessage,
-  CEODetails,
-  Gender,
-} from "@aiceo/frontendapi";
-import { Button } from "@nextui-org/button";
+import type { ChatMessage as APIChatMessage, Gender } from "@aiceo/frontendapi";
 import clsx from "clsx";
 import { forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
@@ -17,34 +12,9 @@ export interface ChatMessageProps {
   userGender?: Gender;
 }
 
-function CEOSnippet({
-  ceo,
-  onCeoClick,
-}: { ceo: CEODetails; onCeoClick: (ceo: CEODetails) => void }) {
-  const onDetailsClick = useCallback(() => {
-    onCeoClick(ceo);
-  }, [ceo, onCeoClick]);
-  return (
-    <div className="border-2 border-primary rounded-lg p-10">
-      <div className="flex flex-col md:flex-row sm:gap-4 md:gap-10">
-        <CEOAvatar ceoKey={ceo.key} size="sm" />
-        <div className="font-bold">{ceo.advice}</div>
-      </div>
-      <Button
-        className="mt-5"
-        fullWidth
-        color="primary"
-        onPress={onDetailsClick}
-      >
-        詳細ページへ
-      </Button>
-    </div>
-  );
-}
-
 function Loading() {
   return (
-    <div className="h-full flex space-x-1 items-center justify-center">
+    <div className="h-12 flex space-x-1 items-center justify-center">
       <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]" />
       <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]" />
       <div className="h-2 w-2 bg-black rounded-full animate-bounce" />
