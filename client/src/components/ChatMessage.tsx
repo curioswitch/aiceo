@@ -57,7 +57,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
     return (
       <div
         className={twMerge(
-          clsx("flex gap-5 px-5 py-2", {
+          clsx("flex items-center gap-5 px-5 py-2", {
             "flex-row-reverse": message.isUser,
           }),
         )}
@@ -70,7 +70,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
         <div
           className={twMerge(
             clsx(
-              "max-w-2xl border-2 rounded-3xl py-3 px-4 md:px-7 whitespace-pre-line speech-bubble leading-5 md:text-2xl md:font-medium flex items-center",
+              "max-w-2xl border-2 rounded-3xl py-3 px-4 md:px-7 h-fit whitespace-pre-line speech-bubble leading-5 md:text-2xl md:font-medium flex items-center",
               {
                 left: !message.isUser,
                 right: message.isUser,
