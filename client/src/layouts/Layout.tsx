@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/button";
 import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/navbar";
 import clsx from "clsx";
 import type React from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { usePageContext } from "vike-react/usePageContext";
 import { navigate } from "vike/client/router";

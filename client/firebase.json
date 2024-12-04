@@ -24,7 +24,7 @@
       },
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/fallback/index.html"
       }
     ]
   }

@@ -2,13 +2,21 @@ import { StartChatRequest, startChat } from "@aiceo/frontendapi";
 import { useMutation } from "@connectrpc/connect-query";
 import { Button } from "@nextui-org/button";
 import { Spacer } from "@nextui-org/spacer";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { navigate } from "vike/client/router";
 
 import thumbAiCEO from "@/assets/thumb-aiceo.svg";
 import { Avatar } from "@nextui-org/avatar";
+import { usePageContext } from "vike-react/usePageContext";
 
 export default function Page() {
+  const pageContext = usePageContext();
+  useEffect(() => {
+    if (pageContext.urlOriginal !== "/") {
+      navigate(pageContext.urlOriginal);
+    }
+  }, [pageContext]);
+
   const doStart = useMutation(startChat, {
     onSuccess: (res) => {
       // TODO: Invalidate GetChats.
