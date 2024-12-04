@@ -15,6 +15,24 @@ body {
   background-color: #ecc6cf;
 }
 
+.advice-bubble {
+  position: relative;
+}
+
+.advice-bubble:after {
+  content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-top-color: hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-bg-opacity)));
+	border-bottom: 0;
+	margin-left: -5px;
+	margin-bottom: -5px;
+}
+
 .speech-bubble {
   /* tail dimension */
   --b: 1.5em; /* base */

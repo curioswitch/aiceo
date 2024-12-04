@@ -55,7 +55,7 @@ export default function Page() {
         <div className="flex gap-5">
           <CEOAvatar ceoKey={ceoKey} size="lg" />
           <div>
-            <div className="bg-primary text-white text-center p-1 w-max">
+            <div className="advice-bubble bg-primary text-white text-center p-1 w-max">
               アドバイス
             </div>
             <div className="bg-white p-4 mt-2 text-lg font-bold rounded-2xl speech-bubble left">
