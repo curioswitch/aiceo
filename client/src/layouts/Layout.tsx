@@ -37,12 +37,12 @@ export default function Layout({
             base: "md:h-24",
           }}
         >
-          <NavbarBrand className="text-secondary text-2xl tracking-[0.3em]">
+          <NavbarBrand className="text-secondary text-2xl md:text-3xl tracking-[0.3em]">
             みんなのAI社長
           </NavbarBrand>
           <NavbarContent justify="end">
             <Button
-              className="bg-white text-primary font-bold h-6 md:py-6 min-w-0"
+              className="bg-white text-primary rounded-full font-bold h-6 md:py-6 min-w-0"
               onPress={onReturnClick}
             >
               <div className="hidden md:block text-medium h-6">最初に戻る</div>

@@ -29,14 +29,16 @@ function CEOSnippet({
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
   return (
-    <div className="border-2 bg-white border-primary rounded-xl p-10 flex gap-4">
-      <div className="flex gap-6 md:gap-10">
+    <div className="border-2 bg-white border-primary rounded-xl p-10 flex flex-col gap-4">
+      <div className="flex gap-6 md:gap-10 items-center">
         <CEOAvatar ceoKey={ceo.key} size="md" />
+        <div className="font-bold md:text-xl md:leading-10 md:mt-[-1.2rem]">
+          {ceo.advice}
+        </div>
       </div>
       <div className="w-full flex flex-col md:gap-3">
-        <div className="font-bold md:text-xl">{ceo.advice}</div>
         <Button
-          className="mt-5 block w-full md:w-2/3"
+          className="mt-5 block w-full md:w-2/3 md:mx-auto"
           color="primary"
           onPress={onDetailsClick}
         >
