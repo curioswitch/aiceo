@@ -57,7 +57,7 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
     return (
       <div
         className={twMerge(
-          clsx("flex items-center gap-5 px-5 py-2", {
+          clsx("flex items-center gap-5 px-5 py-2 md:py-4", {
             "flex-row-reverse": message.isUser,
           }),
         )}

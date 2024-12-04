@@ -27,7 +27,7 @@ export function CEOAvatar({ ceoKey, size }: CEOAvatarProps) {
   const ceo = CEOS[ceoKey];
   const sz = sizes[size];
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col gap-2 items-center">
       <Avatar className={sz.avatar} src={ceo.thumbnail} />
       <div className={twMerge("text-center font-bold", sz.text)}>
         {ceo.name}

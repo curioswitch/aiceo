@@ -33,7 +33,7 @@ function CEOSnippet({
       <div className="flex gap-6 md:gap-10">
         <CEOAvatar ceoKey={ceo.key} size="md" />
       </div>
-      <div className="w-full">
+      <div className="w-full flex flex-col md:gap-3">
         <div className="font-bold md:text-xl">{ceo.advice}</div>
         <Button
           className="mt-5 block w-full md:w-2/3"
