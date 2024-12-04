@@ -21,6 +21,10 @@
           "serviceId": "aiceo-server",
           "region": "asia-northeast1"
         }
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
