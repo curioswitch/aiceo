@@ -16,3 +16,16 @@ export function userThumbnail(gender?: Gender): string | undefined {
       return undefined;
   }
 }
+
+export function userKey(gender?: Gender): string {
+  switch (gender) {
+    case Gender.MALE:
+      return "you-man";
+    case Gender.OTHER:
+      return "you-other";
+    case Gender.FEMALE:
+      return "you-woman";
+    default:
+      return "you-other";
+  }
+}

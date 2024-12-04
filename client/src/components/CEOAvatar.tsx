@@ -8,9 +8,13 @@ const sizes = {
     avatar: "w-16 h-16",
     text: "text-xs",
   },
+  md: {
+    avatar: "w-16 h-16 md:w-24 md:h-24",
+    text: "text-xs md:text-md",
+  },
   lg: {
-    avatar: "w-32 h-32",
-    text: "",
+    avatar: "w-48 h-48",
+    text: "text-lg",
   },
 };
 

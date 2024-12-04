@@ -6,6 +6,7 @@ import pinNomuraFigeo from "@/assets/pin-nomura-figeo.png";
 import pinOidaShuji from "@/assets/pin-oida-shuji.png";
 import pinTamotoNaohiro from "@/assets/pin-tamoto-naohiro.png";
 import pinTanikawaToshiko from "@/assets/pin-tanikawa-toshiko.png";
+import thumbAICEO from "@/assets/thumb-aiceo.svg";
 import thumbEizawaAkimasa from "@/assets/thumb-eizawa-akimasa.png";
 import thumbFuruiAtsushi from "@/assets/thumb-furui-atsushi.png";
 import thumbMatsuyaMitsuru from "@/assets/thumb-matsuya-mitsuru.png";
@@ -14,6 +15,9 @@ import thumbNomuraFigeo from "@/assets/thumb-nomura-figeo.png";
 import thumbOidaShuji from "@/assets/thumb-oida-shuji.png";
 import thumbTamotoNaohiro from "@/assets/thumb-tamoto-naohiro.png";
 import thumbTanikawaToshiko from "@/assets/thumb-tanikawa-toshiko.png";
+import thumbYouMan from "@/assets/you-man.svg";
+import thumbYouOther from "@/assets/you-other.svg";
+import thumbYouWoman from "@/assets/you-woman.svg";
 
 export interface CEODetails {
   name: string;
@@ -23,6 +27,15 @@ export interface CEODetails {
 }
 
 export const CEOS: Record<string, CEODetails> = {
+  "ai-ceo": {
+    name: "AI社長",
+    thumbnail: thumbAICEO,
+    pin: "",
+    position: {
+      top: "0%",
+      left: "0%",
+    },
+  },
   "eizawa-akimasa": {
     name: "榮澤暁誠",
     thumbnail: thumbEizawaAkimasa,
@@ -93,6 +106,33 @@ export const CEOS: Record<string, CEODetails> = {
     position: {
       top: "41%",
       left: "60.5%",
+    },
+  },
+  "you-man": {
+    name: "あなた",
+    thumbnail: thumbYouMan,
+    pin: "",
+    position: {
+      top: "0%",
+      left: "0%",
+    },
+  },
+  "you-other": {
+    name: "あなた",
+    thumbnail: thumbYouOther,
+    pin: "",
+    position: {
+      top: "0%",
+      left: "0%",
+    },
+  },
+  "you-woman": {
+    name: "あなた",
+    thumbnail: thumbYouWoman,
+    pin: "",
+    position: {
+      top: "0%",
+      left: "0%",
     },
   },
 };

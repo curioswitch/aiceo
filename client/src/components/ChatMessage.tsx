@@ -3,15 +3,12 @@ import type {
   CEODetails,
   Gender,
 } from "@aiceo/frontendapi";
-import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import clsx from "clsx";
 import { forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 
-import thumbAICEO from "@/assets/thumb-aiceo.svg";
-
-import { userThumbnail } from "@/data/user";
+import { userKey } from "@/data/user";
 import { CEOAvatar } from "./CEOAvatar";
 
 export interface ChatMessageProps {
@@ -47,7 +44,7 @@ function CEOSnippet({
 
 function Loading() {
   return (
-    <div className="flex space-x-1 items-center">
+    <div className="h-full flex space-x-1 items-center justify-center">
       <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]" />
       <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]" />
       <div className="h-2 w-2 bg-black rounded-full animate-bounce" />
@@ -66,14 +63,14 @@ export const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(
         )}
         ref={ref}
       >
-        <Avatar
-          className="flex-none"
-          src={!message.isUser ? thumbAICEO : userThumbnail(gender)}
+        <CEOAvatar
+          ceoKey={!message.isUser ? "ai-ceo" : userKey(gender)}
+          size="sm"
         />
         <div
           className={twMerge(
             clsx(
-              "max-w-2xl border-2 rounded-xl py-3 px-7 whitespace-pre-line speech-bubble leading-5 text-sm",
+              "max-w-2xl border-2 rounded-xl py-3 px-7 whitespace-pre-line speech-bubble leading-5 md:text-2xl md:font-medium flex items-center",
               {
                 left: !message.isUser,
                 right: message.isUser,

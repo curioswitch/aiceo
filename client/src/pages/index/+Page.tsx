@@ -34,12 +34,12 @@ export default function Page() {
         <div className="text-4xl md:text-6xl text-secondary tracking-widest">
           みんなのAI社長
         </div>
-        <div className="text-md md:text-lg rounded-full py-2 px-7 bg-secondary text-primary speech-bubble right home">
+        <div className="text-md md:text-lg font-medium rounded-full py-2 px-7 bg-secondary text-primary speech-bubble right home">
           あなたの悩みをAIが解決
         </div>
         <Spacer y={20} />
         <Button
-          className="bg-white text-lg w-full md:w-2/3 h-12 md:h-20"
+          className="bg-white text-lg font-medium w-full md:w-2/3 h-12 md:h-20"
           radius="sm"
           onPress={onStart}
           isDisabled={doStart.isPending}
@@ -47,7 +47,7 @@ export default function Page() {
           スタート！
         </Button>
         <Button
-          className="bg-white text-lg w-full md:w-2/3 h-12 md:h-20 text-primary opacity-50"
+          className="bg-white text-lg font-medium w-full md:w-2/3 h-12 md:h-20 text-primary opacity-50"
           radius="sm"
           fullWidth
           onPress={onPast}

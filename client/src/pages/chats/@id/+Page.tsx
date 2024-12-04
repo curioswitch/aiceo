@@ -29,14 +29,14 @@ function CEOSnippet({
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
   return (
-    <div className="border-2 bg-white border-primary rounded-xl p-10">
+    <div className="border-2 bg-white border-primary rounded-xl p-10 flex gap-4">
       <div className="flex gap-6 md:gap-10">
-        <CEOAvatar ceoKey={ceo.key} size="sm" />
-        <div className="font-bold">{ceo.advice}</div>
+        <CEOAvatar ceoKey={ceo.key} size="md" />
       </div>
       <div className="w-full">
+        <div className="font-bold md:text-xl">{ceo.advice}</div>
         <Button
-          className="mt-5 block w-full md:w-2/3 md:mx-auto"
+          className="mt-5 block w-full md:w-2/3"
           color="primary"
           onPress={onDetailsClick}
         >
@@ -173,7 +173,7 @@ export default function Page() {
             {ceoDetails.map((ceo) => (
               <CEOSnippet key={ceo.key} ceo={ceo} onCeoClick={onCeoClick} />
             ))}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 mt-8">
               <div className="font-bold">展示場所はこちら</div>
               <FloorMap ceoKeys={ceoDetails.map((ceo) => ceo.key)} />
             </div>

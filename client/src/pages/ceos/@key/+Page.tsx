@@ -64,23 +64,26 @@ export default function Page() {
           </div>
         </div>
         <div>
-          <div className="mb-2 text-primary">ストーリー引用部分</div>
+          <div className="mb-2 text-primary font-medium">
+            ストーリー引用部分
+          </div>
           <div className="bg-white rounded-xl p-5 md:p-10 bg-opacity-15 text-black">
             {summary}
           </div>
         </div>
         <div className="w-full">
-          <div className="mb-2 text-black">展示場所</div>
+          <div className="mb-2 text-black font-medium">展示場所</div>
           <FloorMap ceoKeys={[ceoKey]} />
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center gap-5">
-          <div>
+          <div className="md:text-xl">
             社長のことをもっと
             <br className="hidden md:inline" />
             知りたい人はこちら
           </div>
           <QRCodeSVG
             className="hidden md:block"
+            marginSize={4}
             value={`https://google.co.jp?q=${ceo.name}`}
           />
           <div className="md:hidden flex justify-center items-center gap-5">
