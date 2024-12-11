@@ -6,6 +6,7 @@ import {
 } from "@connectrpc/connect";
 import {
   TransportProvider,
+  createInfiniteQueryOptions,
   createQueryOptions,
   useTransport,
 } from "@connectrpc/connect-query";
@@ -13,6 +14,7 @@ import { createConnectTransport } from "@connectrpc/connect-web";
 import {
   QueryClient,
   QueryClientProvider,
+  infiniteQueryOptions,
   queryOptions,
 } from "@tanstack/react-query";
 import type { User as FirebaseUser } from "firebase/auth";
@@ -21,6 +23,7 @@ import { useMemo } from "react";
 import { useFirebase } from "@/hooks/firebase";
 import {
   type GetChatMessagesRequest,
+  Pagination,
   getChatMessages,
   getChats,
 } from "@aiceo/frontendapi";
@@ -54,8 +57,18 @@ class FrontendQueries {
   constructor(readonly transport: Transport) {}
 
   getChats() {
-    return queryOptions(
-      createQueryOptions(getChats, {}, { transport: this.transport }),
+    return infiniteQueryOptions(
+      createInfiniteQueryOptions(
+        getChats,
+        {
+          pagination: new Pagination(),
+        },
+        {
+          transport: this.transport,
+          pageParamKey: "pagination",
+          getNextPageParam: (lastPage) => lastPage.pagination,
+        },
+      ),
     );
   }
 

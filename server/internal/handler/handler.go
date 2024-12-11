@@ -30,7 +30,7 @@ type Handler struct {
 func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest) (*frontendapi.GetChatsResponse, error) {
 	q := h.store.Collection("chats").Where("finished", "==", true)
 	if c := req.GetPagination().GetLastCreatedAt(); c != nil {
-		q = q.Where("createdAt", ">", c.AsTime())
+		q = q.Where("createdAt", "<", c.AsTime())
 	}
 	q = q.OrderBy("createdAt", firestore.Desc).Limit(10)
 	chatDocs, err := q.Documents(ctx).GetAll()
@@ -81,8 +81,9 @@ func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest
 		})
 	}
 
+	var page *frontendapi.Pagination
 	lastCreated := chatDocs[len(chatDocs)-1].Data()["createdAt"].(time.Time)
-	page := &frontendapi.Pagination{
+	page = &frontendapi.Pagination{
 		LastCreatedAt: timestamppb.New(lastCreated),
 	}
 
