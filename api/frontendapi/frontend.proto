@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package frontendapi;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/curioswitch/aiceo/api/go;frontendapi";
 
 // A user gender.
@@ -17,6 +19,12 @@ enum Gender {
 
   // Other.
   GENDER_OTHER = 3;
+}
+
+// A token returned to retrieve a subsequented page of items.
+message Pagination {
+  // The creation time of the last item in the current page.
+  google.protobuf.Timestamp last_created_at = 1;
 }
 
 // Details about a single chat.
@@ -35,12 +43,18 @@ message Chat {
 }
 
 // A request to get all chats.
-message GetChatsRequest {}
+message GetChatsRequest {
+  // The pagination token to get the next page of chats.
+  Pagination pagination = 1;
+}
 
 // A response to a request to get all chats.
 message GetChatsResponse {
   // The fetched chats.
   repeated Chat chats = 1;
+
+  // The pagination token for the next page of chats.
+  Pagination pagination = 2;
 }
 
 // Details of a CEO.

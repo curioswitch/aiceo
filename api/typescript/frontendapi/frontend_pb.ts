@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
+import { Message, Timestamp, proto3 } from "@bufbuild/protobuf";
 
 /**
  * A user gender.
@@ -47,6 +47,47 @@ proto3.util.setEnumType(Gender, "frontendapi.Gender", [
   { no: 2, name: "GENDER_FEMALE" },
   { no: 3, name: "GENDER_OTHER" },
 ]);
+
+/**
+ * A token returned to retrieve a subsequented page of items.
+ *
+ * @generated from message frontendapi.Pagination
+ */
+export class Pagination extends Message<Pagination> {
+  /**
+   * The creation time of the last item in the current page.
+   *
+   * @generated from field: google.protobuf.Timestamp last_created_at = 1;
+   */
+  lastCreatedAt?: Timestamp;
+
+  constructor(data?: PartialMessage<Pagination>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "frontendapi.Pagination";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "last_created_at", kind: "message", T: Timestamp },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Pagination {
+    return new Pagination().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Pagination {
+    return new Pagination().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Pagination {
+    return new Pagination().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Pagination | PlainMessage<Pagination> | undefined, b: Pagination | PlainMessage<Pagination> | undefined): boolean {
+    return proto3.util.equals(Pagination, a, b);
+  }
+}
 
 /**
  * Details about a single chat.
@@ -119,6 +160,13 @@ export class Chat extends Message<Chat> {
  * @generated from message frontendapi.GetChatsRequest
  */
 export class GetChatsRequest extends Message<GetChatsRequest> {
+  /**
+   * The pagination token to get the next page of chats.
+   *
+   * @generated from field: frontendapi.Pagination pagination = 1;
+   */
+  pagination?: Pagination;
+
   constructor(data?: PartialMessage<GetChatsRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -127,6 +175,7 @@ export class GetChatsRequest extends Message<GetChatsRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "frontendapi.GetChatsRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "pagination", kind: "message", T: Pagination },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetChatsRequest {
@@ -159,6 +208,13 @@ export class GetChatsResponse extends Message<GetChatsResponse> {
    */
   chats: Chat[] = [];
 
+  /**
+   * The pagination token for the next page of chats.
+   *
+   * @generated from field: frontendapi.Pagination pagination = 2;
+   */
+  pagination?: Pagination;
+
   constructor(data?: PartialMessage<GetChatsResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -168,6 +224,7 @@ export class GetChatsResponse extends Message<GetChatsResponse> {
   static readonly typeName = "frontendapi.GetChatsResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "chats", kind: "message", T: Chat, repeated: true },
+    { no: 2, name: "pagination", kind: "message", T: Pagination },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetChatsResponse {

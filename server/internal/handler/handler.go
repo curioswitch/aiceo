@@ -3,11 +3,11 @@ package handler
 import (
 	"context"
 	"fmt"
-	"slices"
 	"time"
 
 	"cloud.google.com/go/firestore"
 	"cloud.google.com/go/vertexai/genai"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	frontendapi "github.com/curioswitch/aiceo/api/go"
 	"github.com/curioswitch/aiceo/server/internal/db"
@@ -27,14 +27,19 @@ type Handler struct {
 	store *firestore.Client
 }
 
-func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) (*frontendapi.GetChatsResponse, error) {
-	chatDocs, err := h.store.Collection("chats").Documents(ctx).GetAll()
+func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest) (*frontendapi.GetChatsResponse, error) {
+	q := h.store.Collection("chats").Where("finished", "==", true)
+	if c := req.GetPagination().GetLastCreatedAt(); c != nil {
+		q = q.Where("createdAt", ">", c.AsTime())
+	}
+	q = q.OrderBy("createdAt", firestore.Desc).Limit(10)
+	chatDocs, err := q.Documents(ctx).GetAll()
 	if err != nil {
 		return nil, fmt.Errorf("handler: getting chats: %w", err)
 	}
-	slices.SortFunc(chatDocs, func(a, b *firestore.DocumentSnapshot) int {
-		return -a.CreateTime.Compare(b.CreateTime)
-	})
+	if len(chatDocs) == 0 {
+		return &frontendapi.GetChatsResponse{}, nil
+	}
 
 	chats := make([]*frontendapi.Chat, 0, len(chatDocs))
 	for _, doc := range chatDocs {
@@ -76,8 +81,14 @@ func (h *Handler) GetChats(ctx context.Context, _ *frontendapi.GetChatsRequest) 
 		})
 	}
 
+	lastCreated := chatDocs[len(chatDocs)-1].Data()["createdAt"].(time.Time)
+	page := &frontendapi.Pagination{
+		LastCreatedAt: timestamppb.New(lastCreated),
+	}
+
 	return &frontendapi.GetChatsResponse{
-		Chats: chats,
+		Chats:      chats,
+		Pagination: page,
 	}, nil
 }
 
@@ -185,6 +196,17 @@ func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageR
 		respmsg.CreatedAt = time.Now()
 		if err := tx.Create(resMsgDoc, respmsg); err != nil {
 			return fmt.Errorf("sendmessage: saving response message: %w", err)
+		}
+
+		if len(respmsg.CEOs) > 0 {
+			if err := tx.Update(chatDoc, []firestore.Update{
+				{
+					Path:  "finished",
+					Value: true,
+				},
+			}); err != nil {
+				return fmt.Errorf("handler: marking chat as finished: %w", err)
+			}
 		}
 
 		return nil
