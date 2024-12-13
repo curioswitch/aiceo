@@ -139,7 +139,7 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12">
-      <div className="pt-24 pb-2 md:mx-10 bg-gray-200 min-h-screen">
+      <div className="pt-16 md:pt-24 pb-2 md:mx-10 bg-gray-200 min-h-screen flex flex-col gap-10">
         {messagesRes.messages.map((msg, i) => (
           <ChatMessage
             key={msg.id}
@@ -152,12 +152,12 @@ export default function Page() {
         ))}
         {choices.length > 0 && (
           <div className="flex justify-center">
-            <div className="flex flex-col gap-2 mt-2 w-4/5 bg-white rounded-xl p-5">
+            <div className="flex flex-col gap-4 mt-2 w-4/5 bg-white rounded-xl p-5">
               {choices.map((choice) => (
                 <div key={choice} className="mx-5">
                   <Button
                     onPress={onSelectChoice}
-                    className="rounded-2xl text-lg"
+                    className="rounded-2xl md:h-14 text-lg"
                     color="primary"
                     isDisabled={doSendMessage.isPending}
                     fullWidth

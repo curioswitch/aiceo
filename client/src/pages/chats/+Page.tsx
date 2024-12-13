@@ -57,13 +57,14 @@ export default function Page() {
                   className="flex flex-col gap-3"
                 >
                   <div className="flex gap-3 items-center text-2xl mb-2">
-                    <Avatar
+                    <img
+                      alt="user"
                       className="h-12 w-12"
                       src={userThumbnail(chat.gender)}
                     />
                     <div className="text-xl flex flex-col md:flex-row gap-2">
                       <div>{chat.description.slice(0, -1).join(" ")}</div>
-                      <div className="text-primary">
+                      <div className="text-primary font-semibold">
                         「{chat.description.slice(-1)}」
                       </div>
                     </div>
