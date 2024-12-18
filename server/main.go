@@ -41,7 +41,10 @@ func setupServer(ctx context.Context, conf *config.Config, s *server.Server) err
 	}
 	defer genai.Close()
 
-	model := llm.NewModel(genai)
+	model, err := llm.NewModel(ctx, genai)
+	if err != nil {
+		return fmt.Errorf("main: initializing model: %w", err)
+	}
 
 	h := handler.New(firestore, model)
 

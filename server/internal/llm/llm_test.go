@@ -18,7 +18,8 @@ func TestFinalPrompt(t *testing.T) {
 	require.NoError(t, err)
 	defer genai.Close()
 
-	model := NewModel(genai)
+	model, err := NewModel(context.Background(), genai)
+	require.NoError(t, err)
 
 	history := []db.ChatMessage{
 		{

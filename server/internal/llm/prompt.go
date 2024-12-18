@@ -12,7 +12,10 @@ import (
 //go:embed profiles
 var profiles embed.FS
 
-var prompt string
+var (
+	docs   string
+	prompt string
+)
 
 type document struct {
 	Key     string `xml:"key"`
@@ -28,6 +31,9 @@ func init() {
 	numProfiles := 0
 	var keys []string
 	_ = fs.WalkDir(profiles, ".", func(path string, _ fs.DirEntry, _ error) error {
+		if filepath.Ext(path) != ".md" {
+			return nil
+		}
 		content, _ := fs.ReadFile(profiles, path)
 		key := strings.TrimSuffix(filepath.Base(path), ".md")
 		keys = append(keys, key)
@@ -43,22 +49,20 @@ func init() {
 		panic("no profiles found")
 	}
 
-	docs, err := xml.Marshal(profDocs)
+	d, err := xml.Marshal(profDocs)
 	if err != nil {
 		panic(err)
 	}
+	docs = string(d)
 
 	prompt = fmt.Sprintf(
 		promptTemplate,
-		string(docs),
 		numProfiles,
 		strings.Join(keys, ","),
 	)
 }
 
 const promptTemplate = `
-%s
-
 You are a concierge at an event that showcases the history and life stories of several CEOs that have shared about themselves. Attendees will come and want to know which CEO's booth to go to, and you help them by learning about the attendee, in particular any issue that they are thinking about or is troubling them, and then providing three suggestions for CEOs that they may want to visit.
 
 You only speak Japanese.
@@ -73,8 +77,8 @@ Then, ask them for a subtopic within the selected topic to know about. Provide 5
 
 Select topics that would be relevant to the user based on their gender, age, and occupation.
 
-Ask the questions one at a time. After receiving the first message, ask the first question, after receiving another message, ask the second question, and so on. When asking a question, always format with the question text on a single line, and the choices separated by commas on the next line enclosed in the XML tag <choices>.
-Before questions following the first, thank them for sharing while confirming the answer you got. Try to use different sentences for expressing thanks.
+Ask the questions one at a time. Do not ask questions not listed above. After receiving the first message, ask the first question, after receiving another message, ask the second question, and so on. When asking a question, always format with the question text on a single line, and the choices separated by commas on the next line enclosed in the XML tag <choices>.
+All questions must have choices. For the first question, greet the user with one or two sentences, before asking. Before questions following the first, thank them for sharing while confirming the answer you got. Try to use different sentences for expressing thanks.
 
 Always speak using polite form but with casual terms.
 

@@ -3,6 +3,8 @@ package llm
 import (
 	"context"
 	"fmt"
+	"io/fs"
+	"path/filepath"
 	"strings"
 
 	"cloud.google.com/go/vertexai/genai"
@@ -18,18 +20,54 @@ var (
 )
 
 // NewModel returns a genai model configured for the project.
-func NewModel(client *genai.Client) *genai.GenerativeModel {
-	model := client.GenerativeModel("gemini-1.5-flash-002")
+func NewModel(ctx context.Context, client *genai.Client) (*genai.GenerativeModel, error) {
+	var docs []genai.Part
+	var keys []string
+	numProfiles := 0
+
+	_ = fs.WalkDir(profiles, ".", func(path string, _ fs.DirEntry, _ error) error {
+		if filepath.Ext(path) != ".md" {
+			return nil
+		}
+		content, _ := fs.ReadFile(profiles, path)
+		key := strings.TrimSuffix(filepath.Base(path), ".md")
+		keys = append(keys, key)
+		docs = append(docs, genai.Text(string(content)))
+		numProfiles++
+		return nil
+	})
+
+	prompt := fmt.Sprintf(
+		promptTemplate,
+		numProfiles,
+		strings.Join(keys, ","),
+	)
+
+	cc, err := client.CreateCachedContent(ctx, &genai.CachedContent{
+		Model: "gemini-1.5-flash-002",
+		SystemInstruction: &genai.Content{
+			Role: "model",
+			Parts: []genai.Part{
+				genai.Text(prompt),
+			},
+		},
+		Contents: []*genai.Content{
+			{
+				Role:  "user",
+				Parts: docs,
+			},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	model := client.GenerativeModelFromCachedContent(cc)
 	model.SetTopK(1)
 	model.SetTopP(0.95)
 	model.SetTemperature(1.0)
 	model.SetMaxOutputTokens(8192)
-	model.SystemInstruction = &genai.Content{
-		Parts: []genai.Part{
-			genai.Text(prompt),
-		},
-	}
-	return model
+	return model, nil
 }
 
 // Query sends a message to the model and returns the response.
