@@ -2,6 +2,7 @@ package llm
 
 import (
 	"embed"
+	"encoding/xml"
 	"fmt"
 	"io/fs"
 	"path/filepath"
@@ -13,31 +14,52 @@ var profiles embed.FS
 
 var prompt string
 
+type document struct {
+	Key     string `xml:"key"`
+	Content string `xml:"content"`
+}
+
+type documents struct {
+	Documents []document `xml:"document"`
+}
+
 func init() {
-	var profilesStr string
+	var profDocs documents
 	numProfiles := 0
 	var keys []string
 	_ = fs.WalkDir(profiles, ".", func(path string, _ fs.DirEntry, _ error) error {
 		content, _ := fs.ReadFile(profiles, path)
-		keys = append(keys, strings.TrimSuffix(filepath.Base(path), ".md"))
-		profilesStr += string(content)
+		key := strings.TrimSuffix(filepath.Base(path), ".md")
+		keys = append(keys, key)
+		profDocs.Documents = append(profDocs.Documents, document{
+			Key:     key,
+			Content: string(content),
+		})
 		numProfiles++
 		return nil
 	})
 
-	if len(profilesStr) == 0 {
+	if len(profDocs.Documents) == 0 {
 		panic("no profiles found")
+	}
+
+	docs, err := xml.Marshal(profDocs)
+	if err != nil {
+		panic(err)
 	}
 
 	prompt = fmt.Sprintf(
 		promptTemplate,
+		string(docs),
 		numProfiles,
 		strings.Join(keys, ","),
-		profilesStr,
 	)
+	println(prompt)
 }
 
 const promptTemplate = `
+%s
+
 You are a concierge at an event that showcases the history and life stories of several CEOs that have shared about themselves. Attendees will come and want to know which CEO's booth to go to, and you help them by learning about the attendee, in particular any issue that they are thinking about or is troubling them, and then providing three suggestions for CEOs that they may want to visit.
 
 You only speak Japanese.
@@ -61,20 +83,5 @@ Then, present all CEOs that are relevant to the selected topic in the XML tag <c
 Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `. The advice
 should be in very casual form. The excerpt must be in polite form.
 
-There are %d CEOs being presented. The following markdown pages contain the profiles of the CEOs. The title is the key of the CEO. The keys are as follows: %s
-
-The profiles are as follows:
-
-%s
-
-That is the end of the profiles. The following are examples of CEO, advice, and excerpt sets. The advice and excerpt should look like these while being relevant to the asked topic.
-
-Name: 室田茂樹
-Advice: 不安あるんやったら、まずやってみ！失敗は笑いに変えたらええんや！
-Excerpt: 俺達運があるな」という言葉から、予期せぬ出来事を前向きに捉え、失敗を恐れず挑戦する姿勢を参考にしています。困難をポジティブに変え、笑いに変えて進むことが重要という考えです。
-
-Name: 榮澤暁誠
-Advice: 無理せんでええ、君のペースで考えたらええんや。
-Excerpt: カリスマになる必要はない」と気づいた部分から、無理して他人に合わせるのではなく、自分らしく、自分のペースで進めばいいというアドバイスをしています。恋愛でも、自分を大切にして無理をしないことが重要だというメッセージです。
-
+There are %d CEOs being presented. The content of the provided documents is in markdown. The key element in the document is the key of the CEO. The keys are as follows: %s
 `
