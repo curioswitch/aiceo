@@ -113,7 +113,7 @@ export default function Page() {
           </div>
         </div>
         <Button
-          className="w-2/3 md:text-xl mt-6 py-8"
+          className="w-2/3 md:text-xl mt-3 py-7"
           color="primary"
           onPress={onBackClick}
         >

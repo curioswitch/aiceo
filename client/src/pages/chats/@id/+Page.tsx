@@ -139,7 +139,7 @@ export default function Page() {
 
   return (
     <div className="col-span-4 md:col-span-8 lg:col-span-12">
-      <div className="pt-16 md:pt-24 pb-2 md:mx-10 bg-gray-200 min-h-screen flex flex-col gap-10">
+      <div className="pt-16 md:pt-24 pb-2 md:mx-10 bg-gray-200 min-h-screen">
         {messagesRes.messages.map((msg, i) => (
           <ChatMessage
             key={msg.id}
