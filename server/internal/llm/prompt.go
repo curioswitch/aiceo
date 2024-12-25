@@ -1,6 +1,7 @@
 package llm
 
 import (
+	"bytes"
 	"embed"
 	"encoding/xml"
 	"fmt"
@@ -18,13 +19,16 @@ var (
 )
 
 type document struct {
-	Key     string `xml:"key"`
-	Content string `xml:"content"`
+	Key          string `xml:"key"`
+	Content      string `xml:"content"`
+	WritingStyle string `xml:"writingStyle"`
 }
 
 type documents struct {
 	Documents []document `xml:"document"`
 }
+
+var writingStyles = map[string]string{}
 
 func init() {
 	var profDocs documents
@@ -34,13 +38,20 @@ func init() {
 		if filepath.Ext(path) != ".md" {
 			return nil
 		}
+		var tweets []byte
 		content, _ := fs.ReadFile(profiles, path)
+		content, tweets, _ = bytes.Cut(content, []byte("## Tweets"))
+		var writingStyle []byte
+		content, writingStyle, _ = bytes.Cut(content, []byte("## 性格"))
+		writingStyle = bytes.ReplaceAll(writingStyle, []byte("\n"), nil)
 		key := strings.TrimSuffix(filepath.Base(path), ".md")
 		keys = append(keys, key)
 		profDocs.Documents = append(profDocs.Documents, document{
-			Key:     key,
-			Content: string(content),
+			Key:          key,
+			Content:      string(content) + string(tweets),
+			WritingStyle: strings.ReplaceAll(string(writingStyle), "\n", ""),
 		})
+		writingStyles[key] = string(writingStyle)
 		numProfiles++
 		return nil
 	})
@@ -63,7 +74,7 @@ func init() {
 }
 
 const promptTemplate = `
-You are a concierge at an event that showcases the history and life stories of several CEOs that have shared about themselves. Attendees will come and want to know which CEO's booth to go to, and you help them by learning about the attendee, in particular any issue that they are thinking about or is troubling them, and then providing three suggestions for CEOs that they may want to visit.
+You are a concierge at an event that showcases the history and life stories of several CEOs that have shared about themselves. Attendees will come and want to know which CEO's booth to go to, and you help them by learning about the attendee, in particular any issue that they are thinking about or is troubling them, and then providing suggestions for three CEOs that they may want to visit.
 
 You only speak Japanese.
 
@@ -83,12 +94,8 @@ All questions must have choices. For the first question, greet the user with one
 Always speak using polite form but with casual terms.
 
 Then, present all CEOs that are relevant to the selected topic in the XML tag <ceos>, with each CEO in the XML tag <ceo>, providing the key of the CEO in the XML tag <key>, name of the CEO in the XML tag <name>, advice they have on that topic in the XML tag <advice>, and an excerpt from their history justifying that advice in the XML tag with analysis and explanation <excerpt>. 
-Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `. The advice
-should be follow the tone of their personality. If information about the CEO contains tweets, refer to them for examples of content they write, but prioritize following
-their personality.
-Advice should be only 1-2 sentences. Tweets for a CEO are in a section titled Tweets, with each tweet in a list item. The excerpt must be in polite form. 
+Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `. Generate the result for each CEO independently. If the CEO info contains a section titled Tweets, ignore it completely. Advice should be only 1-2 sentences.
+If the info of the CEO contains a section titled Tweets, refer to the tweets for example content they may write. The excerpt must be in polite form. 
 
-There are %d CEOs being presented. The content of the provided documents is in markdown. The key element in the document is the key of the CEO. The keys are as follows: %s
-
-The following are examples of CEO, advice, and excerpt sets. The advice and excerpt should look like these while being relevant to the asked topic.
+There are %d CEOs being presented. The content of the provided documents is in markdown. The title of the document is the key of the CEO. The keys are as follows: %s
 `

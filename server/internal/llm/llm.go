@@ -19,8 +19,13 @@ var (
 	errFirstPartNotText = errors.New("llm: first part is not text")
 )
 
+type Model struct {
+	chatModel       *genai.GenerativeModel
+	formattingModel *genai.GenerativeModel
+}
+
 // NewModel returns a genai model configured for the project.
-func NewModel(ctx context.Context, client *genai.Client) (*genai.GenerativeModel, error) {
+func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 	var docs []genai.Part
 	var keys []string
 	numProfiles := 0
@@ -62,17 +67,25 @@ func NewModel(ctx context.Context, client *genai.Client) (*genai.GenerativeModel
 		return nil, fmt.Errorf("llm: create cached content %w", err)
 	}
 
-	model := client.GenerativeModelFromCachedContent(cc)
-	model.SetTopK(1)
-	model.SetTopP(0.95)
-	model.SetTemperature(1.0)
-	model.SetMaxOutputTokens(8192)
-	return model, nil
+	chatModel := client.GenerativeModelFromCachedContent(cc)
+	chatModel.SetTopK(1)
+	chatModel.SetTopP(0.95)
+	chatModel.SetTemperature(1.0)
+	chatModel.SetMaxOutputTokens(8192)
+
+	formattingModel := client.GenerativeModel("gemini-1.5-flash-002")
+	formattingModel.SetTopK(1)
+	formattingModel.SetTopP(0.95)
+	formattingModel.SetTemperature(1.0)
+	return &Model{
+		chatModel:       chatModel,
+		formattingModel: formattingModel,
+	}, nil
 }
 
 // Query sends a message to the model and returns the response.
-func Query(ctx context.Context, model *genai.GenerativeModel, message string, history []db.ChatMessage) (*db.ChatMessage, error) {
-	chat := model.StartChat()
+func (m *Model) Query(ctx context.Context, message string, history []db.ChatMessage) (*db.ChatMessage, error) {
+	chat := m.chatModel.StartChat()
 	for _, msg := range history {
 		chat.History = append(chat.History, &genai.Content{
 			Role: string(msg.Role),
@@ -99,7 +112,7 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 		var formatted string
 		var ceos []db.CEODetails
 		if strings.Contains(message, "<ceos>") {
-			ceos = extractCEOs(message)
+			ceos = m.extractCEOs(ctx, message)
 			formatted = "社長からアドバイスをいただきました。"
 		}
 		return &db.ChatMessage{
@@ -112,7 +125,7 @@ func Query(ctx context.Context, model *genai.GenerativeModel, message string, hi
 	return nil, errFirstPartNotText
 }
 
-func extractCEOs(message string) []db.CEODetails {
+func (m *Model) extractCEOs(ctx context.Context, message string) []db.CEODetails {
 	_, content, ok := strings.Cut(message, "```xml")
 	if !ok {
 		return nil
@@ -152,6 +165,15 @@ func extractCEOs(message string) []db.CEODetails {
 		if !ok {
 			return nil
 		}
+
+		res, err := m.formattingModel.GenerateContent(ctx, genai.Text(
+			fmt.Sprintf(`Reformat the content "%s" using the following writing instructions: %s. Do not include
+			stars, hearts, musical notes, ♪, or other emojis. Output the same number of sentences as the input.`, advice, writingStyles[key]),
+		))
+		if err != nil {
+			return nil
+		}
+		advice = string(res.Candidates[0].Content.Parts[0].(genai.Text))
 
 		ceos = append(ceos, db.CEODetails{
 			Key:     key,

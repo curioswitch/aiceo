@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"cloud.google.com/go/vertexai/genai"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	frontendapi "github.com/curioswitch/aiceo/api/go"
@@ -15,7 +14,7 @@ import (
 )
 
 // New returns a Handler for chatting.
-func New(client *firestore.Client, model *genai.GenerativeModel) *Handler {
+func New(client *firestore.Client, model *llm.Model) *Handler {
 	return &Handler{
 		model: model,
 		store: client,
@@ -23,7 +22,7 @@ func New(client *firestore.Client, model *genai.GenerativeModel) *Handler {
 }
 
 type Handler struct {
-	model *genai.GenerativeModel
+	model *llm.Model
 	store *firestore.Client
 }
 
@@ -77,7 +76,7 @@ func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest
 				msgs[8].Data()["message"].(string),
 			},
 			Gender:     gender,
-			CeoDetails: lastMsg.ToProto("").GetCeoDetails(),
+			CeoDetails: lastMsg.ToProto("").GetCeoDetails()[:3],
 		})
 	}
 
@@ -100,7 +99,7 @@ func (h *Handler) StartChat(ctx context.Context, _ *frontendapi.StartChatRequest
 	messagesCol := chatDoc.Collection("messages")
 	resMsgDoc := messagesCol.NewDoc()
 
-	msg, err := llm.Query(ctx, h.model, "こんにちは", nil)
+	msg, err := h.model.Query(ctx, "こんにちは", nil)
 	if err != nil {
 		return nil, fmt.Errorf("handler: querying llm: %w", err)
 	}
@@ -178,7 +177,7 @@ func (h *Handler) SendMessage(ctx context.Context, req *frontendapi.SendMessageR
 	reqMsgDoc := messagesCol.NewDoc()
 	resMsgDoc := messagesCol.NewDoc()
 
-	respmsg, err := llm.Query(ctx, h.model, req.GetMessage(), history)
+	respmsg, err := h.model.Query(ctx, req.GetMessage(), history)
 	if err != nil {
 		return nil, fmt.Errorf("sendmessage: querying llm: %w", err)
 	}
