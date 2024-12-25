@@ -11,7 +11,7 @@ import (
 )
 
 func TestFinalPrompt(t *testing.T) {
-	t.Skip("manually invoke")
+	// t.Skip("manually invoke")
 	ctx := context.Background()
 
 	genai, err := genai.NewClient(ctx, "aiceo-dev", "us-central1")
@@ -28,15 +28,7 @@ func TestFinalPrompt(t *testing.T) {
 		},
 		{
 			Role:    db.ChatRoleModel,
-			Message: "こんにちは！まず初めに、年齢についてお伺いしてもよろしいでしょうか？",
-		},
-		{
-			Role:    db.ChatRoleUser,
-			Message: "30代",
-		},
-		{
-			Role:    db.ChatRoleModel,
-			Message: "ありがとうございます。では、性別をお聞かせいただけますか？",
+			Message: "こんにちは！今日はどんなことで悩んでいらっしゃいますか？まずは、性別を教えていただけますか？",
 		},
 		{
 			Role:    db.ChatRoleUser,
@@ -44,27 +36,35 @@ func TestFinalPrompt(t *testing.T) {
 		},
 		{
 			Role:    db.ChatRoleModel,
-			Message: "ありがとうございます。職業についてお伺いしてもよろしいでしょうか？",
+			Message: "ありがとうございます！男性の方ですね。では、年齢層を教えていただけますか？",
 		},
 		{
 			Role:    db.ChatRoleUser,
-			Message: "エンジニア",
+			Message: "30代",
 		},
 		{
 			Role:    db.ChatRoleModel,
-			Message: "ありがとうございます。では、どのようなテーマについて知りたいですか？",
+			Message: "ありがとうございます！30代男性の方ですね。では、職業についてお伺いしてもよろしいでしょうか？",
 		},
 		{
 			Role:    db.ChatRoleUser,
-			Message: "会社経営",
+			Message: "技術・エンジニア系",
 		},
 		{
 			Role:    db.ChatRoleModel,
-			Message: "ありがとうございます。会社経営の中で、特にどのような点について知りたいですか？",
+			Message: "ありがとうございます！30代男性で、技術・エンジニア系の方ですね。では、どのようなことについて知りたいですか？",
+		},
+		{
+			Role:    db.ChatRoleUser,
+			Message: "ワークライフバランス",
+		},
+		{
+			Role:    db.ChatRoleModel,
+			Message: "ありがとうございます。ワークライフバランスについて知りたいんですね。では、ワークライフバランスのどの点について詳しく知りたいですか？",
 		},
 	}
 
-	res, err := Query(ctx, model, "資金調達", history)
+	res, err := Query(ctx, model, "ストレスマネジメント", history)
 	require.NoError(t, err)
 
 	t.Log(res.Message)

@@ -4,6 +4,7 @@ import pinMatsuyaMitsuru from "@/assets/pin-matsuya-mitsuru.png";
 import pinMurotaShigeki from "@/assets/pin-murota-shigeki.png";
 import pinNomuraFigeo from "@/assets/pin-nomura-figeo.png";
 import pinOidaShuji from "@/assets/pin-oida-shuji.png";
+import pinTaharaKouichi from "@/assets/pin-tahara-kouichi.png";
 import pinTamotoNaohiro from "@/assets/pin-tamoto-naohiro.png";
 import pinTanikawaToshiko from "@/assets/pin-tanikawa-toshiko.png";
 import thumbAICEO from "@/assets/thumb-aiceo.svg";
@@ -13,6 +14,7 @@ import thumbMatsuyaMitsuru from "@/assets/thumb-matsuya-mitsuru.png";
 import thumbMurotaShigeki from "@/assets/thumb-murota-shigeki.png";
 import thumbNomuraFigeo from "@/assets/thumb-nomura-figeo.png";
 import thumbOidaShuji from "@/assets/thumb-oida-shuji.png";
+import thumbTaharaKouichi from "@/assets/thumb-tahara-kouichi.png";
 import thumbTamotoNaohiro from "@/assets/thumb-tamoto-naohiro.png";
 import thumbTanikawaToshiko from "@/assets/thumb-tanikawa-toshiko.png";
 import thumbYouMan from "@/assets/you-man.svg";
@@ -88,6 +90,15 @@ export const CEOS: Record<string, CEODetails> = {
     position: {
       top: "39%",
       left: "73.3%",
+    },
+  },
+  "tahara-kouichi": {
+    name: "田原 広一",
+    thumbnail: thumbTaharaKouichi,
+    pin: pinTaharaKouichi,
+    position: {
+      top: "25%",
+      left: "35%",
     },
   },
   "tamoto-naohiro": {

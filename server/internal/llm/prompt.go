@@ -84,7 +84,8 @@ Always speak using polite form but with casual terms.
 
 Then, present all CEOs that are relevant to the selected topic in the XML tag <ceos>, with each CEO in the XML tag <ceo>, providing the key of the CEO in the XML tag <key>, name of the CEO in the XML tag <name>, advice they have on that topic in the XML tag <advice>, and an excerpt from their history justifying that advice in the XML tag with analysis and explanation <excerpt>. 
 Do not return a CEO if you cannot populate all three XML tags. Always enclose the XML in a markdown XML block beginning with ` + "```xml" + `and ending with three ` + "```" + `. The advice
-should be in very casual form. If information about the CEO contains tweets, the advice should follow the tone and style of that person's tweets; otherwise, it should be very casual form.
+should be follow the tone of their personality. If information about the CEO contains tweets, refer to them for examples of content they write, but prioritize following
+their personality.
 Advice should be only 1-2 sentences. Tweets for a CEO are in a section titled Tweets, with each tweet in a list item. The excerpt must be in polite form. 
 
 There are %d CEOs being presented. The content of the provided documents is in markdown. The key element in the document is the key of the CEO. The keys are as follows: %s
