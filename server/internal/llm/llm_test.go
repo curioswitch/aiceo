@@ -11,7 +11,7 @@ import (
 )
 
 func TestFinalPrompt(t *testing.T) {
-	// t.Skip("manually invoke")
+	t.Skip("manually invoke")
 	ctx := context.Background()
 
 	genai, err := genai.NewClient(ctx, "aiceo-dev", "us-central1")
