@@ -168,7 +168,7 @@ func (m *Model) extractCEOs(ctx context.Context, message string) []db.CEODetails
 
 		res, err := m.formattingModel.GenerateContent(ctx, genai.Text(
 			fmt.Sprintf(`Reformat the content "%s" using the following writing instructions: %s. Do not include
-			stars, hearts, musical notes, ♪, or other emojis. Output the same number of sentences as the input.`, advice, writingStyles[key]),
+			stars, hearts, musical notes, ♪, or other emojis. Output the same number of sentences as the input, with each sentence within 100 characters.`, advice, writingStyles[key]),
 		))
 		if err != nil {
 			return nil
