@@ -59,7 +59,7 @@ func NewModel(ctx context.Context, client *genai.Client) (*genai.GenerativeModel
 		},
 	})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("llm: create cached content %w", err)
 	}
 
 	model := client.GenerativeModelFromCachedContent(cc)
