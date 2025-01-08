@@ -9,6 +9,7 @@ import (
 
 	"cloud.google.com/go/vertexai/genai"
 	"github.com/pkg/errors"
+	"github.com/wandb/parallel"
 
 	"github.com/curioswitch/aiceo/server/internal/db"
 )
@@ -17,11 +18,15 @@ var (
 	errNoCandidates     = errors.New("llm: no candidates returned")
 	errNoParts          = errors.New("llm: no parts returned")
 	errFirstPartNotText = errors.New("llm: first part is not text")
+	errCeosListNotFound = errors.New("llm: ceos list not found")
+	errMalformedCEO     = errors.New("llm: malformed CEO")
 )
 
 type Model struct {
 	chatModel       *genai.GenerativeModel
 	formattingModel *genai.GenerativeModel
+
+	client *genai.Client
 }
 
 // NewModel returns a genai model configured for the project.
@@ -43,7 +48,7 @@ func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 	})
 
 	prompt := fmt.Sprintf(
-		promptTemplate,
+		chatPromptTemplate,
 		numProfiles,
 		strings.Join(keys, ","),
 	)
@@ -80,6 +85,7 @@ func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 	return &Model{
 		chatModel:       chatModel,
 		formattingModel: formattingModel,
+		client:          client,
 	}, nil
 }
 
@@ -108,15 +114,42 @@ func (m *Model) Query(ctx context.Context, message string, history []db.ChatMess
 	}
 
 	if text, ok := content.Parts[0].(genai.Text); ok {
-		message := strings.TrimSpace(string(text))
+		resMsg := strings.TrimSpace(string(text))
+
 		var formatted string
 		var ceos []db.CEODetails
-		if strings.Contains(message, "<ceos>") {
-			ceos = m.extractCEOs(ctx, message)
+
+		if len(history) == 10 {
+			// Final message, generate CEO snippets.
+
+			resMsg = strings.TrimSpace(resMsg)
+			nlIdx := strings.LastIndexByte(resMsg, '\n')
+			if nlIdx == -1 {
+				return nil, errCeosListNotFound
+			}
+
+			ceosList := resMsg[nlIdx+1:]
+			ceoKeys := strings.Split(ceosList, ",")
+			for i, key := range ceoKeys {
+				ceoKeys[i] = strings.TrimSpace(key)
+			}
+
+			group := parallel.CollectWithErrs[db.CEODetails](parallel.Unlimited(ctx))
+			for _, key := range ceoKeys {
+				group.Go(func(ctx context.Context) (db.CEODetails, error) {
+					return m.generateCEOSnippet(ctx, key, message, history)
+				})
+			}
+			ceos, err = group.Wait()
+			if err != nil {
+				return nil, fmt.Errorf("llm: generating CEO snippets: %w", err)
+			}
+
 			formatted = "社長からアドバイスをいただきました。"
 		}
+
 		return &db.ChatMessage{
-			Message:          message,
+			Message:          resMsg,
 			FormattedMessage: formatted,
 			Role:             db.ChatRoleModel,
 			CEOs:             ceos,
@@ -125,63 +158,70 @@ func (m *Model) Query(ctx context.Context, message string, history []db.ChatMess
 	return nil, errFirstPartNotText
 }
 
-func (m *Model) extractCEOs(ctx context.Context, message string) []db.CEODetails {
-	_, content, ok := strings.Cut(message, "```xml")
-	if !ok {
-		return nil
-	}
-	content, _, ok = strings.Cut(content, "```")
-	if !ok {
-		return nil
-	}
-	rest, _, ok := extractTag(content, "ceos")
-	if !ok {
-		return nil
+func (m *Model) generateCEOSnippet(ctx context.Context, ceoKey string, message string, history []db.ChatMessage) (db.CEODetails, error) {
+	formattingModel := m.client.GenerativeModel("gemini-1.5-flash-002")
+	formattingModel.SetTopK(1)
+	formattingModel.SetTopP(0.95)
+	formattingModel.SetTemperature(1.0)
+	formattingModel.SystemInstruction = &genai.Content{
+		Role: "model",
+		Parts: []genai.Part{
+			genai.Text(fmt.Sprintf(formattingPromptTemplate, ceoProfiles[ceoKey], writingStyles[ceoKey])),
+		},
 	}
 
-	var ceos []db.CEODetails
+	chat := formattingModel.StartChat()
+	for _, msg := range history {
+		chat.History = append(chat.History, &genai.Content{
+			Role: string(msg.Role),
+			Parts: []genai.Part{
+				genai.Text(msg.Message),
+			},
+		})
+	}
+	res, err := chat.SendMessage(ctx, genai.Text(message))
+	if err != nil {
+		return db.CEODetails{}, fmt.Errorf("llm: sending message: %w", err)
+	}
+	if len(res.Candidates) == 0 {
+		return db.CEODetails{}, errNoCandidates
+	}
 
-	for len(rest) > 0 {
+	content := res.Candidates[0].Content
+	if len(content.Parts) == 0 {
+		return db.CEODetails{}, errNoParts
+	}
+
+	if text, ok := content.Parts[0].(genai.Text); ok {
+		resMsg := strings.TrimSpace(string(text))
+
 		var c string
 		var ok bool
-		var key string
 		var advice string
 		var excerpt string
 
-		c, rest, ok = extractTag(rest, "ceo")
+		c, _, ok = extractTag(resMsg, "ceo")
 		if !ok {
-			return nil
+			return db.CEODetails{}, errMalformedCEO
 		}
 
-		key, c, ok = extractTag(c, "key")
-		if !ok {
-			return nil
-		}
 		advice, c, ok = extractTag(c, "advice")
 		if !ok {
-			return nil
+			return db.CEODetails{}, errMalformedCEO
 		}
 		excerpt, _, ok = extractTag(c, "excerpt")
 		if !ok {
-			return nil
+			return db.CEODetails{}, errMalformedCEO
 		}
 
-		res, err := m.formattingModel.GenerateContent(ctx, genai.Text(
-			fmt.Sprintf(`Reformat the content "%s" using the following writing instructions: %s. Do not include
-			stars, hearts, musical notes, ♪, or other emojis. Output the same number of sentences as the input, with each sentence within 100 characters.`, advice, writingStyles[key]),
-		))
-		if err != nil {
-			return nil
-		}
-		advice = string(res.Candidates[0].Content.Parts[0].(genai.Text))
-
-		ceos = append(ceos, db.CEODetails{
-			Key:     key,
+		return db.CEODetails{
+			Key:     ceoKey,
 			Advice:  advice,
 			Summary: excerpt,
-		})
+		}, nil
 	}
-	return ceos
+
+	return db.CEODetails{}, errFirstPartNotText
 }
 
 func extractTag(s string, tag string) (string, string, bool) {

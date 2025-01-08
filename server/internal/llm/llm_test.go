@@ -10,7 +10,7 @@ import (
 	"github.com/curioswitch/aiceo/server/internal/db"
 )
 
-func TestFinalPrompt(t *testing.T) {
+func TestFinalChatPrompt(t *testing.T) {
 	t.Skip("manually invoke")
 	ctx := context.Background()
 
