@@ -7,7 +7,7 @@ import pinOidaShuji from "@/assets/pin-oida-shuji.png";
 import pinTaharaKouichi from "@/assets/pin-tahara-kouichi.png";
 import pinTamotoNaohiro from "@/assets/pin-tamoto-naohiro.png";
 import pinTaniwakiToshiko from "@/assets/pin-tanikawa-toshiko.png";
-import thumbAICEO from "@/assets/thumb-aiceo.svg";
+import thumbAICEO from "@/assets/thumb-aiceo.png";
 import thumbEizawaAkimasa from "@/assets/thumb-eizawa-akimasa.png";
 import thumbFuruiAtsushi from "@/assets/thumb-furui-atsushi.png";
 import thumbMatsuyaMitsuru from "@/assets/thumb-matsuya-mitsuru.png";
@@ -43,8 +43,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbEizawaAkimasa,
     pin: pinEizawaAkimasa,
     position: {
-      top: "23%",
-      left: "47.5%",
+      top: "20%",
+      left: "47.2%",
     },
   },
   "furui-atsushi": {
@@ -61,8 +61,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbMatsuyaMitsuru,
     pin: pinMatsuyaMitsuru,
     position: {
-      top: "27%",
-      left: "73%",
+      top: "23.1%",
+      left: "77.4%",
     },
   },
   "murota-shigeki": {
@@ -70,8 +70,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbMurotaShigeki,
     pin: pinMurotaShigeki,
     position: {
-      top: "44%",
-      left: "35%",
+      top: "38.5%",
+      left: "27.5%",
     },
   },
   "nomura-figeo": {
@@ -79,8 +79,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbNomuraFigeo,
     pin: pinNomuraFigeo,
     position: {
-      top: "36%",
-      left: "48%",
+      top: "36.2%",
+      left: "42.8%",
     },
   },
   "oida-shuji": {
@@ -88,8 +88,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbOidaShuji,
     pin: pinOidaShuji,
     position: {
-      top: "39%",
-      left: "73.3%",
+      top: "38%",
+      left: "67.9%",
     },
   },
   "tahara-kouichi": {
@@ -97,8 +97,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbTaharaKouichi,
     pin: pinTaharaKouichi,
     position: {
-      top: "25%",
-      left: "35%",
+      top: "50%",
+      left: "76.5%",
     },
   },
   "tamoto-naohiro": {
@@ -115,8 +115,8 @@ export const CEOS: Record<string, CEODetails> = {
     thumbnail: thumbTaniwakiToshiko,
     pin: pinTaniwakiToshiko,
     position: {
-      top: "41%",
-      left: "60.5%",
+      top: "42%",
+      left: "54.4%",
     },
   },
   "you-man": {

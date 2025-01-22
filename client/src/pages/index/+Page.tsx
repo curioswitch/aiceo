@@ -5,7 +5,7 @@ import { Spacer } from "@nextui-org/spacer";
 import { useCallback, useEffect } from "react";
 import { navigate } from "vike/client/router";
 
-import thumbAiCEO from "@/assets/thumb-aiceo.svg";
+import { CEOS } from "@/data";
 import { Avatar } from "@nextui-org/avatar";
 import { usePageContext } from "vike-react/usePageContext";
 
@@ -37,7 +37,7 @@ export default function Page() {
       <div className="col-span-4 md:col-span-8 lg:col-span-12 md:pt-10 px-10 md:px-20 flex flex-col gap-5 items-center justify-center overflow-hidden">
         <Avatar
           className="w-48 h-48 md:min-w-64 md:min-h-64"
-          src={thumbAiCEO}
+          src={CEOS["ai-ceo"].thumbnail}
         />
         <div className="text-4xl md:text-6xl text-secondary tracking-widest">
           みんなのAI社長
