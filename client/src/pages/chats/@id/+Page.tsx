@@ -12,7 +12,7 @@ import { CEOAvatar } from "@/components/CEOAvatar";
 import { ChatMessage } from "@/components/ChatMessage";
 import { FloorMap } from "@/components/FloorMap";
 import { useFrontendQueries } from "@/hooks/rpc";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { navigate } from "vike/client/router";

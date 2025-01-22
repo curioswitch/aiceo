@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { NextUIProvider } from "@nextui-org/system";
+import { HeroUIProvider } from "@heroui/system";
 import { navigate } from "vike/client/router";
 
 import { FirebaseProvider, useFirebase } from "@/hooks/firebase";
@@ -10,7 +10,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   return (
     <FirebaseProvider>
       <FrontendServiceProvider>
-        <NextUIProvider navigate={navigate}>{children}</NextUIProvider>
+        <HeroUIProvider navigate={navigate}>{children}</HeroUIProvider>
       </FrontendServiceProvider>
     </FirebaseProvider>
   );

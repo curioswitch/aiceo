@@ -1,12 +1,12 @@
 import { StartChatRequest, startChat } from "@aiceo/frontendapi";
 import { useMutation } from "@connectrpc/connect-query";
-import { Button } from "@nextui-org/button";
-import { Spacer } from "@nextui-org/spacer";
+import { Button } from "@heroui/button";
+import { Spacer } from "@heroui/spacer";
 import { useCallback, useEffect } from "react";
 import { navigate } from "vike/client/router";
 
 import { CEOS } from "@/data";
-import { Avatar } from "@nextui-org/avatar";
+import { Avatar } from "@heroui/avatar";
 import { usePageContext } from "vike-react/usePageContext";
 
 export default function Page() {

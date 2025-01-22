@@ -1,7 +1,7 @@
 import { CEOS } from "@/data";
 import { userThumbnail } from "@/data/user";
 import { useFrontendQueries } from "@/hooks/rpc";
-import { Avatar } from "@nextui-org/avatar";
+import { Avatar } from "@heroui/avatar";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { twMerge } from "tailwind-merge";

@@ -1,5 +1,5 @@
-import { Button } from "@nextui-org/button";
-import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/navbar";
+import { Button } from "@heroui/button";
+import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
 import clsx from "clsx";
 import type React from "react";
 import { useCallback, useEffect } from "react";

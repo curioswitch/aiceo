@@ -1,4 +1,4 @@
-import { nextui } from "@nextui-org/theme";
+import { heroui } from "@heroui/theme";
 import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
@@ -6,11 +6,11 @@ import colors from "tailwindcss/colors";
 const config = {
   content: [
     "./src/**/*.{ts,tsx}",
-    "./node_modules/@nextui-org/theme/dist/components/(avatar|button|card|chip|dropdown|image|input|link|navbar|select|spacer|spinner|ripple|menu|popover|listbox|scroll-shadow).js",
+    "./node_modules/@heroui/theme/dist/components/(avatar|button|card|chip|dropdown|image|input|link|navbar|select|spacer|spinner|ripple|menu|popover|listbox|scroll-shadow).js",
   ],
   darkMode: ["class"],
   plugins: [
-    nextui({
+    heroui({
       addCommonColors: true,
       themes: {
         light: {
