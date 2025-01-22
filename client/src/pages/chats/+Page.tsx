@@ -4,6 +4,7 @@ import { useFrontendQueries } from "@/hooks/rpc";
 import { Avatar } from "@nextui-org/avatar";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function Page() {
   const queries = useFrontendQueries();
@@ -72,17 +73,20 @@ export default function Page() {
                   <div className="flex flex-col md:flex-row gap-5">
                     {chat.ceoDetails.map((ceo) => {
                       const ceoInfo = CEOS[ceo.key];
+                      console.log(ceo.key);
                       return (
                         <a
                           key={ceo.key}
                           href={`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`}
                           className="flex flex-row md:flex-col gap-3 border-3 border-primary rounded-xl bg-white no-underline basis-1/3 p-4"
                         >
-                          <div className="basis-1/4 flex flex-col md:flex-row gap-2 items-center">
-                            <img
-                              className="max-w-20 max-h-20"
+                          <div className="basis-1/4 flex flex-col md:flex-row gap-2 md:gap-6 items-center">
+                            <Avatar
+                              className={twMerge(
+                                ceoInfo.background,
+                                "w-20 h-20",
+                              )}
                               src={ceoInfo.thumbnail}
-                              alt={ceoInfo.name}
                             />
                             <div className="text-tiny md:text-lg">
                               {ceoInfo.name}

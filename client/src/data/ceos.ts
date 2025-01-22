@@ -6,7 +6,7 @@ import pinNomuraFigeo from "@/assets/pin-nomura-figeo.png";
 import pinOidaShuji from "@/assets/pin-oida-shuji.png";
 import pinTaharaKouichi from "@/assets/pin-tahara-kouichi.png";
 import pinTamotoNaohiro from "@/assets/pin-tamoto-naohiro.png";
-import pinTaniwakiToshiko from "@/assets/pin-tanikawa-toshiko.png";
+import pinTaniwakiToshiko from "@/assets/pin-taniwaki-toshiko.png";
 import thumbAICEO from "@/assets/thumb-aiceo.png";
 import thumbEizawaAkimasa from "@/assets/thumb-eizawa-akimasa.png";
 import thumbFuruiAtsushi from "@/assets/thumb-furui-atsushi.png";
@@ -16,7 +16,7 @@ import thumbNomuraFigeo from "@/assets/thumb-nomura-figeo.png";
 import thumbOidaShuji from "@/assets/thumb-oida-shuji.png";
 import thumbTaharaKouichi from "@/assets/thumb-tahara-kouichi.png";
 import thumbTamotoNaohiro from "@/assets/thumb-tamoto-naohiro.png";
-import thumbTaniwakiToshiko from "@/assets/thumb-tanikawa-toshiko.png";
+import thumbTaniwakiToshiko from "@/assets/thumb-taniwaki-toshiko.png";
 import thumbYouMan from "@/assets/you-man.svg";
 import thumbYouOther from "@/assets/you-other.svg";
 import thumbYouWoman from "@/assets/you-woman.svg";
@@ -26,6 +26,7 @@ export interface CEODetails {
   thumbnail: string;
   pin: string;
   position: { top: string; left: string };
+  background?: string;
 }
 
 export const CEOS: Record<string, CEODetails> = {
@@ -46,6 +47,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "20%",
       left: "47.2%",
     },
+    background: "bg-[#D46982]",
   },
   "furui-atsushi": {
     name: "古井敦士",
@@ -55,6 +57,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "26%",
       left: "60.5%",
     },
+    background: "bg-[#00A2B1]",
   },
   "matsuya-mitsuru": {
     name: "松谷充",
@@ -64,6 +67,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "23.1%",
       left: "77.4%",
     },
+    background: "bg-[#F19A96]",
   },
   "murota-shigeki": {
     name: "室田茂樹",
@@ -73,6 +77,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "38.5%",
       left: "27.5%",
     },
+    background: "bg-[#F6AC19]",
   },
   "nomura-figeo": {
     name: "野村玄吾",
@@ -82,6 +87,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "36.2%",
       left: "42.8%",
     },
+    background: "bg-[#008643]",
   },
   "oida-shuji": {
     name: "種田宗司",
@@ -91,6 +97,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "38%",
       left: "67.9%",
     },
+    background: "bg-[#87C142]",
   },
   "tahara-kouichi": {
     name: "田原 広一",
@@ -100,6 +107,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "50%",
       left: "76.5%",
     },
+    background: "bg-[#EB3D38]",
   },
   "tamoto-naohiro": {
     name: "田本直弘",
@@ -109,6 +117,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "25%",
       left: "35%",
     },
+    background: "bg-[#008CC2]",
   },
   "taniwaki-toshiko": {
     name: "谷脇とし子",
@@ -118,6 +127,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "42%",
       left: "54.4%",
     },
+    background: "bg-[#ED6D1F]",
   },
   "you-man": {
     name: "あなた",
