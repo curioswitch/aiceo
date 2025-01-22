@@ -129,9 +129,13 @@ func (m *Model) Query(ctx context.Context, message string, history []db.ChatMess
 			}
 
 			ceosList := resMsg[nlIdx+1:]
-			ceoKeys := strings.Split(ceosList, ",")
-			for i, key := range ceoKeys {
-				ceoKeys[i] = strings.TrimSpace(key)
+			var ceoKeys []string
+			for _, key := range strings.Split(ceosList, ",") {
+				key := strings.TrimSpace(key)
+				if _, ok := ceoProfiles[key]; !ok {
+					continue
+				}
+				ceoKeys = append(ceoKeys, key)
 			}
 
 			group := parallel.CollectWithErrs[db.CEODetails](parallel.Unlimited(ctx))
