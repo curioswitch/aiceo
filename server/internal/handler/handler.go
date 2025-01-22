@@ -67,6 +67,10 @@ func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest
 		case "その他":
 			gender = frontendapi.Gender_GENDER_OTHER
 		}
+		details := lastMsg.ToProto("").GetCeoDetails()
+		if len(details) > 3 {
+			details = details[:3]
+		}
 		chats = append(chats, &frontendapi.Chat{
 			Id: doc.Ref.ID,
 			Description: []string{
@@ -76,7 +80,7 @@ func (h *Handler) GetChats(ctx context.Context, req *frontendapi.GetChatsRequest
 				msgs[8].Data()["message"].(string),
 			},
 			Gender:     gender,
-			CeoDetails: lastMsg.ToProto("").GetCeoDetails()[:3],
+			CeoDetails: details,
 		})
 	}
 
