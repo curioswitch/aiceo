@@ -56,7 +56,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20">
+    <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20 md:mx-10 bg-background">
       <div
         ref={timerRef}
         className="hidden md:block -mt-5 mb-5 pb-1 px-6 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white"

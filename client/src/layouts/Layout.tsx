@@ -1,13 +1,15 @@
 import { Button } from "@heroui/button";
+import { Image } from "@heroui/image";
 import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
 import clsx from "clsx";
 import type React from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { usePageContext } from "vike-react/usePageContext";
 import { navigate } from "vike/client/router";
 
 import iconBack from "@/assets/icon-back.svg";
+import titleSVG from "@/assets/title.svg";
 
 export default function Layout({
   children,
@@ -16,6 +18,7 @@ export default function Layout({
 }) {
   const pageContext = usePageContext();
   const isHome = pageContext.urlParsed.pathname === "/";
+  const isCEOs = pageContext.urlParsed.pathname.startsWith("/ceos/");
 
   const onReturnClick = useCallback(() => {
     navigate("/");
@@ -24,21 +27,22 @@ export default function Layout({
   return (
     <div
       className={twMerge(
-        clsx("container mx-auto prose max-w-7xl prose-img:m-0", {
-          "bg-primary": isHome,
+        clsx("container mx-auto prose max-w-full prose-img:m-0", {
+          "bg-secondary": isHome,
+          "bg-foreground": isCEOs,
           "min-h-screen": isHome,
         }),
       )}
     >
       {!isHome && (
         <Navbar
-          className="bg-primary"
+          className="bg-secondary px-0"
           classNames={{
             base: "md:h-24",
           }}
         >
-          <NavbarBrand className="text-secondary text-2xl md:text-3xl tracking-[0.3em]">
-            みんなのAI社長
+          <NavbarBrand className="">
+            <Image className="md:w-1/2" src={titleSVG} alt="みんなのAI社長" />
           </NavbarBrand>
           <NavbarContent justify="end">
             <Button

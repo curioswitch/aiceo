@@ -21,8 +21,10 @@ const config = {
             },
             secondary: {
               ...colors.pink,
-              DEFAULT: "#F3B2C1",
+              DEFAULT: "#EF8F7A",
             },
+            background: "#FFE791",
+            foreground: "#F7F7F7",
           },
         },
       },
