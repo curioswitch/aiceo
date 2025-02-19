@@ -63,7 +63,7 @@ export default function Page() {
         <div className="text-md md:text-lg font-medium rounded-full py-2 px-7 bg-[#FFFCE4] text-black speech-bubble right home">
           あなたの悩みをAIが解決
         </div>
-        <Spacer y={20} />
+        <Spacer y={10} />
         <Button
           className="bg-primary text-white text-lg font-medium w-full md:w-2/3 min-h-12 md:min-h-16"
           radius="sm"
