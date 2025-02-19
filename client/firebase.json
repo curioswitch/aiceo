@@ -23,6 +23,10 @@
         }
       },
       {
+        "source": "/opengraph.png",
+        "destination": "/opengraph.png"
+      },
+      {
         "source": "**",
         "destination": "/fallback/index.html"
       }

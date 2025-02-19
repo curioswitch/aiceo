@@ -65,7 +65,7 @@ export default function Page() {
         </div>
         <Spacer y={10} />
         <Button
-          className="bg-primary text-white text-lg font-medium w-full md:w-2/3 min-h-12 md:min-h-16"
+          className="bg-primary text-white text-lg font-medium w-full md:w-2/3 min-h-12"
           radius="sm"
           onPress={onStart}
           isDisabled={doStart.isPending}
@@ -73,7 +73,7 @@ export default function Page() {
           スタート！
         </Button>
         <Button
-          className="bg-white text-lg font-medium w-full md:w-2/3 min-h-12 md:min-h-16 text-black"
+          className="bg-white text-lg font-medium w-full md:w-2/3 min-h-12 text-black"
           radius="sm"
           fullWidth
           onPress={onPast}
