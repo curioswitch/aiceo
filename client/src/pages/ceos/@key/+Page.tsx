@@ -56,7 +56,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20 md:mx-10 bg-background">
+    <div className="col-span-4 md:col-span-8 lg:col-span-12 pt-5 pb-20 md:max-w-[960px] md:mx-auto bg-background">
       <div
         ref={timerRef}
         className="hidden md:block -mt-5 mb-5 pb-1 px-6 ml-auto mr-4 md:mr-20 rounded-b-xl font-bold text-center leading-5 w-fit bg-white"
@@ -98,16 +98,20 @@ export default function Page() {
           <QRCodeSVG
             className="hidden md:block"
             marginSize={4}
-            value={`https://google.co.jp?q=${ceo.name}`}
+            value={ceo.homepage}
           />
           <div className="md:hidden flex justify-center items-center gap-5">
-            <a href={`https://facebook.com/${ceo.name}`}>
-              <img src={iconFacebook} alt="Facebook" />
-            </a>
-            <a href={`https://twitter.com/${ceo.name}`}>
-              <img src={iconTwitter} alt="Twitter" />
-            </a>
-            <a href={`https://yahoo.com/${ceo.name}`}>
+            {ceo.noteUrl && (
+              <a href={ceo.noteUrl} target="_blank" rel="noreferrer">
+                <img src={iconFacebook} alt="Note" />
+              </a>
+            )}
+            {ceo.xUrl && (
+              <a href={ceo.xUrl} target="_blank" rel="noreferrer">
+                <img src={iconTwitter} alt="Twitter" />
+              </a>
+            )}
+            <a href={ceo.homepage} target="_blank" rel="noreferrer">
               <img src={iconPC} alt="Home Page" />
             </a>
           </div>

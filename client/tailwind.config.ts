@@ -24,7 +24,7 @@ const config = {
               DEFAULT: "#EF8F7A",
             },
             background: "#FFE791",
-            foreground: "#F7F7F7",
+            foreground: "#F2F2F2",
           },
         },
       },

@@ -47,7 +47,7 @@ export default function Page() {
   return (
     <>
       <div className="col-span-4 md:col-span-8 lg:col-span-12">
-        <div className="pt-10 md:mx-10 px-10 bg-foreground min-h-screen">
+        <div className="pt-10 md:max-w-[960px] md:mx-auto px-10 bg-foreground min-h-screen">
           <h1 className="text-center">過去の相談</h1>
           <div className="flex justify-center">
             <div className="flex flex-col gap-10">

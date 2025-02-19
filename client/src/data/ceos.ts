@@ -27,6 +27,9 @@ export interface CEODetails {
   pin: string;
   position: { top: string; left: string };
   background?: string;
+  homepage: string;
+  xUrl?: string;
+  noteUrl?: string;
 }
 
 export const CEOS: Record<string, CEODetails> = {
@@ -38,6 +41,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "0%",
       left: "0%",
     },
+    homepage: "https://minnano-shacho.curioswitch.org",
   },
   "eizawa-akimasa": {
     name: "榮澤暁誠",
@@ -48,6 +52,9 @@ export const CEOS: Record<string, CEODetails> = {
       left: "47.2%",
     },
     background: "bg-[#D46982]",
+    homepage: "https://www.pathcreate.co.jp/company/ceo-message/",
+    xUrl: "https://x.com/GyoseiEizawa",
+    noteUrl: "https://note.com/tasty_yarrow769",
   },
   "furui-atsushi": {
     name: "古井敦士",
@@ -58,6 +65,7 @@ export const CEOS: Record<string, CEODetails> = {
       left: "60.5%",
     },
     background: "bg-[#00A2B1]",
+    homepage: "https://marks91.com/",
   },
   "matsuya-mitsuru": {
     name: "松谷充",
@@ -68,6 +76,7 @@ export const CEOS: Record<string, CEODetails> = {
       left: "77.4%",
     },
     background: "bg-[#F19A96]",
+    homepage: "https://ant2.co.jp/company/",
   },
   "murota-shigeki": {
     name: "室田茂樹",
@@ -78,6 +87,9 @@ export const CEOS: Record<string, CEODetails> = {
       left: "27.5%",
     },
     background: "bg-[#F6AC19]",
+    homepage: "https://www.pluscad.jp/",
+    xUrl: "https://x.com/murota_pxp",
+    noteUrl: "https://note.com/murota_plusxplus",
   },
   "nomura-figeo": {
     name: "野村玄吾",
@@ -88,6 +100,9 @@ export const CEOS: Record<string, CEODetails> = {
       left: "42.8%",
     },
     background: "bg-[#008643]",
+    homepage: "https://figeo.co.jp/",
+    xUrl: "https://x.com/FigeoNomura88",
+    noteUrl: "https://note.com/figeo_gengo_6",
   },
   "oida-shuji": {
     name: "種田宗司",
@@ -98,6 +113,7 @@ export const CEOS: Record<string, CEODetails> = {
       left: "67.9%",
     },
     background: "bg-[#87C142]",
+    homepage: "https://justin.jp/",
   },
   "tahara-kouichi": {
     name: "田原 広一",
@@ -108,6 +124,9 @@ export const CEOS: Record<string, CEODetails> = {
       left: "76.5%",
     },
     background: "bg-[#EB3D38]",
+    homepage: "https://so-labo.co.jp/",
+    xUrl: "https://x.com/taharakoichi",
+    noteUrl: "https://note.com/tahara",
   },
   "tamoto-naohiro": {
     name: "田本直弘",
@@ -118,6 +137,9 @@ export const CEOS: Record<string, CEODetails> = {
       left: "35%",
     },
     background: "bg-[#008CC2]",
+    homepage: "https://xn--f9js1fzi7gle1e.jp/",
+    xUrl: "https://x.com/tamotokai",
+    noteUrl: "https://note.com/tamotokainote",
   },
   "taniwaki-toshiko": {
     name: "谷脇とし子",
@@ -128,6 +150,8 @@ export const CEOS: Record<string, CEODetails> = {
       left: "54.4%",
     },
     background: "bg-[#ED6D1F]",
+    homepage: "https://ant2.co.jp/",
+    xUrl: "https://x.com/ant_taniwaki",
   },
   "you-man": {
     name: "あなた",
@@ -137,6 +161,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "0%",
       left: "0%",
     },
+    homepage: "",
   },
   "you-other": {
     name: "あなた",
@@ -146,6 +171,7 @@ export const CEOS: Record<string, CEODetails> = {
       top: "0%",
       left: "0%",
     },
+    homepage: "",
   },
   "you-woman": {
     name: "あなた",
@@ -155,5 +181,6 @@ export const CEOS: Record<string, CEODetails> = {
       top: "0%",
       left: "0%",
     },
+    homepage: "",
   },
 };

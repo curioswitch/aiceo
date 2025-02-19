@@ -10,6 +10,6 @@ export default {
   Layout,
   Head,
   Wrapper,
-  title: "AI CEO",
+  title: "みんなのAI社長",
   extends: vikeReact,
 } satisfies Config;
