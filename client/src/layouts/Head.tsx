@@ -1,4 +1,3 @@
-import opengraphUrl from "@/assets/opengraph.png";
 import logoUrl from "@/assets/thumb-aiceo.png";
 
 // Default <head> (can be overridden by pages)
@@ -16,7 +15,10 @@ export default function Head() {
         property="og:description"
         content="「みんなのAI社長」は、質問に答えるだけで9人の社長からアドバイスがもらえる チャットアプリです。気軽に相談しながら、社長たちの考え方やエピソードに触れることができます。悩みを解決しつつ、経営者の人生を感じる新しい体験をぜひお楽しみください"
       />
-      <meta property="og:image" content={opengraphUrl} />
+      <meta
+        property="og:image"
+        content={`https://${import.meta.env.PUBLIC_ENV__DOMAIN}/opengraph.png`}
+      />
       <link rel="icon" href={logoUrl} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link

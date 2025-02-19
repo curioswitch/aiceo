@@ -65,6 +65,7 @@ jobs:
         env:
           PUBLIC_ENV__FIREBASE_APP: ${{ env.GCP_PROJECT_ID }}
           PUBLIC_ENV__GA4_ID: ${{ env.GCP_PROJECT_ID == 'aiceo-dev' && 'G-BKJCB804VR' || 'G-RRBE6EBWR3' }}
+          PUBLIC_ENV__DOMAIN: ${{ env.GCP_PROJECT_ID == 'aiceo-dev' && 'alpha.minnano-shacho.curioswitch.org' || 'minnano-shacho.curioswitch.org' }}
 
       - if: ${{ env.DOCKER_PUSH == 'yes' }}
         uses: google-github-actions/auth@v2
