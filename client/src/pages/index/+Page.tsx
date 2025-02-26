@@ -63,7 +63,7 @@ export default function Page() {
         <div className="text-md md:text-lg font-medium rounded-full py-2 px-7 bg-[#FFFCE4] text-black speech-bubble right home">
           あなたの悩みをAIが解決
         </div>
-        <Spacer y={10} />
+        <Spacer y={6} />
         <Button
           className="bg-primary text-white text-lg font-medium w-full md:w-2/3 min-h-12"
           radius="sm"
@@ -81,8 +81,8 @@ export default function Page() {
         >
           過去の相談
         </Button>
-        <Spacer y={10} />
-        <div className="text-white text-tiny md:m-10">
+        <Spacer y={6} />
+        <div className="text-white text-tiny text-[0.6rem] md:m-10">
           Copyright ©MINNA NO SHACHO TEN
         </div>
       </div>
