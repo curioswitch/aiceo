@@ -82,7 +82,7 @@ export default function Page() {
           過去の相談
         </Button>
         <Spacer y={6} />
-        <div className="text-white text-tiny text-[0.6rem] md:m-10">
+        <div className="text-white text-[0.6rem] md:m-10">
           Copyright ©MINNA NO SHACHO TEN
         </div>
       </div>
