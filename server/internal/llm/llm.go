@@ -137,6 +137,9 @@ func (m *Model) Query(ctx context.Context, message string, history []db.ChatMess
 				}
 				ceoKeys = append(ceoKeys, key)
 			}
+			if len(ceoKeys) > 3 {
+				ceoKeys = ceoKeys[:3]
+			}
 
 			group := parallel.CollectWithErrs[db.CEODetails](parallel.Unlimited(ctx))
 			for _, key := range ceoKeys {
