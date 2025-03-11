@@ -26,7 +26,8 @@ jobs:
     environment: ${{ github.event_name != 'pull_request' && (startsWith(github.ref_name, 'release/') && 'prod' || 'dev') || null }}
 
     env:
-      DOCKER_PUSH: ${{ github.event_name != 'pull_request' && !startsWith(github.ref_name, 'release/') && 'yes' || 'no' }}
+      DOCKER_PUSH: ${{ github.event_name != 'pull_request' && 'yes' || 'no' }}
+      DOCKER_DEPLOY: ${{ github.event_name != 'pull_request' && !startsWith(github.ref_name, 'release/') && 'yes' || 'no' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -76,5 +77,5 @@ jobs:
           GOOGLE_PROJECT: ${{ env.GCP_PROJECT_ID }}
 
       - name: Deploy service
-        if: ${{ env.DOCKER_PUSH == 'yes' }}
+        if: ${{ env.DOCKER_DEPLOY == 'yes' }}
         run: gcloud run deploy ${{ inputs.service }} --region asia-northeast1 --image asia-northeast1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/docker/${{ inputs.service }}:sha-${{ github.sha }}
