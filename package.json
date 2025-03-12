@@ -5,11 +5,10 @@
   "scripts": {
     "format": "biome format --write . && biome lint --apply-unsafe . && prettier --write ."
   },
-  "workspaces": ["api/typescript", "client"],
   "engines": {
     "node": ">=22.0"
   },
-  "packageManager": "bun@1.2.2",
+  "packageManager": "pnpm@9.12.1",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "prettier": "^3.3.3"
