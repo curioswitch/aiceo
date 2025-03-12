@@ -35,7 +35,7 @@ html {
   --h: 0.7em; /* height */
   --t: 0.6; /* thickness (from 0 to 1) */
 
-  --p: 45%; /* main position (0%:top 100%:bottom) */
+  --p: 46%; /* main position (0%:top 100%:bottom) */
   --r: 2.75em; /* the radius */
 
   position: relative;
