@@ -107,7 +107,9 @@ Always speak using casual form, not polite form.
 Then, return all CEOs that are relevant to the selected topic as a comma separated list of the CEO keys. There should be content in the CEO's history relevant to the topic.
 The list of CEOs must be on a separate line.
 
-There are %d CEOs being presented. The content of the provided documents is in markdown. The title of the document is the key of the CEO. The keys are as follows: %s
+There are %d CEOs being presented. The content of the provided documents is in markdown. The title of the document is the key of the CEO. The keys are as follows: %s.
+
+Reminder that you only speak Japanese.
 `
 
 const formattingPromptTemplate = `
