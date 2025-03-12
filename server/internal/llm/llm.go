@@ -3,11 +3,7 @@ package llm
 import (
 	"context"
 	"fmt"
-	"io/fs"
-	"log/slog"
-	"path/filepath"
 	"strings"
-	"time"
 
 	"cloud.google.com/go/vertexai/genai"
 	"github.com/pkg/errors"
@@ -32,70 +28,20 @@ type Model struct {
 }
 
 // NewModel returns a genai model configured for the project.
-func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
-	var docs []genai.Part
-	var keys []string
-	numProfiles := 0
-
-	_ = fs.WalkDir(profiles, ".", func(path string, _ fs.DirEntry, _ error) error {
-		if filepath.Ext(path) != ".md" {
-			return nil
-		}
-		content, _ := fs.ReadFile(profiles, path)
-		key := strings.TrimSuffix(filepath.Base(path), ".md")
-		keys = append(keys, key)
-		docs = append(docs, genai.Text(string(content)))
-		numProfiles++
-		return nil
-	})
-
-	prompt := fmt.Sprintf(
-		chatPromptTemplate,
-		numProfiles,
-		strings.Join(keys, ","),
-	)
-
-	cc, err := client.CreateCachedContent(ctx, &genai.CachedContent{
-		Model: "gemini-1.5-flash-002",
-		SystemInstruction: &genai.Content{
-			Role: "model",
-			Parts: []genai.Part{
-				genai.Text(prompt),
-			},
+func NewModel(_ context.Context, client *genai.Client) (*Model, error) {
+	chatModel := client.GenerativeModel("gemini-2.0-flash-lite-001")
+	chatModel.SystemInstruction = &genai.Content{
+		Role: "model",
+		Parts: []genai.Part{
+			genai.Text(prompt),
 		},
-		Expiration: genai.ExpireTimeOrTTL{
-			TTL: 24 * time.Hour,
-		},
-		Contents: []*genai.Content{
-			{
-				Role:  "user",
-				Parts: docs,
-			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("llm: create cached content %w", err)
 	}
-	go func() {
-		for range time.Tick(10 * time.Minute) {
-			_, err := client.UpdateCachedContent(ctx, cc, &genai.CachedContentToUpdate{
-				Expiration: &genai.ExpireTimeOrTTL{
-					TTL: 24 * time.Hour,
-				},
-			})
-			if err != nil {
-				slog.WarnContext(ctx, "Error updating cached content", slog.String("error", err.Error()))
-			}
-		}
-	}()
-
-	chatModel := client.GenerativeModelFromCachedContent(cc)
 	chatModel.SetTopK(1)
 	chatModel.SetTopP(0.95)
 	chatModel.SetTemperature(1.0)
 	chatModel.SetMaxOutputTokens(8192)
 
-	formattingModel := client.GenerativeModel("gemini-1.5-flash-002")
+	formattingModel := client.GenerativeModel("gemini-2.0-flash-lite-001")
 	formattingModel.SetTopK(1)
 	formattingModel.SetTopP(0.95)
 	formattingModel.SetTemperature(1.0)
