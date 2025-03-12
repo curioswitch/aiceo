@@ -81,7 +81,7 @@ export default function Page() {
           <div className="mb-2 text-primary md:text-xl font-bold">
             ストーリー引用部分
           </div>
-          <div className="bg-white rounded-xl p-5 md:p-10 bg-opacity-15 text-black md:text-xl md:leading-relaxed">
+          <div className="bg-white rounded-xl p-5 md:p-10 bg-opacity-30 text-black md:text-xl md:leading-relaxed">
             {summary}
           </div>
         </div>

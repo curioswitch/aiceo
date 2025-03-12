@@ -14,7 +14,7 @@ export default defineConfig({
       },
       "/frontendapi.FrontendService": {
         target:
-          process.env.SERVICE_FRONTEND ?? "https://alpha.aiceo.curioswitch.org",
+          process.env.SERVICE_FRONTEND ?? "https://alpha.minnano-shacho.curioswitch.org/",
         changeOrigin: true,
       },
     },
