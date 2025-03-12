@@ -4,11 +4,10 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "vike dev",
     "build": "vike build",
-    "format": "biome check --apply .",
-    "lint": "biome check .",
-    "preview": "vite preview"
+    "dev": "vike dev",
+    "format": "biome check --write .",
+    "lint": "biome check ."
   },
   "keywords": [],
   "author": "",
@@ -25,7 +24,8 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.2",
-    "vite": "^6.1.1"
+    "vite": "^6.1.1",
+    "vike": "^0.4.223"
   },
   "dependencies": {
     "@aiceo/frontendapi": "workspace:^",
@@ -60,7 +60,6 @@
     "react-icons": "^5.3.0",
     "react-select": "^5.8.1",
     "react-typed": "^2.0.12",
-    "vike": "^0.4.223",
     "vike-react": "^0.5.12",
     "zod": "^3.23.8"
   },
