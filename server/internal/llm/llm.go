@@ -77,7 +77,7 @@ func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 		return nil, fmt.Errorf("llm: create cached content %w", err)
 	}
 	go func() {
-		for range time.Tick(1 * time.Minute) {
+		for range time.Tick(10 * time.Minute) {
 			_, err := client.UpdateCachedContent(ctx, cc, &genai.CachedContentToUpdate{
 				Expiration: &genai.ExpireTimeOrTTL{
 					TTL: 24 * time.Hour,
