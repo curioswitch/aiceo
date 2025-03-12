@@ -38,7 +38,7 @@ func NewModel(_ context.Context, client *genai.Client) (*Model, error) {
 	}
 	chatModel.SetTopK(1)
 	chatModel.SetTopP(0.95)
-	chatModel.SetTemperature(1.0)
+	chatModel.SetTemperature(1.5)
 	chatModel.SetMaxOutputTokens(8192)
 
 	formattingModel := client.GenerativeModel("gemini-2.0-flash-lite-001")
