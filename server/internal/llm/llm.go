@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"cloud.google.com/go/vertexai/genai"
 	"github.com/pkg/errors"
@@ -61,6 +63,9 @@ func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 				genai.Text(prompt),
 			},
 		},
+		Expiration: genai.ExpireTimeOrTTL{
+			TTL: 24 * time.Hour,
+		},
 		Contents: []*genai.Content{
 			{
 				Role:  "user",
@@ -71,6 +76,18 @@ func NewModel(ctx context.Context, client *genai.Client) (*Model, error) {
 	if err != nil {
 		return nil, fmt.Errorf("llm: create cached content %w", err)
 	}
+	go func() {
+		for range time.Tick(1 * time.Minute) {
+			_, err := client.UpdateCachedContent(ctx, cc, &genai.CachedContentToUpdate{
+				Expiration: &genai.ExpireTimeOrTTL{
+					TTL: 24 * time.Hour,
+				},
+			})
+			if err != nil {
+				slog.WarnContext(ctx, "Error updating cached content", slog.String("error", err.Error()))
+			}
+		}
+	}()
 
 	chatModel := client.GenerativeModelFromCachedContent(cc)
 	chatModel.SetTopK(1)
