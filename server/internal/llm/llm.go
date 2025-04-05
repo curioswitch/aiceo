@@ -93,6 +93,7 @@ func (m *Model) Query(ctx context.Context, message string, history []db.ChatMess
 
 			ceosList := resMsg[nlIdx+1:]
 			var ceoKeys []string
+			ceosList = strings.ReplaceAll(ceosList, "、", ",")
 			for _, key := range strings.Split(ceosList, ",") {
 				key := strings.TrimSpace(key)
 				if _, ok := ceoProfiles[key]; !ok {

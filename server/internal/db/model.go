@@ -71,6 +71,7 @@ func (m *ChatMessage) ToProto(id string) *frontendapi.ChatMessage {
 		if ok {
 			if end := strings.Index(choicesContent, "</choices>"); end >= 0 {
 				choicesCSV := choicesContent[:end]
+				choicesCSV = strings.ReplaceAll(choicesCSV, "、", ",")
 				for _, c := range strings.Split(choicesCSV, ",") {
 					choices = append(choices, strings.TrimSpace(c))
 				}
