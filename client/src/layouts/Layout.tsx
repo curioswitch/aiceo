@@ -10,6 +10,7 @@ import { navigate } from "vike/client/router";
 
 import iconBack from "@/assets/icon-back.svg";
 import titleSVG from "@/assets/title.svg";
+import { SOUNDS } from "@/data";
 
 export default function Layout({
   children,
@@ -22,6 +23,10 @@ export default function Layout({
 
   const onReturnClick = useCallback(() => {
     navigate("/");
+  }, []);
+
+  const playCancel = useCallback(() => {
+    SOUNDS.CANCEL.play();
   }, []);
 
   return (
@@ -48,6 +53,7 @@ export default function Layout({
             <Button
               className="bg-white text-primary rounded-full font-bold h-6 md:py-6 min-w-0"
               onPress={onReturnClick}
+              onPressStart={playCancel}
             >
               <div className="hidden md:block text-medium h-6">最初に戻る</div>
               <div className="h-4">

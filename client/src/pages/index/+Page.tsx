@@ -9,7 +9,7 @@ import { useCallback, useEffect } from "react";
 import { navigate } from "vike/client/router";
 
 import titleSVG from "@/assets/title.svg";
-import { CEOS } from "@/data";
+import { CEOS, SOUNDS } from "@/data";
 import { Avatar } from "@heroui/avatar";
 import { usePageContext } from "vike-react/usePageContext";
 
@@ -34,6 +34,14 @@ export default function Page() {
 
   const onPast = useCallback(() => {
     navigate("/chats");
+  }, []);
+
+  const playAccept1 = useCallback(() => {
+    SOUNDS.ACCEPT1.play();
+  }, []);
+
+  const playAccept2 = useCallback(() => {
+    SOUNDS.ACCEPT2.play();
   }, []);
 
   return (
@@ -68,6 +76,7 @@ export default function Page() {
           className="bg-primary text-white text-lg font-medium w-full md:w-2/3 min-h-12"
           radius="sm"
           onPress={onStart}
+          onPressStart={playAccept1}
           isDisabled={doStart.isPending}
         >
           スタート！
@@ -77,6 +86,7 @@ export default function Page() {
           radius="sm"
           fullWidth
           onPress={onPast}
+          onPressStart={playAccept2}
           isDisabled={doStart.isPending}
         >
           過去の相談
