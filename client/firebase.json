@@ -33,6 +33,15 @@
     ],
     "headers": [
       {
+        "source": "/**/!(*.*)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "source": "/assets/**/*.@(js|jpg|jpeg|gif|ogg|png|svg)",
         "headers": [
           {
