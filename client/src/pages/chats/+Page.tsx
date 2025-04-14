@@ -1,9 +1,9 @@
-import { CEOS } from "@/data";
+import { CEOS, SOUNDS } from "@/data";
 import { userThumbnail } from "@/data/user";
 import { useFrontendQueries } from "@/hooks/rpc";
 import { Avatar } from "@heroui/avatar";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useCallback, useMemo, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function Page() {
@@ -35,6 +35,10 @@ export default function Page() {
     () => data?.pages.flatMap((page) => page.chats),
     [data],
   );
+
+  const playDetails = useCallback(() => {
+    SOUNDS.DETAILS.play();
+  }, []);
 
   if (isPending) {
     return <div>Loading...</div>;
@@ -79,6 +83,7 @@ export default function Page() {
                           key={ceo.key}
                           href={`/ceos/${ceo.key}?advice=${ceo.advice}&summary=${ceo.summary}`}
                           className="flex flex-row md:flex-col gap-3 border-3 border-primary rounded-xl bg-white no-underline basis-1/3 p-4"
+                          onClick={playDetails}
                         >
                           <div className="basis-1/4 flex flex-col md:flex-row gap-2 md:gap-6 items-center">
                             <Avatar

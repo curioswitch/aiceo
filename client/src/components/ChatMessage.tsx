@@ -1,6 +1,6 @@
 import type { ChatMessage as APIChatMessage, Gender } from "@aiceo/frontendapi";
 import clsx from "clsx";
-import { forwardRef, useCallback } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { userKey } from "@/data/user";

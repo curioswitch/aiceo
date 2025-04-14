@@ -11,6 +11,7 @@ import { usePageContext } from "vike-react/usePageContext";
 import { CEOAvatar } from "@/components/CEOAvatar";
 import { ChatMessage } from "@/components/ChatMessage";
 import { FloorMap } from "@/components/FloorMap";
+import { SOUNDS } from "@/data";
 import { useFrontendQueries } from "@/hooks/rpc";
 import { Button } from "@heroui/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -28,6 +29,9 @@ function CEOSnippet({
   const onDetailsClick = useCallback(() => {
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
+  const playDetails = useCallback(() => {
+    SOUNDS.DETAILS.play();
+  }, []);
   return (
     <div className="border-2 bg-white border-primary rounded-xl p-10 flex flex-col gap-4">
       <div className="flex gap-6 md:gap-10 items-center">
@@ -41,6 +45,7 @@ function CEOSnippet({
           className="mt-5 block w-full md:w-2/3 md:mx-auto"
           color="primary"
           onPress={onDetailsClick}
+          onPressStart={playDetails}
         >
           詳細ページへ
         </Button>
@@ -68,6 +73,7 @@ export default function Page() {
         obj.messages = [...messages, ...resp.messages];
         return obj;
       });
+      SOUNDS.MESSAGE.play();
     },
   });
 
@@ -95,6 +101,10 @@ export default function Page() {
     },
     [chatId, doSendMessage, queryClient, getMessagesQuery.queryKey],
   );
+
+  const playAccept = useCallback(() => {
+    SOUNDS.ACCEPT1.play();
+  }, []);
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -157,6 +167,7 @@ export default function Page() {
                 <div key={choice} className="mx-5">
                   <Button
                     onPress={onSelectChoice}
+                    onPressStart={playAccept}
                     className="rounded-2xl md:h-14 text-lg"
                     color="primary"
                     isDisabled={doSendMessage.isPending}
