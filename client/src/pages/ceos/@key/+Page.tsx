@@ -9,7 +9,7 @@ import iconPC from "@/assets/icon-pc.svg";
 import iconTwitter from "@/assets/icon-twitter.svg";
 import { CEOAvatar } from "@/components/CEOAvatar";
 import { FloorMap } from "@/components/FloorMap";
-import { CEOS } from "@/data";
+import { CEOS, SOUNDS } from "@/data";
 
 export default function Page() {
   const pageContext = usePageContext();
@@ -20,6 +20,7 @@ export default function Page() {
   const ceo = CEOS[ceoKey];
 
   const onBackClick = useCallback(() => {
+    SOUNDS.CANCEL.play();
     window.history.back();
   }, []);
 

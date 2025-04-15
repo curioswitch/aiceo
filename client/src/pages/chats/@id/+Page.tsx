@@ -29,8 +29,8 @@ function CEOSnippet({
   const onDetailsClick = useCallback(() => {
     onCeoClick(ceo);
   }, [ceo, onCeoClick]);
-  const playDetails = useCallback(() => {
-    SOUNDS.DETAILS.play();
+  const playAccept = useCallback(() => {
+    SOUNDS.ACCEPT2.play();
   }, []);
   return (
     <div className="border-2 bg-white border-primary rounded-xl p-10 flex flex-col gap-4">
@@ -45,7 +45,7 @@ function CEOSnippet({
           className="mt-5 block w-full md:w-2/3 md:mx-auto"
           color="primary"
           onPress={onDetailsClick}
-          onPressStart={playDetails}
+          onPressStart={playAccept}
         >
           詳細ページへ
         </Button>
@@ -66,6 +66,7 @@ export default function Page() {
   const queryClient = useQueryClient();
   const doSendMessage = useMutation(sendMessage, {
     onSuccess: (resp) => {
+      SOUNDS.MESSAGE.stop();
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
         const obj = prev ?? new GetChatMessagesResponse();
         // Remove placeholder messages before processing response.
@@ -73,7 +74,7 @@ export default function Page() {
         obj.messages = [...messages, ...resp.messages];
         return obj;
       });
-      SOUNDS.MESSAGE.play();
+      SOUNDS.HIT.play();
     },
   });
 
@@ -97,13 +98,14 @@ export default function Page() {
         ];
         return obj;
       });
+      SOUNDS.MESSAGE.play();
       doSendMessage.mutate({ chatId, message: choice });
     },
     [chatId, doSendMessage, queryClient, getMessagesQuery.queryKey],
   );
 
-  const playAccept = useCallback(() => {
-    SOUNDS.ACCEPT1.play();
+  const playCursor = useCallback(() => {
+    SOUNDS.CURSOR.play();
   }, []);
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -167,7 +169,7 @@ export default function Page() {
                 <div key={choice} className="mx-5">
                   <Button
                     onPress={onSelectChoice}
-                    onPressStart={playAccept}
+                    onPressStart={playCursor}
                     className="rounded-2xl md:h-14 text-lg"
                     color="primary"
                     isDisabled={doSendMessage.isPending}

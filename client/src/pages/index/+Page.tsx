@@ -40,10 +40,6 @@ export default function Page() {
     SOUNDS.ACCEPT1.play();
   }, []);
 
-  const playAccept2 = useCallback(() => {
-    SOUNDS.ACCEPT2.play();
-  }, []);
-
   return (
     <>
       <Modal
@@ -86,7 +82,7 @@ export default function Page() {
           radius="sm"
           fullWidth
           onPress={onPast}
-          onPressStart={playAccept2}
+          onPressStart={playAccept1}
           isDisabled={doStart.isPending}
         >
           過去の相談
