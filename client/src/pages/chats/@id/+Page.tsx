@@ -66,7 +66,6 @@ export default function Page() {
   const queryClient = useQueryClient();
   const doSendMessage = useMutation(sendMessage, {
     onSuccess: (resp) => {
-      SOUNDS.MESSAGE.stop();
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
         const obj = prev ?? new GetChatMessagesResponse();
         // Remove placeholder messages before processing response.
@@ -98,7 +97,6 @@ export default function Page() {
         ];
         return obj;
       });
-      SOUNDS.MESSAGE.play();
       doSendMessage.mutate({ chatId, message: choice });
     },
     [chatId, doSendMessage, queryClient, getMessagesQuery.queryKey],
