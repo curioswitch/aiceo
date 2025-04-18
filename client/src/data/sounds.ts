@@ -1,11 +1,10 @@
 import { Howl } from "howler";
-import accept02 from "../assets/accept-02.ogg";
-import accept22 from "../assets/accept-22.ogg";
-import cancel from "../assets/cancel.ogg";
-import cursor12 from "../assets/cursor-12.ogg";
-import details from "../assets/details.ogg";
-import hit from "../assets/hit.ogg";
-import message from "../assets/message.ogg";
+import accept02 from "../assets/accept-02.mp3";
+import accept22 from "../assets/accept-22.mp3";
+import cancel from "../assets/cancel.mp3";
+import cursor12 from "../assets/cursor-12.mp3";
+import details from "../assets/details.mp3";
+import hit from "../assets/hit.mp3";
 
 export const ACCEPT1 = new Howl({
   src: [accept02],
@@ -29,9 +28,4 @@ export const DETAILS = new Howl({
 
 export const HIT = new Howl({
   src: [hit],
-});
-
-export const MESSAGE = new Howl({
-  src: [message],
-  loop: true,
 });
