@@ -29,7 +29,7 @@ export default function Page() {
   });
 
   const onStart = useCallback(() => {
-    doStart.mutate(new StartChatRequest());
+    doStart.mutate({});
   }, [doStart]);
 
   const onPast = useCallback(() => {

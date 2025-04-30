@@ -5,7 +5,7 @@ export function getFirebaseConfig() {
   if (import.meta.env.PUBLIC_ENV__FIREBASE_APP === "aiceo-dev") {
     return {
       apiKey: "AIzaSyBATzL2uTOayvjWtg0qJc4kWRVCfLJBUDM",
-      authDomain: "alpha.aiceo.curioswitch.org",
+      authDomain: "alpha.minnano-shacho.curioswitch.org",
       projectId: "aiceo-dev",
       storageBucket: "aiceo-dev.appspot.com",
       messagingSenderId: "285404307541",
@@ -16,7 +16,7 @@ export function getFirebaseConfig() {
   if (import.meta.env.PUBLIC_ENV__FIREBASE_APP === "aiceo-prod") {
     return {
       apiKey: "AIzaSyBNo8fBkGAsX1qhJ7qUYSDq_dtOlOxSB7Y",
-      authDomain: "aiceo.curioswitch.org",
+      authDomain: "minnano-shacho.curioswitch.org",
       projectId: "aiceo-prod",
       storageBucket: "aiceo-prod.appspot.com",
       messagingSenderId: "1004160178879",

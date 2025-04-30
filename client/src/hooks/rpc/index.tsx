@@ -1,3 +1,4 @@
+import { create } from "@bufbuild/protobuf";
 import {
   Code,
   ConnectError,
@@ -22,12 +23,12 @@ import { useMemo } from "react";
 
 import { useFirebase } from "@/hooks/firebase";
 import {
-  type GetChatMessagesRequest,
-  Pagination,
+  type GetChatMessagesRequestSchema,
+  PaginationSchema,
   getChatMessages,
   getChats,
 } from "@aiceo/frontendapi";
-import type { PlainMessage } from "@bufbuild/protobuf";
+import type { MessageInitShape } from "@bufbuild/protobuf";
 
 const MAX_RETRIES = 3;
 
@@ -61,7 +62,7 @@ class FrontendQueries {
       createInfiniteQueryOptions(
         getChats,
         {
-          pagination: new Pagination(),
+          pagination: create(PaginationSchema),
         },
         {
           transport: this.transport,
@@ -72,7 +73,7 @@ class FrontendQueries {
     );
   }
 
-  getChatMessages(req: PlainMessage<GetChatMessagesRequest>) {
+  getChatMessages(req: MessageInitShape<typeof GetChatMessagesRequestSchema>) {
     return queryOptions(
       createQueryOptions(getChatMessages, req, { transport: this.transport }),
     );

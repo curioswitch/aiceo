@@ -1,8 +1,8 @@
 import {
-  ChatMessage as APIChatMessage,
   type CEODetails,
+  ChatMessageSchema,
   Gender,
-  GetChatMessagesResponse,
+  GetChatMessagesResponseSchema,
   sendMessage,
 } from "@aiceo/frontendapi";
 import { useMutation } from "@connectrpc/connect-query";
@@ -13,6 +13,7 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { FloorMap } from "@/components/FloorMap";
 import { SOUNDS } from "@/data";
 import { useFrontendQueries } from "@/hooks/rpc";
+import { create } from "@bufbuild/protobuf";
 import { Button } from "@heroui/button";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -67,7 +68,7 @@ export default function Page() {
   const doSendMessage = useMutation(sendMessage, {
     onSuccess: (resp) => {
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
-        const obj = prev ?? new GetChatMessagesResponse();
+        const obj = prev ?? create(GetChatMessagesResponseSchema);
         // Remove placeholder messages before processing response.
         const messages = obj.messages.slice(0, -2);
         obj.messages = [...messages, ...resp.messages];
@@ -81,15 +82,15 @@ export default function Page() {
     (e: PressEvent) => {
       const choice = (e.target as HTMLElement).dataset.choice;
       queryClient.setQueryData(getMessagesQuery.queryKey, (prev) => {
-        const obj = prev ?? new GetChatMessagesResponse();
+        const obj = prev ?? create(GetChatMessagesResponseSchema);
         obj.messages = [
           ...obj.messages,
-          new APIChatMessage({
+          create(ChatMessageSchema, {
             id: "temp1",
             message: choice,
             isUser: true,
           }),
-          new APIChatMessage({
+          create(ChatMessageSchema, {
             id: "temp2",
             message: "",
             isUser: false,

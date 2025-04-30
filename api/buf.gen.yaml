@@ -21,15 +21,7 @@ plugins:
     path:
       - "go"
       - "run"
-      - "github.com/wasilibs/go-protoc-gen-es/cmd/protoc-gen-es@v1.9.0"
-  - plugin: connect-es
-    out: typescript
-    opt:
-      - target=ts
-    path:
-      - "go"
-      - "run"
-      - "github.com/wasilibs/go-protoc-gen-connect-es/cmd/protoc-gen-connect-es@v1.4.0"
+      - "github.com/wasilibs/go-protoc-gen-es/v2/cmd/protoc-gen-es@v2.2.5"
   - plugin: connect-query
     out: typescript
     opt:
@@ -37,4 +29,4 @@ plugins:
     path:
       - "go"
       - "run"
-      - "github.com/wasilibs/go-protoc-gen-connect-query/cmd/protoc-gen-connect-query@v1.4.0"
+      - "github.com/wasilibs/go-protoc-gen-connect-query/v2/cmd/protoc-gen-connect-query@v2.0.1"
