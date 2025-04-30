@@ -109,7 +109,6 @@ export function FrontendServiceProvider({
     return new QueryClient({
       defaultOptions: {
         queries: {
-          enabled: !!fbUser,
           refetchOnWindowFocus: false,
           retry: (failureCount, error) => {
             if (failureCount > MAX_RETRIES) {
@@ -121,7 +120,7 @@ export function FrontendServiceProvider({
         },
       },
     });
-  }, [fbUser]);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
