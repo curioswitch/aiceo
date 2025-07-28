@@ -63,7 +63,7 @@ export default function Page() {
           className="w-48 h-48 md:min-w-64 md:min-h-64"
           src={CEOS["ai-ceo"].thumbnail}
         />
-        <Image className="z-0" src={titleSVG} alt="みんなのAI社長" />
+        <Image className="z-0" src={titleSVG} alt="みんなの社長AI" />
         <div className="text-md md:text-lg font-medium rounded-full py-2 px-7 bg-[#FFFCE4] text-black speech-bubble right home">
           あなたの悩みをAIが解決
         </div>

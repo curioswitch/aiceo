@@ -34,7 +34,7 @@ export interface CEODetails {
 
 export const CEOS: Record<string, CEODetails> = {
   "ai-ceo": {
-    name: "AI社長",
+    name: "社長AI",
     thumbnail: thumbAICEO,
     pin: "",
     position: {
