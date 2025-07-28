@@ -47,7 +47,7 @@ export default function Layout({
           }}
         >
           <NavbarBrand className="">
-            <Image className="md:w-1/2" src={titleSVG} alt="みんなのAI社長" />
+            <Image className="md:w-1/2" src={titleSVG} alt="みんなの社長AI" />
           </NavbarBrand>
           <NavbarContent justify="end">
             <Button
