@@ -34,7 +34,7 @@ export default function Page() {
   const timerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!timerRef.current) {
+    if (!timerRef.current || !timerRef.current.computedStyleMap) {
       return;
     }
     if (

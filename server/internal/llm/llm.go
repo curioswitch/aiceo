@@ -29,7 +29,7 @@ type Model struct {
 
 // NewModel returns a genai model configured for the project.
 func NewModel(_ context.Context, client *genai.Client) (*Model, error) {
-	chatModel := client.GenerativeModel("gemini-2.0-flash-lite-001")
+	chatModel := client.GenerativeModel("gemini-2.5-flash-lite")
 	chatModel.SystemInstruction = &genai.Content{
 		Role: "model",
 		Parts: []genai.Part{
@@ -41,7 +41,7 @@ func NewModel(_ context.Context, client *genai.Client) (*Model, error) {
 	chatModel.SetTemperature(1.5)
 	chatModel.SetMaxOutputTokens(8192)
 
-	formattingModel := client.GenerativeModel("gemini-2.0-flash-lite-001")
+	formattingModel := client.GenerativeModel("gemini-2.5-flash-lite")
 	formattingModel.SetTopK(1)
 	formattingModel.SetTopP(0.95)
 	formattingModel.SetTemperature(1.0)
